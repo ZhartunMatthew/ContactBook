@@ -1,6 +1,4 @@
-package com.zhartunmatthew.web.contactbook.DAO;
-
-import com.zhartunmatthew.web.contactbook.DBManager.ConnectionManager;
+package com.zhartunmatthew.web.contactbook.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,8 +8,8 @@ public abstract class AbstractDAO<PrKey, Type> {
 
     protected Connection connection;
 
-    protected AbstractDAO() {
-        connection = ConnectionManager.getConnection();
+    protected AbstractDAO(Connection connection) {
+        this.connection = connection;
     }
 
     protected void close() {

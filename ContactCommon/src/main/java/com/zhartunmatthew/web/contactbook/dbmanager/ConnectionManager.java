@@ -1,4 +1,4 @@
-package com.zhartunmatthew.web.contactbook.DBManager;
+package com.zhartunmatthew.web.contactbook.dbmanager;
 
 import org.apache.log4j.Logger;
 
@@ -39,6 +39,7 @@ public class ConnectionManager {
         try {
             if (connection.isClosed()) {
                 createConnection();
+                log.info("Reconnection");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

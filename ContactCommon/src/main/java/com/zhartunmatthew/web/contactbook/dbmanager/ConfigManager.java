@@ -1,4 +1,4 @@
-package com.zhartunmatthew.web.contactbook.DBManager;
+package com.zhartunmatthew.web.contactbook.dbmanager;
 
 import java.util.ResourceBundle;
 

@@ -1,4 +1,4 @@
-package com.zhartunmatthew.web.contactbook.DBManager;
+package com.zhartunmatthew.web.contactbook.dbmanager;
 
 import org.junit.Assert;
 import org.junit.Test;
