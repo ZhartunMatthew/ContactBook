@@ -15,8 +15,15 @@ public class ConnectionManagerTest {
     @Test
     public void closeConnection() throws Exception {
         Connection connection = ConnectionManager.getConnection();
-        ConnectionManager.closeConnection(connection);
+        connection.close();
         Assert.assertTrue(connection.isClosed());
     }
 
+    @Test
+    public void testGetConnection() throws Exception {
+        Connection connection = ConnectionManager.getConnection();
+        connection.close();
+        connection = ConnectionManager.getConnection();
+        Assert.assertTrue(connection.isValid(100));
+    }
 }

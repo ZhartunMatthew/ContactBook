@@ -3,6 +3,7 @@ package com.zhartunmatthew.web.contactbook.DAO;
 import com.zhartunmatthew.web.contactbook.DBManager.ConnectionManager;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public abstract class AbstractDAO<PrKey, Type> {
@@ -14,14 +15,18 @@ public abstract class AbstractDAO<PrKey, Type> {
     }
 
     protected void close() {
-        ConnectionManager.closeConnection(connection);
+        try {
+            connection.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
-    public abstract ArrayList<Type> readAll();
+    protected abstract ArrayList<Type> readAll();
 
-    public abstract void insert(Type val);
-    public abstract Type read(PrKey key);
+    protected abstract void insert(Type val);
+    protected abstract Type read(PrKey key);
 
-    public abstract void update(PrKey key, Type val);
-    public abstract void delete(PrKey key);
+    protected abstract void update(PrKey key, Type val);
+    protected abstract void delete(PrKey key);
 }

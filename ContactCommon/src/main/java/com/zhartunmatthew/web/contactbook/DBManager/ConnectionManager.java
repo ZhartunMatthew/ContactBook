@@ -1,11 +1,14 @@
 package com.zhartunmatthew.web.contactbook.DBManager;
 
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionManager {
+    private static Logger log = Logger.getLogger(ConnectionManager.class);
     private static Connection connection;
 
     static {
@@ -33,15 +36,13 @@ public class ConnectionManager {
     }
 
     public static Connection getConnection() {
-        return connection;
-    }
-
-    public static void closeConnection(Connection connection) {
         try {
-            connection.close();
+            if (connection.isClosed()) {
+                createConnection();
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        return connection;
     }
-
 }
