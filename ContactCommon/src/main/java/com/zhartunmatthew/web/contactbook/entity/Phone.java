@@ -1,27 +1,28 @@
 package com.zhartunmatthew.web.contactbook.entity;
 
-public class Phone {
-    private long phoneID;
-    private long contactID;
+public class Phone implements Entity {
+
+    private Long phoneID;
+    private Long contactID;
     private String countryCode;
     private String operatorCode;
     private String number;
     private String type;
-    private String commentary;
+    private String comment;
 
-    public long getPhoneID() {
+    public Long getPhoneID() {
         return phoneID;
     }
 
-    public void setPhoneID(long phoneID) {
+    public void setPhoneID(Long phoneID) {
         this.phoneID = phoneID;
     }
 
-    public long getContactID() {
+    public Long getContactID() {
         return contactID;
     }
 
-    public void setContactID(long contactID) {
+    public void setContactID(Long contactID) {
         this.contactID = contactID;
     }
 
@@ -57,11 +58,11 @@ public class Phone {
         this.type = type;
     }
 
-    public String getCommentary() {
-        return commentary;
+    public String getComment() {
+        return comment;
     }
 
-    public void setCommentary(String commentary) {
-        this.commentary = commentary;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

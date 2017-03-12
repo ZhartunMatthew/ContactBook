@@ -3,32 +3,34 @@ package com.zhartunmatthew.web.contactbook.entity;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-public class Contact {
-    private long id;
+public class Contact implements Entity {
+    private Long id;
     private String firstName;
     private String lastName;
     private String patronymic;
     private Timestamp birthDate;
     private String sex;
     private String nationality;
-    private String martialStatus;
+    private String maritalStatus;
     private String website;
     private String email;
     private String photoPath;
     private String job;
-    private String state;
+    private String country;
     private String city;
+    private String street;
     private String houseNumber;
     private String flat;
     private String postCode;
+
     private ArrayList<Phone> phones;
     private ArrayList<Attachment> attachments;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -80,12 +82,12 @@ public class Contact {
         this.nationality = nationality;
     }
 
-    public String getMartialStatus() {
-        return martialStatus;
+    public String getMaritalStatus() {
+        return maritalStatus;
     }
 
-    public void setMartialStatus(String martialStatus) {
-        this.martialStatus = martialStatus;
+    public void setMaritalStatus(String maritalStatus) {
+        this.maritalStatus = maritalStatus;
     }
 
     public String getWebsite() {
@@ -120,12 +122,12 @@ public class Contact {
         this.job = job;
     }
 
-    public String getState() {
-        return state;
+    public String getCountry() {
+        return country;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setCountry(String state) {
+        this.country = state;
     }
 
     public String getCity() {
@@ -134,6 +136,14 @@ public class Contact {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getHouseNumber() {
@@ -174,5 +184,31 @@ public class Contact {
 
     public void setAttachments(ArrayList<Attachment> attachments) {
         this.attachments = attachments;
+    }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", patronymic='" + patronymic + '\'' +
+                ", birthDate=" + birthDate +
+                ", sex='" + sex + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", maritalStatus='" + maritalStatus + '\'' +
+                ", website='" + website + '\'' +
+                ", email='" + email + '\'' +
+                ", photoPath='" + photoPath + '\'' +
+                ", job='" + job + '\'' +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", houseNumber='" + houseNumber + '\'' +
+                ", flat='" + flat + '\'' +
+                ", postCode='" + postCode + '\'' +
+                ", phones=" + phones +
+                ", attachments=" + attachments +
+                '}';
     }
 }
