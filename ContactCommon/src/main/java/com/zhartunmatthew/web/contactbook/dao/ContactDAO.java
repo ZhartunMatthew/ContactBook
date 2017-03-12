@@ -1,7 +1,7 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
+import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionManager;
 import com.zhartunmatthew.web.contactbook.dbmanager.WrappedConnection;
-import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.creators.EntityFactory;
@@ -43,12 +43,11 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             statement = connection.createStatement();
             contactResultSet = statement.executeQuery(SELECT_ALL_CONTACTS);
             while(contactResultSet.next()) {
+                Contact tempContact = (Contact) EntityFactory.createEntityFromResultSet(contactResultSet, Contact.class);
 
-                //TODO
-                //adding phones in contact
-                //adding attachments
+                tempContact.setPhones(getContactPhones(tempContact.getId()));
 
-                contacts.add((Contact) EntityFactory.createEntityFromResultSet(contactResultSet, Contact.class));
+                contacts.add(tempContact);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -64,12 +63,17 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         return contacts;
     }
 
-    private ArrayList<Phone> getContactPhones() {
-        return null;
-    }
-
-    private ArrayList<Attachment> getContactAttachments() {
-        return null;
+    private ArrayList<Phone> getContactPhones(long i) {
+        ArrayList<Phone> phones = null;
+        try {
+            WrappedConnection connection = ConnectionManager.getConnection();
+            PhoneDAO phoneDAO = new PhoneDAO(connection);
+            phones = phoneDAO.readContactPhones(i);
+            connection.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return phones;
     }
 
     @Override

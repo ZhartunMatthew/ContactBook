@@ -65,4 +65,17 @@ public class Phone implements Entity {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    @Override
+    public String toString() {
+        return "Phone{" +
+                "phoneID=" + phoneID +
+                ", contactID=" + contactID +
+                ", countryCode='" + countryCode + '\'' +
+                ", operatorCode='" + operatorCode + '\'' +
+                ", number='" + number + '\'' +
+                ", type='" + type + '\'' +
+                ", comment='" + comment + '\'' +
+                '}';
+    }
 }

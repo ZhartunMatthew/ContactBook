@@ -2,6 +2,7 @@ package com.zhartunmatthew.web.contactbook.entity.creators;
 
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Entity;
+import com.zhartunmatthew.web.contactbook.entity.Phone;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,9 @@ public class EntityFactory {
         try {
             if (type == Contact.class) {
                 entity = createContact(resultSet);
+            }
+            if (type == Phone.class) {
+                entity = createPhone(resultSet);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -40,5 +44,17 @@ public class EntityFactory {
         contact.setPostCode(resultSet.getString("postcode"));
         contact.setPhotoPath(resultSet.getString("photo_path"));
         return contact;
+    }
+
+    private static Phone createPhone(ResultSet resultSet) throws SQLException {
+        Phone phone = new Phone();
+        phone.setPhoneID(resultSet.getLong("id"));
+        phone.setContactID(resultSet.getLong("contact_id"));
+        phone.setType(resultSet.getString("phone_type"));
+        phone.setCountryCode(resultSet.getString("country_code"));
+        phone.setOperatorCode(resultSet.getString("operator_code"));
+        phone.setNumber(resultSet.getString("number"));
+        phone.setComment(resultSet.getString("comment"));
+        return phone;
     }
 }
