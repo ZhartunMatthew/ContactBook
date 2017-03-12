@@ -1,6 +1,8 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
+import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
+import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.creators.EntityFactory;
 import org.apache.log4j.Logger;
 
@@ -60,6 +62,14 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             }
         }
         return contacts;
+    }
+
+    private ArrayList<Phone> getContactPhones() {
+        return null;
+    }
+
+    private ArrayList<Attachment> getContactAttachments() {
+        return null;
     }
 
     @Override
