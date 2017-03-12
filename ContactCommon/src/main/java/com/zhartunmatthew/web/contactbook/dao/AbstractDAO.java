@@ -1,14 +1,15 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
-import java.sql.Connection;
+import com.zhartunmatthew.web.contactbook.dbmanager.WrappedConnection;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public abstract class AbstractDAO<PrKey, Type> {
 
-    protected Connection connection;
+    protected WrappedConnection connection;
 
-    protected AbstractDAO(Connection connection) {
+    protected AbstractDAO(WrappedConnection connection) {
         this.connection = connection;
     }
 

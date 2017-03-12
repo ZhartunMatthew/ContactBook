@@ -1,13 +1,13 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
+import com.zhartunmatthew.web.contactbook.dbmanager.WrappedConnection;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 
 public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
 
-    protected AttachmentDAO(Connection connection) {
+    protected AttachmentDAO(WrappedConnection connection) {
         super(connection);
     }
 

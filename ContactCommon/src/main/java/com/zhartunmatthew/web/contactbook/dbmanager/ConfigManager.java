@@ -6,7 +6,7 @@ class ConfigManager {
     private final static String PROPERTIES_PATH = "database";
     private static ResourceBundle resBundle = ResourceBundle.getBundle(PROPERTIES_PATH);
 
-    private ConfigManager(){}
+    private ConfigManager() {}
 
     static String getUrl(){
         return resBundle.getString("url");
@@ -18,5 +18,9 @@ class ConfigManager {
 
     static String getPassword(){
         return resBundle.getString("password");
+    }
+
+    static int getPoolSize(){
+        return Integer.parseInt(resBundle.getString("poolsize"));
     }
 }

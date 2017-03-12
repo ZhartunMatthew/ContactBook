@@ -1,16 +1,25 @@
 package com.zhartunmatthew.web.contactbook.dbmanager;
 
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.concurrent.ArrayBlockingQueue;
 
 public class ConnectionManager {
-    private static Connection connection;
+
+    private static Logger log = Logger.getLogger(ConnectionManager.class);
+    private static final int POOL_SIZE = ConfigManager.getPoolSize();
+    private static ArrayBlockingQueue<WrappedConnection> connections
+            = new ArrayBlockingQueue<>(POOL_SIZE);
 
     static {
         registerDriver();
-        createConnection();
+        for(int i = 0; i < POOL_SIZE; i++) {
+            connections.add(createConnection());
+        }
     }
 
     private ConnectionManager() {}
@@ -24,16 +33,33 @@ public class ConnectionManager {
         }
     }
 
-    private static void createConnection() {
+    private static WrappedConnection createConnection() {
+        WrappedConnection wrappedConnection = null;
         try {
-            connection = DriverManager.getConnection(ConfigManager.getUrl(),
-                    ConfigManager.getUser(), ConfigManager.getPassword());
+            Connection connection = DriverManager.getConnection(ConfigManager.getUrl(),
+                    ConfigManager.getUser(),
+                    ConfigManager.getPassword());
+            wrappedConnection = new WrappedConnection(connection);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        return wrappedConnection;
     }
 
-    public static Connection getConnection() {
-        return connection;
+    public static WrappedConnection getConnection() {
+        return connections.poll();
+    }
+
+    public static void releaseConnection(WrappedConnection connection) {
+        try {
+            if(!connection.getAutoCommit()) {
+                connection.rollback();
+                log.debug("Rollback");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        log.debug("Returned in pool");
+        connections.add(connection);
     }
 }

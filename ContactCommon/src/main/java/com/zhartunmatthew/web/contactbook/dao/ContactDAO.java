@@ -1,12 +1,12 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
+import com.zhartunmatthew.web.contactbook.dbmanager.WrappedConnection;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.creators.EntityFactory;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -30,7 +30,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             "LEFT JOIN countries ON countries.id_counrty = contacts.country_id " +
             "LEFT JOIN addresses ON addresses.contact_id = contacts.id;";
 
-    protected ContactDAO(Connection connection) {
+    protected ContactDAO(WrappedConnection connection) {
         super(connection);
     }
 
