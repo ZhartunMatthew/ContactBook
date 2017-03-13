@@ -7,7 +7,7 @@ public class ConnectionManagerTest {
     @Test
     public void getConnection() throws Exception {
         WrappedConnection connection = ConnectionManager.getConnection();
-        Assert.assertFalse(connection.isClosed());
+        Assert.assertTrue(connection.isValid(500));
     }
 
     @Test

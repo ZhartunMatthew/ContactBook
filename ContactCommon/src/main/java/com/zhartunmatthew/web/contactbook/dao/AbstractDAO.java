@@ -22,10 +22,8 @@ public abstract class AbstractDAO<PrKey, Type> {
     }
 
     protected abstract ArrayList<Type> readAll();
-
     protected abstract void insert(Type val);
     protected abstract Type read(PrKey key);
-
     protected abstract void update(PrKey key, Type val);
     protected abstract void delete(PrKey key);
 }

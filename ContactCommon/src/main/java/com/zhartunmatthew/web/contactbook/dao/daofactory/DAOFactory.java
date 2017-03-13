@@ -1,11 +1,7 @@
 package com.zhartunmatthew.web.contactbook.dao.daofactory;
 
-import com.zhartunmatthew.web.contactbook.dao.AbstractDAO;
-import com.zhartunmatthew.web.contactbook.dao.AttachmentDAO;
-import com.zhartunmatthew.web.contactbook.dao.ContactDAO;
-import com.zhartunmatthew.web.contactbook.dao.PhoneDAO;
-import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionManager;
-import com.zhartunmatthew.web.contactbook.dbmanager.WrappedConnection;
+import com.zhartunmatthew.web.contactbook.dao.*;
+import com.zhartunmatthew.web.contactbook.dbmanager.*;
 
 public class DAOFactory {
 
