@@ -14,15 +14,12 @@ public class ContactDAOTest {
 
     @Test
     public void readAll() throws Exception {
+        ArrayList<Contact> contacts = null;
         try (ContactDAO contactDAO = (ContactDAO) DAOFactory.getDAO(ContactDAO.class)) {
-            ArrayList<Contact> contacts;
             contacts = contactDAO.readAll();
-            for (Contact tempContact : contacts) {
-                log.debug(tempContact);
-            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        Assert.assertTrue(true);
+        Assert.assertEquals("русское", contacts.get(1).getFirstName());
     }
 }

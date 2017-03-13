@@ -44,9 +44,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             contactResultSet = statement.executeQuery(SELECT_ALL_CONTACTS);
             while(contactResultSet.next()) {
                 Contact tempContact = (Contact) EntityFactory.createEntityFromResultSet(contactResultSet, Contact.class);
-
                 tempContact.setPhones(getContactPhones(tempContact.getId()));
-
                 contacts.add(tempContact);
             }
         } catch (SQLException ex) {
@@ -65,11 +63,9 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
     private ArrayList<Phone> getContactPhones(long i) {
         ArrayList<Phone> phones = null;
-        try {
-            PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(PhoneDAO.class);
+        try (PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(PhoneDAO.class)) {
             phones = phoneDAO.readContactPhones(i);
-            connection.close();
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return phones;

@@ -17,7 +17,7 @@ public class ConnectionManager {
 
     static {
         registerDriver();
-        for(int i = 0; i < POOL_SIZE; i++) {
+        for(int i = 0; i < POOL_SIZE-5; i++) {
             connections.add(createConnection());
         }
     }
@@ -47,19 +47,40 @@ public class ConnectionManager {
     }
 
     public static WrappedConnection getConnection() {
-        return connections.poll();
+        WrappedConnection connection = null;
+        try {
+            connection = connections.poll();
+            if (connection == null) {
+                throw new Exception("NULL CONNECTION");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return connection;
     }
 
     public static void releaseConnection(WrappedConnection connection) {
-        try {
-            if(!connection.getAutoCommit()) {
-                connection.rollback();
-                log.debug("Rollback");
+        if(connection != null) {
+            try {
+                if (!connection.getAutoCommit()) {
+                    connection.rollback();
+                    log.debug("Rollback");
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            connections.add(connection);
+            log.debug("Returned in pool. Connections left: " + countNotNull());
         }
-        log.debug("Returned in pool");
-        connections.add(connection);
+    }
+
+    private static int countNotNull() {
+        int i = 0;
+        for(WrappedConnection conn : connections) {
+            if(conn != null) {
+                i++;
+            }
+        }
+        return i;
     }
 }
