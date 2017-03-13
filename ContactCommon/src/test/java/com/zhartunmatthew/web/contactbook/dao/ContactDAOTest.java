@@ -1,7 +1,6 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
-import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionManager;
-import com.zhartunmatthew.web.contactbook.dbmanager.WrappedConnection;
+import com.zhartunmatthew.web.contactbook.dao.daofactory.DAOFactory;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -14,12 +13,10 @@ public class ContactDAOTest {
 
     public static Logger log = Logger.getLogger(ContactDAOTest.class);
     private ContactDAO contactDAO = null;
-    WrappedConnection connection = null;
 
     @Before
     public void initContactDAO(){
-        connection = ConnectionManager.getConnection();
-        contactDAO = new ContactDAO(connection);
+        contactDAO = (ContactDAO) DAOFactory.getDAO(ContactDAO.class);
     }
 
     @Test

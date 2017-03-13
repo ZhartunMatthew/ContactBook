@@ -7,32 +7,32 @@ import java.util.ArrayList;
 
 public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
 
-    protected AttachmentDAO(WrappedConnection connection) {
+    public AttachmentDAO(WrappedConnection connection) {
         super(connection);
     }
 
     @Override
-    protected ArrayList<Attachment> readAll() {
+    public ArrayList<Attachment> readAll() {
         return null;
     }
 
     @Override
-    protected void insert(Attachment val) {
+    public void insert(Attachment val) {
 
     }
 
     @Override
-    protected Attachment read(Long aLong) {
+    public Attachment read(Long aLong) {
         return null;
     }
 
     @Override
-    protected void update(Long aLong, Attachment val) {
+    public void update(Long aLong, Attachment val) {
 
     }
 
     @Override
-    protected void delete(Long aLong) {
+    public void delete(Long aLong) {
 
     }
 }

@@ -1,4 +1,4 @@
-package com.zhartunmatthew.web.contactbook.entity.creators;
+package com.zhartunmatthew.web.contactbook.entity.entityfactory;
 
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Entity;

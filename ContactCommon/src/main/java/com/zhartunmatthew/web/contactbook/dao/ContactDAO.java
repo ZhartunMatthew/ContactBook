@@ -1,10 +1,10 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
-import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionManager;
+import com.zhartunmatthew.web.contactbook.dao.daofactory.DAOFactory;
 import com.zhartunmatthew.web.contactbook.dbmanager.WrappedConnection;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
-import com.zhartunmatthew.web.contactbook.entity.creators.EntityFactory;
+import com.zhartunmatthew.web.contactbook.entity.entityfactory.EntityFactory;
 import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
@@ -30,12 +30,12 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             "LEFT JOIN countries ON countries.id_counrty = contacts.country_id " +
             "LEFT JOIN addresses ON addresses.contact_id = contacts.id;";
 
-    protected ContactDAO(WrappedConnection connection) {
+    public ContactDAO(WrappedConnection connection) {
         super(connection);
     }
 
     @Override
-    protected ArrayList<Contact> readAll() {
+    public ArrayList<Contact> readAll() {
         ArrayList<Contact> contacts = new ArrayList<>();
         Statement statement = null;
         ResultSet contactResultSet = null;
@@ -66,8 +66,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
     private ArrayList<Phone> getContactPhones(long i) {
         ArrayList<Phone> phones = null;
         try {
-            WrappedConnection connection = ConnectionManager.getConnection();
-            PhoneDAO phoneDAO = new PhoneDAO(connection);
+            PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(PhoneDAO.class);
             phones = phoneDAO.readContactPhones(i);
             connection.close();
         } catch (SQLException ex) {
@@ -77,22 +76,22 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
     }
 
     @Override
-    protected void insert(Contact val) {
+    public void insert(Contact val) {
 
     }
 
     @Override
-    protected Contact read(Long l) {
+    public Contact read(Long l) {
         return null;
     }
 
     @Override
-    protected void update(Long l, Contact val) {
+    public void update(Long l, Contact val) {
 
     }
 
     @Override
-    protected void delete(Long l) {
+    public void delete(Long l) {
 
     }
 }

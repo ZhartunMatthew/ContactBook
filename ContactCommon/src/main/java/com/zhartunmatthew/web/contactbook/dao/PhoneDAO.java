@@ -2,7 +2,7 @@ package com.zhartunmatthew.web.contactbook.dao;
 
 import com.zhartunmatthew.web.contactbook.dbmanager.WrappedConnection;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
-import com.zhartunmatthew.web.contactbook.entity.creators.EntityFactory;
+import com.zhartunmatthew.web.contactbook.entity.entityfactory.EntityFactory;
 import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
@@ -25,11 +25,11 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
             "FROM contactbook.phones " +
             "WHERE phones.contact_id = ";
 
-    protected PhoneDAO(WrappedConnection connection) {
+    public PhoneDAO(WrappedConnection connection) {
         super(connection);
     }
 
-    protected ArrayList<Phone> readContactPhones(Long contactId) {
+    public ArrayList<Phone> readContactPhones(Long contactId) {
         ArrayList<Phone> phones = new ArrayList<>();
         Statement statement = null;
         ResultSet phoneResultSet = null;
@@ -47,27 +47,27 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
     }
 
     @Override
-    protected ArrayList<Phone> readAll() {
+    public ArrayList<Phone> readAll() {
         return null;
     }
 
     @Override
-    protected void insert(Phone val) {
+    public void insert(Phone val) {
 
     }
 
     @Override
-    protected Phone read(Long aLong) {
+    public Phone read(Long aLong) {
         return null;
     }
 
     @Override
-    protected void update(Long aLong, Phone val) {
+    public void update(Long aLong, Phone val) {
 
     }
 
     @Override
-    protected void delete(Long aLong) {
+    public void delete(Long aLong) {
 
     }
 }

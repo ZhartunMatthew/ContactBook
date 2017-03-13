@@ -3,5 +3,14 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+
+    <servlet>
+        <servlet-name>Controller</servlet-name>
+        <servlet-class>com.zhartunmatthew.web.contactbook.controller.Controller</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/controller</url-pattern>
+    </servlet-mapping>
 </web-app>
