@@ -59,7 +59,7 @@ public class ConnectionManager {
         return connection;
     }
 
-    public static void releaseConnection(WrappedConnection connection) {
+    public static synchronized void releaseConnection(WrappedConnection connection) {
         if(connection != null) {
             try {
                 if (!connection.getAutoCommit()) {
