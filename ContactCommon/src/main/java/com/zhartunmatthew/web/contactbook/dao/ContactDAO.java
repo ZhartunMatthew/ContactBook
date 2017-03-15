@@ -63,7 +63,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
     private ArrayList<Phone> getContactPhones(long i) {
         ArrayList<Phone> phones = null;
-        try (PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(PhoneDAO.class)) {
+        try (PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.createDAO(PhoneDAO.class)) {
             phones = phoneDAO.readContactPhones(i);
         } catch (Exception ex) {
             ex.printStackTrace();

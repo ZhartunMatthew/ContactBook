@@ -5,7 +5,7 @@ import com.zhartunmatthew.web.contactbook.dbmanager.*;
 
 public class DAOFactory {
 
-    public static AbstractDAO getDAO(Class<? extends AbstractDAO> type) {
+    public static AbstractDAO createDAO(Class<? extends AbstractDAO> type) {
         AbstractDAO abstractDAO = null;
         WrappedConnection connection = ConnectionManager.getConnection();
         if(type == AttachmentDAO.class) {

@@ -1,17 +1,19 @@
 package com.zhartunmatthew.web.contactbook.controller;
 
-import com.zhartunmatthew.web.contactbook.dao.ContactDAO;
-import com.zhartunmatthew.web.contactbook.dao.daofactory.DAOFactory;
-import com.zhartunmatthew.web.contactbook.entity.Contact;
+import com.zhartunmatthew.web.contactbook.command.AbstractCommand;
+import com.zhartunmatthew.web.contactbook.command.commandfactory.CommandFactory;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 
+public class Controller extends HttpServlet {
 
-public class Controller extends javax.servlet.http.HttpServlet {
+    private static Logger log = Logger.getLogger(Controller.class);
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -21,11 +23,9 @@ public class Controller extends javax.servlet.http.HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ArrayList<Contact> contacts;
-        try (ContactDAO contactDAO = (ContactDAO) DAOFactory.getDAO(ContactDAO.class)) {
-            contacts = contactDAO.readAll();
-        }
-        request.setAttribute("contacts", contacts);
-        request.getRequestDispatcher("/contact_list.jsp").forward(request, response);
+        AbstractCommand command = CommandFactory.createCommand(request);
+        String commandURL = command.execute(request);
+        log.debug("Command URL: " + commandURL);
+        request.getRequestDispatcher(commandURL).forward(request, response);
     }
 }

@@ -3,6 +3,7 @@
 <html>
 <head>
     <title> Список контактов </title>
+    <link rel="stylesheet" type="text/css" href="style/list_style.css">
 </head>
     <body>
         <div>
@@ -10,25 +11,29 @@
         </div>
         <c:forEach var="contact" items="${contacts}">
             <div class="one-row">
-                <div class="cell cell-1">
+                <div class="column column-1">
                     <label>
                         <input type="checkbox" name="contact-check" value="${contact.id}">
                     </label>
                 </div>
-                <div class="cell cell-2">
+                <div class="column column-2">
                     <a href="link_to_edit_contact"> <c:out value="${contact.firstName} ${contact.lastName}"/> </a>
                 </div>
-                <div class="cell cell-3">
+                <div class="column column-3">
                     <c:out value="${contact.birthDate}"/>
                 </div>
-                <div class="cell cell-4">
-                    <c:out value="${contact.country} ${contact.city} ${contact.street} ${contact.houseNumber}"/>
+                <div class="column column-4">
+                    <c:out value="${contact.country} г.
+                                  ${contact.city} ул.
+                                  ${contact.street} д.
+                                  ${contact.houseNumber} кв.
+                                  ${contact.flat}"/>
                 </div>
-                <div class="cell cell-5">
+                <div class="column column-5">
                     <c:out value="${contact.job}"/>
                 </div>
             </div>
         </c:forEach>
-        <link rel="stylesheet" type="text/css" href="style/list_style.css">
+
     </body>
 </html>

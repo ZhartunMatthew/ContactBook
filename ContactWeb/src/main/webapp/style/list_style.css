@@ -1,31 +1,40 @@
 .one-row {
     width: 100%;
     border-bottom: solid 2px black;
-    display: table;
+    content: "";
     clear: both;
 }
 
-.cell {
-    float: left;
-    padding: 15px;
+.one-row:nth-child(2n) {
+    background-color: antiquewhite;
 }
 
-.cell .cell-1 {
-    width: 10%;
+.one-row:hover {
+    background-color: whitesmoke;
 }
 
-.cell .cell-2 {
-    width: 15%;
+.column {
+    display: inline-block;
+    padding: 15px 10px;
+    box-sizing: border-box;
 }
 
-.cell .cell-3 {
-    width: 25%;
+.column-1 {
+    width: 40px;
 }
 
-.cell .cell-4 {
-    width: 35%;
+.column-2 {
+    min-width: 12%;
 }
 
-.cell .cell-5 {
-    width: 40%;
+.column-3 {
+    min-width: 13%;
+}
+
+.column-4 {
+    min-width: 27%;
+}
+
+.column-5 {
+    min-width: 30%;
 }

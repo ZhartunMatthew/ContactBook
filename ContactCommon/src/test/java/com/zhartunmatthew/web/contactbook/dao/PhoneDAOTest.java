@@ -13,7 +13,7 @@ public class PhoneDAOTest {
 
     @Test
     public void readContactPhones() throws Exception {
-        try (PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(PhoneDAO.class)) {
+        try (PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.createDAO(PhoneDAO.class)) {
             ArrayList<Phone> phones = phoneDAO.readContactPhones((long) 1);
             for (Phone tempPhone : phones) {
                 if (tempPhone == null) {
