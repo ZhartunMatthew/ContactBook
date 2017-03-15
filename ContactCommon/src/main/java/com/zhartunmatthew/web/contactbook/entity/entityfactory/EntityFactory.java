@@ -29,7 +29,7 @@ public class EntityFactory {
         contact.setFirstName(resultSet.getString("first_name"));
         contact.setLastName(resultSet.getString("last_name"));
         contact.setPatronymic(resultSet.getString("patronymic"));
-        contact.setBirthDate(resultSet.getTimestamp("birth_date"));
+        contact.setBirthDate(resultSet.getDate("birth_date"));
         contact.setSex(resultSet.getString("sex"));
         contact.setEmail(resultSet.getString("email"));
         contact.setWebsite(resultSet.getString("website"));

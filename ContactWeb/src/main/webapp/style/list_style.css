@@ -6,11 +6,11 @@
 }
 
 .one-row:nth-child(2n) {
-    background-color: antiquewhite;
+    background-color: whitesmoke;
 }
 
 .one-row:hover {
-    background-color: whitesmoke;
+    background-color: antiquewhite;
 }
 
 .column {
@@ -21,6 +21,7 @@
 
 .column-1 {
     width: 40px;
+    text-align: center;
 }
 
 .column-2 {
@@ -28,7 +29,7 @@
 }
 
 .column-3 {
-    min-width: 13%;
+    min-width: 10%;
 }
 
 .column-4 {

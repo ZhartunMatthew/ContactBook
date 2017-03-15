@@ -9,29 +9,36 @@
         <div>
             <p> Control buttons </p>
         </div>
+        <div class="one-row">
+            <div class="column column-1"><b> # </b></div>
+            <div class="column column-2"><b> Фамилия, имя </b></div>
+            <div class="column column-3"><b> Дата рождения </b></div>
+            <div class="column column-4"><b> Адрес проживания </b></div>
+            <div class="column column-5"><b> Место работы </b></div>
+        </div>
         <c:forEach var="contact" items="${contacts}">
             <div class="one-row">
-                <div class="column column-1">
-                    <label>
-                        <input type="checkbox" name="contact-check" value="${contact.id}">
-                    </label>
-                </div>
-                <div class="column column-2">
-                    <a href="link_to_edit_contact"> <c:out value="${contact.firstName} ${contact.lastName}"/> </a>
-                </div>
-                <div class="column column-3">
-                    <c:out value="${contact.birthDate}"/>
-                </div>
-                <div class="column column-4">
-                    <c:out value="${contact.country} г.
-                                  ${contact.city} ул.
-                                  ${contact.street} д.
-                                  ${contact.houseNumber} кв.
-                                  ${contact.flat}"/>
-                </div>
-                <div class="column column-5">
-                    <c:out value="${contact.job}"/>
-                </div>
+                <label for="check${contact.id}">
+                    <div class="column column-1">
+                        <input type="checkbox" name="contact-check" id="check${contact.id}" value="${contact.id}">
+                    </div>
+                    <div class="column column-2">
+                        <a href="link_to_edit_contact"> <c:out value=" ${contact.lastName} ${contact.firstName}"/> </a>
+                    </div>
+                    <div class="column column-3">
+                        <c:out value="${contact.birthDate}"/>
+                    </div>
+                    <div class="column column-4">
+                        <c:out value="${contact.country} г.
+                                      ${contact.city} ул.
+                                      ${contact.street} д.
+                                      ${contact.houseNumber} кв.
+                                      ${contact.flat}"/>
+                    </div>
+                    <div class="column column-5">
+                        <c:out value="${contact.job}"/>
+                    </div>
+                </label>
             </div>
         </c:forEach>
 

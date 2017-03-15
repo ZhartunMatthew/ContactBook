@@ -28,7 +28,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             "LEFT JOIN nationality ON nationality.id_nationality = contacts.nationality_id " +
             "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
             "LEFT JOIN countries ON countries.id_counrty = contacts.country_id " +
-            "LEFT JOIN addresses ON addresses.contact_id = contacts.id;";
+            "LEFT JOIN addresses ON addresses.contact_id = contacts.id ORDER BY last_name;";
 
     public ContactDAO(WrappedConnection connection) {
         super(connection);
@@ -38,7 +38,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
     public ArrayList<Contact> readAll() {
         ArrayList<Contact> contacts = new ArrayList<>();
         Statement statement = null;
-        ResultSet contactResultSet = null;
+        ResultSet contactResultSet;
         try {
             statement = connection.createStatement();
             contactResultSet = statement.executeQuery(SELECT_ALL_CONTACTS);

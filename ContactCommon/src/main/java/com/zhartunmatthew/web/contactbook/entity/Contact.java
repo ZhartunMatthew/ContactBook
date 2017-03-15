@@ -1,6 +1,6 @@
 package com.zhartunmatthew.web.contactbook.entity;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class Contact implements Entity {
@@ -8,7 +8,7 @@ public class Contact implements Entity {
     private String firstName;
     private String lastName;
     private String patronymic;
-    private Timestamp birthDate;
+    private Date birthDate;
     private String sex;
     private String nationality;
     private String maritalStatus;
@@ -58,11 +58,11 @@ public class Contact implements Entity {
         this.patronymic = patronymic;
     }
 
-    public Timestamp getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Timestamp birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 
