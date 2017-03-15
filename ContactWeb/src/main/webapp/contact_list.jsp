@@ -23,7 +23,9 @@
                         <input type="checkbox" name="contact-check" id="check${contact.id}" value="${contact.id}">
                     </div>
                     <div class="column column-2">
-                        <a href="link_to_edit_contact"> <c:out value=" ${contact.lastName} ${contact.firstName}"/> </a>
+                        <a href="/controller?command=show_contact&contact_id=${contact.id}">
+                            <c:out value=" ${contact.lastName} ${contact.firstName}"/>
+                        </a>
                     </div>
                     <div class="column column-3">
                         <c:out value="${contact.birthDate}"/>

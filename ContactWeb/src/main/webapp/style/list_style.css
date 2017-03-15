@@ -25,17 +25,17 @@
 }
 
 .column-2 {
-    min-width: 12%;
+    min-width: 170px;
 }
 
 .column-3 {
-    min-width: 10%;
+    min-width: 150px;
 }
 
 .column-4 {
-    min-width: 27%;
+    min-width: 400px;
 }
 
 .column-5 {
-    min-width: 30%;
+    min-width: 400px;
 }

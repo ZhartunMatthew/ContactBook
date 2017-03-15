@@ -7,7 +7,7 @@ import com.zhartunmatthew.web.contactbook.entity.Contact;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
-public class ShowContactList implements AbstractCommand {
+public class ShowContactListCommand implements AbstractCommand {
 
     private final static String COMMAND_URL = "contact_list.jsp";
 
