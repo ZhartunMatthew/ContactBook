@@ -17,7 +17,7 @@ public class ConnectionManager {
 
     static {
         registerDriver();
-        for(int i = 0; i < POOL_SIZE-5; i++) {
+        for(int i = 0; i < POOL_SIZE; i++) {
             connections.add(createConnection());
         }
     }

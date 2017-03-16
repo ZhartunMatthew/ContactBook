@@ -7,6 +7,7 @@ import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.entityfactory.EntityFactory;
 import org.apache.log4j.Logger;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -29,6 +30,20 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
             "LEFT JOIN countries ON countries.id_counrty = contacts.country_id " +
             "LEFT JOIN addresses ON addresses.contact_id = contacts.id ORDER BY last_name;";
+
+    private static final String SELECT_CONTACT_BY_ID =
+            "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
+                    "birth_date, sex, marital_status.marital_status_name AS marital_status, " +
+                    "nationality.nationality_name AS nationality, " +
+                    "countries.country_name AS country, addresses.city AS city, " +
+                    "addresses.street AS street, addresses.house_number AS house, " +
+                    "addresses.flat AS flat, addresses.postcode AS postcode, " +
+                    "website, email, photo_path, job " +
+                    "FROM contacts " +
+                    "LEFT JOIN nationality ON nationality.id_nationality = contacts.nationality_id " +
+                    "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
+                    "LEFT JOIN countries ON countries.id_counrty = contacts.country_id " +
+                    "LEFT JOIN addresses ON addresses.contact_id = contacts.id WHERE id = ? LIMIT 1;";
 
     public ContactDAO(WrappedConnection connection) {
         super(connection);
@@ -78,7 +93,29 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
     @Override
     public Contact read(Long l) {
-        return null;
+        Contact contact = new Contact();
+        PreparedStatement statement = null;
+        ResultSet contactResultSet;
+        try {
+            statement = connection.prepareStatement(SELECT_CONTACT_BY_ID);
+            statement.setLong(1, l);
+            contactResultSet = statement.executeQuery();
+            while(contactResultSet.next()) {
+                contact = (Contact) EntityFactory.createEntityFromResultSet(contactResultSet, Contact.class);
+                contact.setPhones(getContactPhones(contact.getId()));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return contact;
     }
 
     @Override

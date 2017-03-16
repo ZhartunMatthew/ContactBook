@@ -2,7 +2,7 @@ package com.zhartunmatthew.web.contactbook.entity;
 
 import java.sql.Time;
 
-public class Attachment implements Entity{
+public class Attachment implements Entity {
 
     private Long fileID;
     private Long contactID;

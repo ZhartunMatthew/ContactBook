@@ -5,6 +5,9 @@
     <title>Контакт</title>
 </head>
 <body>
-    Это страница контакта <c:out value="${id}"/>
+    <br> Это страница контакта <c:out value="${contact.id}"/> <br>
+    <br> Это страница контакта <c:out value="${contact.firstName}"/> <br>
+    <br> Это страница контакта <c:out value="${contact.lastName}"/> <br>
+    <br> Это страница контакта <c:out value="${contact.job}"/> <br>
 </body>
 </html>

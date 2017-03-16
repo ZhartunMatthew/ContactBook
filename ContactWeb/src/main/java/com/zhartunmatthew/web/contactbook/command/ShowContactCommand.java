@@ -1,5 +1,8 @@
 package com.zhartunmatthew.web.contactbook.command;
 
+import com.zhartunmatthew.web.contactbook.dao.ContactDAO;
+import com.zhartunmatthew.web.contactbook.dao.daofactory.DAOFactory;
+import com.zhartunmatthew.web.contactbook.entity.Contact;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +14,13 @@ public class ShowContactCommand implements AbstractCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        // code
         String id = request.getParameter("contact_id");
-        request.setAttribute("id", id);
+        Contact contact = null;
+        try (ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class)) {
+            contact = contactDAO.read(Long.parseLong(id));
+        }
+
+        request.setAttribute("contact", contact);
         return COMMAND_URL;
     }
 }
