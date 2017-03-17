@@ -1,0 +1,17 @@
+.main-info {
+    margin-left: 10px;
+}
+
+form.contact label {
+    margin: 5px 0;
+    display: block;
+}
+
+form.contact .one-row label {
+    margin: 0;
+}
+
+form.contact label input {
+    margin-right: 70%;
+    float: right;
+}

@@ -14,6 +14,7 @@
 }
 
 .column {
+    vertical-align: text-bottom;
     display: inline-block;
     padding: 15px 10px;
     box-sizing: border-box;
@@ -25,17 +26,21 @@
 }
 
 .column-2 {
-    min-width: 170px;
+    min-width: 100px;
 }
 
 .column-3 {
-    min-width: 150px;
+    min-width: 200px;
 }
 
 .column-4 {
-    min-width: 400px;
+    width: 400px;
 }
 
 .column-5 {
-    min-width: 400px;
+    width: 500px;
+}
+
+.column-x {
+    width: auto;
 }
