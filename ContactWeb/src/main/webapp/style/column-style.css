@@ -5,6 +5,14 @@
     clear: both;
 }
 
+.first-row {
+    width: 100%;
+    border-bottom: solid 2px black;
+    content: "";
+    clear: both;
+    background-color: lightgray;
+}
+
 .one-row:nth-child(2n) {
     background-color: whitesmoke;
 }

@@ -4,12 +4,19 @@
 <head>
     <title> Список контактов </title>
     <link rel="stylesheet" type="text/css" href="style/column-style.css">
+    <link rel="stylesheet" type="text/css" href="style/button-style.css">
 </head>
     <body>
         <div>
-            <p> Control buttons </p>
+            <%--TODO: pagination--%>
         </div>
-        <div class="one-row">
+        <div class="nav-buttons">
+            <a class="nav-button add-contact-button" href="/controller?command=add_contact"> </a>
+            <a class="nav-button delete-contact-button" href="/controller?command=delete_contact"></a>
+            <a class="nav-button search-contact-button" href="/controller?command=search_contact"></a>
+            <a class="nav-button send-mail-contact-button" href="/controller?command=send_mail"></a>
+        </div>
+        <div class="first-row">
             <div class="column column-1"><b> # </b></div>
             <div class="column column-3"><b> Фамилия, имя </b></div>
             <div class="column column-3"><b> Дата рождения </b></div>

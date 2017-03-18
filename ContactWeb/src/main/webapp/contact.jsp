@@ -57,11 +57,12 @@
                 </label>
             </div>
             <h3>Контактные телефоны</h3>
-            <div class="one-row">
-                <div class="column column-2"> Выбрать </div>
-                <div class="column column-3"> Номер телефона </div>
-                <div class="column column-3"> Описание номера </div>
-                <div class="column column-x"> Комментарий </div>
+            <div class="first-row">
+                    <div class="column column-2"> Выбрать </div>
+                    <div class="column column-3"> Номер телефона </div>
+                    <div class="column column-3"> Описание номера </div>
+                    <div class="column column-x"> Комментарий </div>
+
             </div>
             <c:forEach var="phone" items="${contact.phones}">
                 <div class="one-row">
@@ -85,11 +86,11 @@
             </c:forEach>
 
             <h3>Прикрепленные файлы</h3>
-            <div class="one-row">
-                <div class="column column-2"> Выбрать </div>
-                <div class="column column-3"> Имя файла </div>
-                <div class="column column-3"> Дата загрузки </div>
-                <div class="column column-x"> Комментарий </div>
+            <div class="first-row">
+                    <div class="column column-2"> Выбрать </div>
+                    <div class="column column-3"> Имя файла </div>
+                    <div class="column column-3"> Дата загрузки </div>
+                    <div class="column column-x"> Комментарий </div>
             </div>
             <c:forEach var="attachment" items="${contact.attachments}">
                 <div class="one-row">
