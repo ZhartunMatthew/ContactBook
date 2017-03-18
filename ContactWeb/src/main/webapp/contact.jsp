@@ -103,7 +103,7 @@
                             <c:out value="${attachment.filePath}"/>
                         </div>
                         <div class="column column-3">
-                            <c:out value="${attachment.dateUpload}"/>
+                            <c:out value="${attachment.uploadDate}"/>
                         </div>
                         <div class="column column-x">
                             <c:out value="${attachment.comment}"/>

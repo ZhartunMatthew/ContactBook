@@ -1,5 +1,6 @@
 package com.zhartunmatthew.web.contactbook.entity.entityfactory;
 
+import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Entity;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
@@ -16,6 +17,9 @@ public class EntityFactory {
             }
             if (type == Phone.class) {
                 entity = createPhone(resultSet);
+            }
+            if (type == Attachment.class) {
+                entity = createAttachment(resultSet);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -56,5 +60,15 @@ public class EntityFactory {
         phone.setNumber(resultSet.getString("number"));
         phone.setComment(resultSet.getString("comment"));
         return phone;
+    }
+
+    private static Attachment createAttachment(ResultSet resultSet) throws SQLException {
+        Attachment attachment = new Attachment();
+        attachment.setFileID(resultSet.getLong("id"));
+        attachment.setContactID(resultSet.getLong("contact_id"));
+        attachment.setFilePath(resultSet.getString("file_path"));
+        attachment.setComment(resultSet.getString("comment"));
+        attachment.setUploadDate(resultSet.getTimestamp("upload_date"));
+        return attachment;
     }
 }

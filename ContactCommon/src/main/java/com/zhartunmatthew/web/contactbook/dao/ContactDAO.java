@@ -2,6 +2,7 @@ package com.zhartunmatthew.web.contactbook.dao;
 
 import com.zhartunmatthew.web.contactbook.dao.daofactory.DAOFactory;
 import com.zhartunmatthew.web.contactbook.dbmanager.WrappedConnection;
+import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.entityfactory.EntityFactory;
@@ -60,6 +61,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             while(contactResultSet.next()) {
                 Contact tempContact = (Contact) EntityFactory.createEntityFromResultSet(contactResultSet, Contact.class);
                 tempContact.setPhones(getContactPhones(tempContact.getId()));
+                tempContact.setAttachments(getContactAttachments(tempContact.getId()));
                 contacts.add(tempContact);
             }
         } catch (SQLException ex) {
@@ -86,6 +88,16 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         return phones;
     }
 
+    private ArrayList<Attachment> getContactAttachments(long i) {
+        ArrayList<Attachment> attachments = null;
+        try (AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.createDAO(AttachmentDAO.class)) {
+            attachments = attachmentDAO.readContactAttachments(i);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return attachments;
+    }
+
     @Override
     public void insert(Contact val) {
 
@@ -103,6 +115,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             while(contactResultSet.next()) {
                 contact = (Contact) EntityFactory.createEntityFromResultSet(contactResultSet, Contact.class);
                 contact.setPhones(getContactPhones(contact.getId()));
+                contact.setAttachments(getContactAttachments(contact.getId()));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
