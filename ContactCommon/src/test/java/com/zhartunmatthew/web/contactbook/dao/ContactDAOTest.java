@@ -22,4 +22,17 @@ public class ContactDAOTest {
         }
         Assert.assertTrue(true);
     }
+
+    @Test
+    public void getContactCount() throws Exception {
+        Long count = 0L;
+        try (ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class)) {
+            count = contactDAO.getContactCount();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        log.info("Contact count: " + count);
+        Assert.assertTrue(true);
+    }
+
 }

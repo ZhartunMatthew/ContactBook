@@ -46,6 +46,22 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
                     "LEFT JOIN countries ON countries.id_counrty = contacts.country_id " +
                     "LEFT JOIN addresses ON addresses.contact_id = contacts.id WHERE id = ? LIMIT 1;";
 
+    private static final String SELECT_CERTAIN_COUNT =
+            "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
+                    "birth_date, sex, marital_status.marital_status_name AS marital_status, " +
+                    "nationality.nationality_name AS nationality, " +
+                    "countries.country_name AS country, addresses.city AS city, " +
+                    "addresses.street AS street, addresses.house_number AS house, " +
+                    "addresses.flat AS flat, addresses.postcode AS postcode, " +
+                    "website, email, photo_path, job " +
+                    "FROM contacts " +
+                    "LEFT JOIN nationality ON nationality.id_nationality = contacts.nationality_id " +
+                    "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
+                    "LEFT JOIN countries ON countries.id_counrty = contacts.country_id " +
+                    "LEFT JOIN addresses ON addresses.contact_id = contacts.id ORDER BY last_name LIMIT ? OFFSET ?;";
+
+    private static final String GET_COUNT = "SELECT COUNT(*) AS count FROM contactbook.contacts";
+
     public ContactDAO(WrappedConnection connection) {
         super(connection);
     }
@@ -96,6 +112,59 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             ex.printStackTrace();
         }
         return attachments;
+    }
+
+    public ArrayList<Contact> readCertainCount(long from, long count) {
+        ArrayList<Contact> contacts = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet contactResultSet;
+        try {
+            statement = connection.prepareStatement(SELECT_CERTAIN_COUNT);
+            statement.setLong(1, count);
+            statement.setLong(2, from);
+            contactResultSet = statement.executeQuery();
+            while(contactResultSet.next()) {
+                Contact tempContact = (Contact) EntityFactory.createEntityFromResultSet(contactResultSet, Contact.class);
+                tempContact.setPhones(getContactPhones(tempContact.getId()));
+                tempContact.setAttachments(getContactAttachments(tempContact.getId()));
+                contacts.add(tempContact);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return contacts;
+    }
+
+    public Long getContactCount() {
+        Statement statement = null;
+        ResultSet resultSet;
+        Long count = 0L;
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(GET_COUNT);
+            if(resultSet.next()) {
+                count = resultSet.getLong(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return count;
     }
 
     @Override

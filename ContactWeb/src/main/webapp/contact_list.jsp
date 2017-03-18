@@ -7,14 +7,31 @@
     <link rel="stylesheet" type="text/css" href="style/button-style.css">
 </head>
     <body>
-        <div>
-            <%--TODO: pagination--%>
-        </div>
         <div class="nav-buttons">
             <a class="nav-button add-contact-button" href="/controller?command=add_contact"> </a>
             <a class="nav-button delete-contact-button" href="/controller?command=delete_contact"></a>
             <a class="nav-button search-contact-button" href="/controller?command=search_contact"></a>
             <a class="nav-button send-mail-contact-button" href="/controller?command=send_mail"></a>
+        </div>
+        <%--TODO: add pagination style--%>
+        <div class="pagination">
+            <c:set var="firstPage" value="${1}"/>
+            <c:set var="lastPage" value="${pagination.pageCount}"/>
+            <c:set var="activePage" value="${pagination.activePage}"/>
+            <ul>
+                <li>
+                    <a href="/controller?command=show_contact_list&page=${firstPage}"> Первая </a>
+                </li>
+                <li>
+                    <a href="/controller?command=show_contact_list&page=${activePage - 1}"> Предыдущая </a>
+                </li>
+                <li>
+                    <a href="/controller?command=show_contact_list&page=${activePage + 1}"> Следующая </a>
+                </li>
+                <li>
+                    <a href="/controller?command=show_contact_list&page=${lastPage}"> Последняя </a>
+                </li>
+            </ul>
         </div>
         <div class="first-row">
             <div class="column column-1"><b> # </b></div>
