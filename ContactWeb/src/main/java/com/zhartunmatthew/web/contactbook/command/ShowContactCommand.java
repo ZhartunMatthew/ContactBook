@@ -6,6 +6,7 @@ import com.zhartunmatthew.web.contactbook.entity.Contact;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 public class ShowContactCommand implements AbstractCommand {
 
@@ -16,11 +17,12 @@ public class ShowContactCommand implements AbstractCommand {
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("contact_id");
         Contact contact = null;
-        try (ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class)) {
-            contact = contactDAO.read(Long.parseLong(id));
+        if(!Objects.isNull(id)) {
+            try (ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class)) {
+                contact = contactDAO.read(Long.parseLong(id));
+            }
+            request.setAttribute("contact", contact);
         }
-
-        request.setAttribute("contact", contact);
         return COMMAND_URL;
     }
 }

@@ -6,7 +6,7 @@
 </head>
     <body>
         <div class="nav-buttons">
-            <a class="nav-button add-contact-button" href="/controller?command=add_contact"> </a>
+            <a class="nav-button add-contact-button" href="/controller?command=show_contact"> </a>
             <a class="nav-button delete-contact-button" href="/controller?command=delete_contact"></a>
             <a class="nav-button search-contact-button" href="/controller?command=search_contact"></a>
             <a class="nav-button send-mail-contact-button" href="/controller?command=send_mail"></a>

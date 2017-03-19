@@ -1,15 +1,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<c:if test="${not empty contact}">
+    <c:set var="titleName" value="${contact.lastName} ${contact.firstName}"/>
+    <c:set var="actionOnSubmit" value="/controller?command=update_contact&id=${contact.id}"/>
+</c:if>
+<c:if test="${empty contact}">
+    <c:set var="titleName" value="Создание контакта"/>
+    <c:set var="actionOnSubmit" value="/controller?command=add_contact"/>
+</c:if>
 <html>
     <head>
-        <title> <c:out value="${contact.lastName} ${contact.firstName}"/> </title>
+        <title> <c:out value="${titleName}"/> </title>
     </head>
     <body>
-        <form class="contact">
+        <form class="contact" method="post" action="${actionOnSubmit}">
             <div class="main-info">
                 <h3>Основная информация</h3>
                 <label> Фамилия
-                    <input type="text" value="${contact.lastName}">
+                    <input type="text" name="last-name" value="${contact.lastName}">
                 </label>
                 <label> Имя
                     <input type="text" value="${contact.firstName}">
@@ -56,6 +64,7 @@
                     <input type="text" value="${contact.flat}">
                 </label>
             </div>
+
             <h3>Контактные телефоны</h3>
             <div class="first-row">
                     <div class="column column-2"> Выбрать </div>
@@ -87,10 +96,10 @@
 
             <h3>Прикрепленные файлы</h3>
             <div class="first-row">
-                    <div class="column column-2"> Выбрать </div>
-                    <div class="column column-3"> Имя файла </div>
-                    <div class="column column-3"> Дата загрузки </div>
-                    <div class="column column-x"> Комментарий </div>
+                <div class="column column-2"> Выбрать </div>
+                <div class="column column-3"> Имя файла </div>
+                <div class="column column-3"> Дата загрузки </div>
+                <div class="column column-x"> Комментарий </div>
             </div>
             <c:forEach var="attachment" items="${contact.attachments}">
                 <div class="one-row">
@@ -112,6 +121,7 @@
                     </label>
                 </div>
             </c:forEach>
+            <input type="submit" value="Save">
         </form>
         <link rel="stylesheet" type="text/css" href="style/column-style.css">
         <link rel="stylesheet" type="text/css" href="style/contact-page-style.css">
