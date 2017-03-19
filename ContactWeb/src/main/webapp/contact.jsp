@@ -115,5 +115,6 @@
         </form>
         <link rel="stylesheet" type="text/css" href="style/column-style.css">
         <link rel="stylesheet" type="text/css" href="style/contact-page-style.css">
+        <link rel="stylesheet" type="text/css" href="style/common-style.css">
     </body>
 </html>

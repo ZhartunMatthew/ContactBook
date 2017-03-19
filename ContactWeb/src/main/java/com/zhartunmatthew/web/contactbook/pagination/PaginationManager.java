@@ -37,7 +37,7 @@ public class PaginationManager {
                 pageNumber = 1;
             }
         }
-        pageNumber = pageNumber > getPageCount() ? getPageCount() : pageNumber;
+        pageNumber = pageNumber >= getPageCount() ? getPageCount() : pageNumber;
         pageNumber = pageNumber < 1 ? 1 : pageNumber;
 
         return pageNumber;
