@@ -1,6 +1,5 @@
 package com.zhartunmatthew.web.contactbook.command;
 
-import com.zhartunmatthew.web.contactbook.entity.Contact;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,10 +13,11 @@ public class UpdateContactCommand implements AbstractCommand {
         String param = request.getParameter("last-name");
         String id = request.getParameter("id");
         log.info("Last name: " + param + "Id = " + id);
-        Contact contact = new Contact();
-        contact.setLastName("Фамилия");
-        contact.setFirstName("обновление");
-        request.setAttribute("contact", contact);
         return COMMAND_URL;
+    }
+
+    @Override
+    public boolean isRedirectedCommand() {
+        return true;
     }
 }

@@ -6,10 +6,10 @@
 </head>
     <body>
         <div class="nav-buttons">
-            <a class="nav-button add-contact-button" href="/controller?command=show_contact"> </a>
-            <a class="nav-button delete-contact-button" href="/controller?command=delete_contact"></a>
-            <a class="nav-button search-contact-button" href="/controller?command=search_contact"></a>
-            <a class="nav-button send-mail-contact-button" href="/controller?command=send_mail"></a>
+            <a class="nav-button add" href="/controller?command=show_contact"> </a>
+            <a class="nav-button delete" href="/controller?command=delete_contact"></a>
+            <a class="nav-button search" href="/controller?command=search_contact"></a>
+            <a class="nav-button send-mail" href="/controller?command=send_mail"></a>
         </div>
         <div class="pagination">
             <c:set var="firstPage" value="${1}"/>

@@ -14,6 +14,7 @@
     </head>
     <body>
         <form class="contact" method="post" action="${actionOnSubmit}">
+            <input type="submit" value="SAVE CHANGES">
             <div class="main-info">
                 <h3>Основная информация</h3>
                 <label> Фамилия
@@ -65,21 +66,23 @@
                 </label>
             </div>
 
+            <div class="nav-buttons">
+                <a class="nav-button add" id="add-phone-button"></a>
+                <a class="nav-button delete" id="delete-phone-button"></a>
+                <a class="nav-button edit" id="edit-checked-phone-button"></a>
+            </div>
             <h3>Контактные телефоны</h3>
             <div class="first-row">
-                    <div class="column column-2"> Выбрать </div>
-                    <div class="column column-3"> Номер телефона </div>
-                    <div class="column column-3"> Описание номера </div>
-                    <div class="column column-x"> Комментарий </div>
-
+                <div class="column column-2"> Выбрать </div>
+                <div class="column column-3"> Номер телефона </div>
+                <div class="column column-3"> Описание номера </div>
+                <div class="column column-x"> Комментарий </div>
             </div>
             <c:forEach var="phone" items="${contact.phones}">
                 <div class="one-row">
                     <label for="phone-check-${phone.phoneID}">
                         <div class="column column-2">
-                            <label>
-                                <input type="checkbox" name="phone-check" id="phone-check-${phone.phoneID}" value="${phone.phoneID}">
-                            </label>
+                            <input type="checkbox" name="phone-check" id="phone-check-${phone.phoneID}" value="${phone.phoneID}">
                         </div>
                         <div class="column column-3">
                             <c:out value="+${phone.countryCode} (${phone.operatorCode}) ${phone.number}"/>
@@ -94,6 +97,11 @@
                 </div>
             </c:forEach>
 
+            <div class="nav-buttons">
+                <a class="nav-button add" id="add-attachment-button"></a>
+                <a class="nav-button delete" id="delete-attachment-button"></a>
+                <a class="nav-button edit" id="edit-attachment-button"></a>
+            </div>
             <h3>Прикрепленные файлы</h3>
             <div class="first-row">
                 <div class="column column-2"> Выбрать </div>
@@ -105,9 +113,7 @@
                 <div class="one-row">
                     <label for="attachment-check-${attachment.fileID}">
                         <div class="column column-2">
-                            <label>
                                 <input type="checkbox" name="attachment-check" id="attachment-check-${attachment.fileID}" value="${attachment.fileID}">
-                            </label>
                         </div>
                         <div class="column column-3">
                             <c:out value="${attachment.filePath}"/>
@@ -121,10 +127,10 @@
                     </label>
                 </div>
             </c:forEach>
-            <input type="submit" value="Save">
         </form>
         <link rel="stylesheet" type="text/css" href="style/column-style.css">
         <link rel="stylesheet" type="text/css" href="style/contact-page-style.css">
         <link rel="stylesheet" type="text/css" href="style/common-style.css">
+        <link rel="stylesheet" type="text/css" href="style/button-style.css">
     </body>
 </html>

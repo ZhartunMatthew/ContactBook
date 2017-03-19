@@ -1,5 +1,6 @@
 .nav-buttons {
     display: inline-block;
+    float: right;
 }
 
 .nav-button {
@@ -10,20 +11,24 @@
     background: url('/sprite/buttons-sprite.jpg');
 }
 
-.add-contact-button {
+.add {
     background-position: -25px -20px;
 }
 
-.delete-contact-button {
+.delete {
     background-position: -75px -20px;
 }
 
-.search-contact-button {
+.search {
     background-position: -125px -65px;
 }
 
-.send-mail-contact-button {
+.send-mail  {
     background-position: -75px -110px;
+}
+
+.edit {
+   background-position: -325px -165px;
 }
 
 .pagination {

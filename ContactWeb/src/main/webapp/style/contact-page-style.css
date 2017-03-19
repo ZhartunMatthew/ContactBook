@@ -1,5 +1,6 @@
 .main-info {
     margin-left: 10px;
+    width: 600px;
 }
 
 form.contact label {
@@ -11,7 +12,11 @@ form.contact .one-row label {
     margin: 0;
 }
 
-form.contact label input {
-    margin-right: 70%;
+form.contact div.main-info label input {
     float: right;
+}
+
+form.contact div.one-row label input {
+    margin-left: 15px;
+    display: block;
 }

@@ -31,4 +31,9 @@ public class ShowContactListCommand implements AbstractCommand {
         request.setAttribute("pagination", pagination);
         return COMMAND_URL;
     }
+
+    @Override
+    public boolean isRedirectedCommand() {
+        return false;
+    }
 }

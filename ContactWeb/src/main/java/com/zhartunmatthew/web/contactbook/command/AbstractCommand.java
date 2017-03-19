@@ -4,4 +4,5 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface AbstractCommand {
     String execute(HttpServletRequest request);
+    boolean isRedirectedCommand();
 }

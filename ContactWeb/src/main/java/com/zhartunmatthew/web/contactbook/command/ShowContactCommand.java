@@ -16,7 +16,7 @@ public class ShowContactCommand implements AbstractCommand {
     @Override
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("contact_id");
-        Contact contact = null;
+        Contact contact;
         if(!Objects.isNull(id)) {
             try (ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class)) {
                 contact = contactDAO.read(Long.parseLong(id));
@@ -24,5 +24,10 @@ public class ShowContactCommand implements AbstractCommand {
             request.setAttribute("contact", contact);
         }
         return COMMAND_URL;
+    }
+
+    @Override
+    public boolean isRedirectedCommand() {
+        return false;
     }
 }
