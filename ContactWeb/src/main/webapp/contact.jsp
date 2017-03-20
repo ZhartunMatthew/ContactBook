@@ -81,18 +81,18 @@
             </div>
             <div id="contact-phones">
                 <c:forEach var="phone" items="${contact.phones}">
-                    <div class="one-row">
+                    <div class="one-row" id="contact-phone-${phone.phoneID}">
                         <label for="phone-check-${phone.phoneID}">
                             <div class="column column-2">
                                 <input type="checkbox" name="phone-check" id="phone-check-${phone.phoneID}" value="${phone.phoneID}">
                             </div>
-                            <div class="column column-3">
+                            <div class="column column-3" id="contact-phone-number-${phone.phoneID}">
                                 <c:out value="+${phone.countryCode} (${phone.operatorCode}) ${phone.number}"/>
                             </div>
-                            <div class="column column-3">
+                            <div class="column column-3" id="contact-phone-type-${phone.phoneID}">
                                 ${phone.type}
                             </div>
-                            <div class="column column-x">
+                            <div class="column column-x" id="contact-phone-comment-${phone.phoneID}">
                                 ${phone.comment}
                             </div>
                         </label>
@@ -114,7 +114,7 @@
             </div>
             <div id="contact-attachments">
                 <c:forEach var="attachment" items="${contact.attachments}">
-                    <div class="one-row">
+                    <div class="one-row" id="contact-attachment-${attachment.fileID}">
                         <label for="attachment-check-${attachment.fileID}">
                             <div class="column column-2">
                                 <input type="checkbox" name="attachment-check" id="attachment-check-${attachment.fileID}" value="${attachment.fileID}">
