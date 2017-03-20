@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class PaginationManager {
 
-    private static final int CONTACTS_PER_PAGE = 5;
+    private static final int CONTACTS_PER_PAGE = 3;
     public static final String PAGE_PARAMETER = "page";
 
     public static int getPageCount() {

@@ -66,10 +66,11 @@
                 </label>
             </div>
 
+            <%--TODO: action on buttons--%>
             <div class="nav-buttons">
-                <a class="nav-button add" id="add-phone-button"></a>
-                <a class="nav-button delete" id="delete-phone-button"></a>
-                <a class="nav-button edit" id="edit-checked-phone-button"></a>
+                <div class="nav-button add" id="add-phone-button"></div>
+                <div class="nav-button delete" id="delete-phone-button"></div>
+                <div class="nav-button edit" id="edit-checked-phone-button"></div>
             </div>
             <h3>Контактные телефоны</h3>
             <div class="first-row">
@@ -78,29 +79,31 @@
                 <div class="column column-3"> Описание номера </div>
                 <div class="column column-x"> Комментарий </div>
             </div>
-            <c:forEach var="phone" items="${contact.phones}">
-                <div class="one-row">
-                    <label for="phone-check-${phone.phoneID}">
-                        <div class="column column-2">
-                            <input type="checkbox" name="phone-check" id="phone-check-${phone.phoneID}" value="${phone.phoneID}">
-                        </div>
-                        <div class="column column-3">
-                            <c:out value="+${phone.countryCode} (${phone.operatorCode}) ${phone.number}"/>
-                        </div>
-                        <div class="column column-3">
-                            ${phone.type}
-                        </div>
-                        <div class="column column-x">
-                            ${phone.comment}
-                        </div>
-                    </label>
-                </div>
-            </c:forEach>
+            <div id="contact-phones">
+                <c:forEach var="phone" items="${contact.phones}">
+                    <div class="one-row">
+                        <label for="phone-check-${phone.phoneID}">
+                            <div class="column column-2">
+                                <input type="checkbox" name="phone-check" id="phone-check-${phone.phoneID}" value="${phone.phoneID}">
+                            </div>
+                            <div class="column column-3">
+                                <c:out value="+${phone.countryCode} (${phone.operatorCode}) ${phone.number}"/>
+                            </div>
+                            <div class="column column-3">
+                                ${phone.type}
+                            </div>
+                            <div class="column column-x">
+                                ${phone.comment}
+                            </div>
+                        </label>
+                    </div>
+                </c:forEach>
+            </div>
 
             <div class="nav-buttons">
-                <a class="nav-button add" id="add-attachment-button"></a>
-                <a class="nav-button delete" id="delete-attachment-button"></a>
-                <a class="nav-button edit" id="edit-attachment-button"></a>
+                <div class="nav-button add" id="add-attachment-button"></div>
+                <div class="nav-button delete" id="delete-attachment-button"></div>
+                <div class="nav-button edit" id="edit-attachment-button"></div>
             </div>
             <h3>Прикрепленные файлы</h3>
             <div class="first-row">
@@ -109,28 +112,66 @@
                 <div class="column column-3"> Дата загрузки </div>
                 <div class="column column-x"> Комментарий </div>
             </div>
-            <c:forEach var="attachment" items="${contact.attachments}">
-                <div class="one-row">
-                    <label for="attachment-check-${attachment.fileID}">
-                        <div class="column column-2">
+            <div id="contact-attachments">
+                <c:forEach var="attachment" items="${contact.attachments}">
+                    <div class="one-row">
+                        <label for="attachment-check-${attachment.fileID}">
+                            <div class="column column-2">
                                 <input type="checkbox" name="attachment-check" id="attachment-check-${attachment.fileID}" value="${attachment.fileID}">
-                        </div>
-                        <div class="column column-3">
-                            <c:out value="${attachment.filePath}"/>
-                        </div>
-                        <div class="column column-3">
-                            <c:out value="${attachment.uploadDate}"/>
-                        </div>
-                        <div class="column column-x">
-                            <c:out value="${attachment.comment}"/>
-                        </div>
-                    </label>
-                </div>
-            </c:forEach>
+                            </div>
+                            <div class="column column-3">
+                                <c:out value="${attachment.filePath}"/>
+                            </div>
+                            <div class="column column-3">
+                                <c:out value="${attachment.uploadDate}"/>
+                            </div>
+                            <div class="column column-x">
+                                <c:out value="${attachment.comment}"/>
+                            </div>
+                        </label>
+                    </div>
+                </c:forEach>
+            </div>
         </form>
+        <div id="popup-window-phone" class="popup-window">
+            <div class="popup-content">
+                <div class="popup-name">
+                    Подменю телефонов
+                </div>
+                <label> Код страны
+                    <input type="text" id="country-code">
+                </label>
+                <label> Код оператора
+                    <input type="text" id="operator-code">
+                </label>
+                <label> Номер
+                    <input type="text" id="phone-number">
+                </label>
+                <label> Тип
+                    <input type="text" id="phone-type">
+                </label>
+                <label> Коментарий
+                    <input type="text" id="phone-comment">
+                </label>
+                <div class="popup-buttons">
+                    <div id="popup-submit-phone-button" class="popup-button"> Применить </div>
+                    <div id="popup-cancel-phone-button" class="popup-button "> Отмена </div>
+                </div>
+            </div>
+        </div>
+
+        <%--TODO: modal window for attachments--%>
+        <div id="popup-window-attachment">
+            <div class="popup-window">
+                <div class="popup-content">
+                    <p>Подменю файлов</p>
+                </div>
+            </div>
+        </div>
         <link rel="stylesheet" type="text/css" href="style/column-style.css">
         <link rel="stylesheet" type="text/css" href="style/contact-page-style.css">
         <link rel="stylesheet" type="text/css" href="style/common-style.css">
         <link rel="stylesheet" type="text/css" href="style/button-style.css">
+        <script src="/scripts/contact-page-scripts.js"></script>
     </body>
 </html>

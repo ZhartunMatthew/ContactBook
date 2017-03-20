@@ -11,6 +11,7 @@
     content: "";
     clear: both;
     background-color: lightgray;
+    font-weight: bold;
 }
 
 .one-row:nth-child(2n) {
@@ -19,6 +20,16 @@
 
 .one-row:hover {
     background-color: antiquewhite;
+}
+
+
+.first-row,
+.one-row {
+    font-size: 0;
+}
+
+div .column {
+    font-size: 18px;
 }
 
 .column {

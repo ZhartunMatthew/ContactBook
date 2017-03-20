@@ -71,42 +71,42 @@
                 </li>
             </ul>
         </div>
-        <div class="first-row">
-            <div class="column column-1"><b> # </b></div>
-            <div class="column column-3"><b> Фамилия, имя </b></div>
-            <div class="column column-3"><b> Дата рождения </b></div>
-            <div class="column column-4"><b> Адрес проживания </b></div>
-            <div class="column column-x"><b> Место работы </b></div>
-        </div>
-        <c:forEach var="contact" items="${contacts}">
-            <div class="one-row">
-                <label for="check-${contact.id}">
-                    <div class="row-info">
-                        <div class="column column-1">
-                            <input type="checkbox" name="contact-check" id="check-${contact.id}" value="${contact.id}">
-                        </div>
-                        <div class="column column-3">
-                            <a href="/controller?command=show_contact&contact_id=${contact.id}">
-                                <c:out value=" ${contact.lastName} ${contact.firstName}"/>
-                            </a>
-                        </div>
-                        <div class="column column-3">
-                            <c:out value="${contact.birthDate}"/>
-                        </div>
-                        <div class="column column-4">
-                            <c:out value="${contact.country} г.
-                                          ${contact.city} ул.
-                                          ${contact.street} д.
-                                          ${contact.houseNumber} кв.
-                                          ${contact.flat}"/>
-                        </div>
-                        <div class="column column-x">
-                            <c:out value="${contact.job}"/>
-                        </div>
-                    </div>
-                </label>
+            <div class="first-row">
+                <div class="column column-1"> # </div>
+                <div class="column column-3"> Фамилия, имя </div>
+                <div class="column column-3"> Дата рождения </div>
+                <div class="column column-4"> Адрес проживания </div>
+                <div class="column column-x"> Место работы </div>
             </div>
-        </c:forEach>
+            <c:forEach var="contact" items="${contacts}">
+                <div class="one-row">
+                    <label for="check-${contact.id}">
+                        <div class="row-info">
+                            <div class="column column-1">
+                                <input type="checkbox" name="contact-check" id="check-${contact.id}" value="${contact.id}">
+                            </div>
+                            <div class="column column-3">
+                                <a href="/controller?command=show_contact&contact_id=${contact.id}">
+                                    <c:out value=" ${contact.lastName} ${contact.firstName}"/>
+                                </a>
+                            </div>
+                            <div class="column column-3">
+                                <c:out value="${contact.birthDate}"/>
+                            </div>
+                            <div class="column column-4">
+                                <c:out value="${contact.country} г.
+                                              ${contact.city} ул.
+                                              ${contact.street} д.
+                                              ${contact.houseNumber} кв.
+                                              ${contact.flat}"/>
+                            </div>
+                            <div class="column column-x">
+                                <c:out value="${contact.job}"/>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </c:forEach>
         <link rel="stylesheet" type="text/css" href="style/column-style.css">
         <link rel="stylesheet" type="text/css" href="style/button-style.css">
         <link rel="stylesheet" type="text/css" href="style/common-style.css">
