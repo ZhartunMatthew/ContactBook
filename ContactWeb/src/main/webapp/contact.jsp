@@ -13,8 +13,8 @@
         <title> <c:out value="${titleName}"/> </title>
     </head>
     <body>
-        <form class="contact" method="post" action="${actionOnSubmit}">
-            <input type="submit" value="SAVE CHANGES">
+        <form id="contact-form" class="contact" method="post" action="${actionOnSubmit}">
+            <input type="submit" value="SAVE CHANGES" id="submit-contact-button">
             <div class="main-info">
                 <h3>Основная информация</h3>
                 <label> Фамилия
@@ -81,7 +81,7 @@
             </div>
             <div id="contact-phones">
                 <c:forEach var="phone" items="${contact.phones}">
-                    <div class="one-row" id="contact-phone-${phone.phoneID}">
+                    <div class="one-row contact-phone" id="contact-phone-${phone.phoneID}">
                         <label for="phone-check-${phone.phoneID}">
                             <div class="column column-2">
                                 <input type="checkbox" name="phone-check" id="phone-check-${phone.phoneID}" value="${phone.phoneID}">
@@ -155,16 +155,27 @@
                 </label>
                 <div class="popup-buttons">
                     <div id="popup-submit-phone-button" class="popup-button"> Применить </div>
-                    <div id="popup-cancel-phone-button" class="popup-button "> Отмена </div>
+                    <div id="popup-cancel-phone-button" class="popup-button"> Отмена </div>
                 </div>
             </div>
         </div>
 
         <%--TODO: modal window for attachments--%>
-        <div id="popup-window-attachment">
-            <div class="popup-window">
-                <div class="popup-content">
-                    <p>Подменю файлов</p>
+        <div id="popup-window-attachment" class="popup-window">
+            <div class="popup-content">
+                <div class="popup-name">
+                    Подменю прикрепленных файлов
+                </div>
+                <label> Путь к файлу
+                    <input type="file" id="attachment-path">
+                </label>
+                <input type="hidden" id="attachment-upload-date">
+                <label> Комментарий
+                    <input type="text" id="attachment-comment">
+                </label>
+                <div class="popup-buttons">
+                    <div id="popup-submit-attachment-button" class="popup-button"> Применить </div>
+                    <div id="popup-cancel-attachment-button" class="popup-button"> Отмена </div>
                 </div>
             </div>
         </div>

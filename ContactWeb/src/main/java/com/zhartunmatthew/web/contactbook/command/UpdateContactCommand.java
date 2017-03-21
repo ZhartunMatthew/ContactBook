@@ -1,5 +1,6 @@
 package com.zhartunmatthew.web.contactbook.command;
 
+import com.zhartunmatthew.web.contactbook.jsonbuilder.JSONBuilder;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,13 @@ public class UpdateContactCommand implements AbstractCommand {
         String param = request.getParameter("last-name");
         String id = request.getParameter("id");
         log.info("Last name: " + param + "Id = " + id);
+
+        String jsonPhones = request.getParameter("old-phones");
+        JSONBuilder.buildPhoneListFromJSON(jsonPhones);
+
+        String newJsonPhones = request.getParameter("new-phones");
+        JSONBuilder.buildPhoneListFromJSON(newJsonPhones);
+
         return COMMAND_URL;
     }
 
