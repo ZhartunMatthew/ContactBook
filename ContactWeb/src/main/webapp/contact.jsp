@@ -37,7 +37,7 @@
                     </select>
                 </label>
                 <label> Гражданство
-                    <input type="text" value="${contact.nationality}">
+                    <input name="nationality" type="text" value="${contact.nationality}">
                 </label>
                 <label> Семейное положение
                     <select name="marital-status">
@@ -50,30 +50,30 @@
                     </select>
                 </label>
                 <label> Website
-                    <input type="text" value="${contact.website}">
+                    <input name="website" type="text" value="${contact.website}">
                 </label>
                 <label> Email
-                    <input type="text" value="${contact.email}">
+                    <input name="email" type="text" value="${contact.email}">
                 </label>
                 <label> Текущее место работы
-                    <input type="text" value="${contact.job}">
+                    <input name="job" type="text" value="${contact.job}">
                 </label>
 
                 <h3>Адрес</h3>
                 <label> Страна
-                    <input type="text" value="${contact.country}">
+                    <input name ="country" type="text" value="${contact.country}">
                 </label>
                 <label> Город
-                    <input type="text" value="${contact.city}">
+                    <input name="city" type="text" value="${contact.city}">
                 </label>
                 <label> Улица
-                    <input type="text" value="${contact.street}">
+                    <input name="street" type="text" value="${contact.street}">
                 </label>
                 <label> Дом
-                    <input type="text" value="${contact.houseNumber}">
+                    <input name="house-number" type="text" value="${contact.houseNumber}">
                 </label>
                 <label> Квартира
-                    <input type="text" value="${contact.flat}">
+                    <input name="flat" type="text" value="${contact.flat}">
                 </label>
             </div>
 
@@ -124,23 +124,26 @@
             </div>
             <div id="contact-attachments">
                 <c:forEach var="attachment" items="${contact.attachments}">
-                    <div class="one-row" id="contact-attachment-${attachment.fileID}">
+                    <div class="one-row contact-attachment" id="contact-attachment-${attachment.fileID}">
                         <label for="attachment-check-${attachment.fileID}">
                             <div class="column column-2">
                                 <input type="checkbox" name="attachment-check" id="attachment-check-${attachment.fileID}" value="${attachment.fileID}">
                             </div>
-                            <div class="column column-3">
+                            <div class="column column-3" id="contact-attachment-file-path-${attachment.fileID}">
                                 <c:out value="${attachment.filePath}"/>
                             </div>
-                            <div class="column column-3">
+                            <div class="column column-3" id="contact-attachment-upload-date-${attachment.fileID}">
                                 <c:out value="${attachment.uploadDate}"/>
                             </div>
-                            <div class="column column-x">
+                            <div class="column column-x" id="contact-attachment-comment-${attachment.fileID}">
                                 <c:out value="${attachment.comment}"/>
                             </div>
                         </label>
                     </div>
                 </c:forEach>
+            </div>
+            <div id="attachment-input-field">
+
             </div>
         </form>
         <div id="popup-window-phone" class="popup-window">
@@ -175,7 +178,7 @@
                 <div class="popup-name">
                     Подменю прикрепленных файлов
                 </div>
-                <label> Путь к файлу
+                <label id="path-to-file"> Путь к файлу
                     <input type="file" id="attachment-path">
                 </label>
                 <input type="hidden" id="attachment-upload-date">

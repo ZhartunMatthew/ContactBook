@@ -36,19 +36,23 @@ div .column {
     display: inline-block;
     padding: 15px 10px;
     box-sizing: border-box;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .column-1 {
-    width: 40px;
+    width: 50px;
     text-align: center;
 }
 
 .column-2 {
-    min-width: 100px;
+    width: 110px;
 }
 
 .column-3 {
-    min-width: 200px;
+    width: 200px;
 }
 
 .column-4 {

@@ -1,24 +1,3 @@
-function closeModal(modalWindow) {
-    modalWindow.style.display = 'none';
-}
-
-function openModal(modalWindow) {
-    modalWindow.style.display = 'block';
-}
-
-function getCheckedItems(itemName) {
-    var checkBoxItems = document.getElementsByName(itemName);
-    var checkedItems = [];
-    var item;
-    for(var i = 0; i < checkBoxItems.length; i++) {
-        item = checkBoxItems[i];
-        if(item.checked) {
-            checkedItems.push(item.value);
-        }
-    }
-    return checkedItems;
-}
-
 //---------------------------PHONE FUNCTIONS----------------------
 
 function Phone() {
@@ -41,15 +20,51 @@ var popupWindowPhones = document.getElementById('popup-window-phone');
 var addPhoneButton = document.getElementById('add-phone-button');
 var deletePhoneButton = document.getElementById('delete-phone-button');
 var editPhoneButton = document.getElementById('edit-checked-phone-button');
+
 var submitPhoneButton = document.getElementById('popup-submit-phone-button');
 var cancelPhoneButton = document.getElementById('popup-cancel-phone-button');
 
 var submitContactButton = document.getElementById('submit-contact-button');
 
+
+function closeModal(modalWindow) {
+    modalWindow.style.display = 'none';
+}
+
+function openModal(modalWindow) {
+    modalWindow.style.display = 'block';
+}
+
+function getCheckedItems(itemName) {
+    var checkBoxItems = document.getElementsByName(itemName);
+    var checkedItems = [];
+    var item;
+    for(var i = 0; i < checkBoxItems.length; i++) {
+        item = checkBoxItems[i];
+        if(item.checked) {
+            checkedItems.push(item.value);
+        }
+    }
+    return checkedItems;
+}
+
+function deleteItem(items, checkValue) {
+    for(var i = 0; i < items.length; i++) {
+        var itemForDelete = document.getElementById(checkValue + items[i]);
+        itemForDelete.parentNode.removeChild(itemForDelete);
+    }
+}
+
+submitContactButton.onclick = function () {
+    preparePhonesForSubmit();
+    contactForm.submit();
+};
+
+
 var isNewPhone = false;
 var isNewPhoneEdit = false;
-var lastCreatedPhoneId = 0;
 
+var lastCreatedPhoneId = 0;
 var editedPhoneId = 0;
 
 addPhoneButton.onclick = function () {
@@ -120,9 +135,9 @@ editPhoneButton.onclick = function () {
 
 deletePhoneButton.onclick = function () {
     var allPhonesForDelete = getCheckedItems('phone-check');
-    deletePhones(allPhonesForDelete, 'contact-phone-');
+    deleteItem(allPhonesForDelete, 'contact-phone-');
     var allNewPhonesForDelete = getCheckedItems('new-phone-check');
-    deletePhones(allNewPhonesForDelete, 'new-contact-phone-');
+    deleteItem(allNewPhonesForDelete, 'new-contact-phone-');
 };
 
 cancelPhoneButton.onclick = function () {
@@ -190,14 +205,6 @@ function createNewPhone() {
     contactPhones.appendChild(oneRow);
 }
 
-function deletePhones(phoneNumbers, checkValue) {
-    for(var i = 0; i < phoneNumbers.length; i++) {
-        var phoneForDelete = document.getElementById(checkValue + phoneNumbers[i]);
-        phoneForDelete.parentNode.removeChild(phoneForDelete);
-    }
-
-}
-
 function editPhone(phoneID, isNewPhoneEdit) {
     var phone = new Phone();
 
@@ -225,11 +232,6 @@ function editPhone(phoneID, isNewPhoneEdit) {
     }
 }
 
-submitContactButton.onclick = function () {
-    preparePhonesForSubmit();
-    contactForm.submit();
-};
-
 function preparePhonesForSubmit() {
     var oldPhones = [];
     var newPhones = [];
@@ -237,7 +239,8 @@ function preparePhonesForSubmit() {
     var oldPhoneElements = document.getElementsByClassName('contact-phone');
     for(var oldI = 0; oldI < oldPhoneElements.length; oldI++) {
         var oldId = oldPhoneElements[oldI].id;
-        oldId = oldId.substring(oldId.length-1, oldId.length);
+        oldId = oldId.split('-')[2];
+        alert(oldId);
 
         var tempPhone = new Phone();
         tempPhone.id = oldId;
@@ -259,7 +262,8 @@ function preparePhonesForSubmit() {
     var newPhoneElements = document.getElementsByClassName('new-contact-phone');
     for(var newI = 0; newI < newPhoneElements.length; newI++) {
         var newId = newPhoneElements[newI].id;
-        newId = newId.substring(newId.length-1, newId.length);
+        newId = newId.split('-')[3];
+        alert(newId);
 
         var newTempPhone = new Phone();
         newTempPhone.id = newId;
@@ -301,27 +305,28 @@ function Attachment() {
     return attachment;
 }
 
-//TODO: attachment functions
-
 var contactAttachments = document.getElementById('contact-attachments');
 var popupWindowAttachments = document.getElementById('popup-window-attachment');
 
 var addAttachmentButton = document.getElementById('add-attachment-button');
 var deleteAttachmentButton = document.getElementById('delete-attachment-button');
 var editAttachmentButton = document.getElementById('edit-checked-attachment-button');
+
 var submitAttachmentButton = document.getElementById('popup-submit-attachment-button');
 var cancelAttachmentButton = document.getElementById('popup-cancel-attachment-button');
-var attachmentFilePath = document.getElementById('attachment-path');
 
 var isNewAttachment = false;
-var lastCreatedAttachment = 0;
+var isNewAttachmentEdit = false;
+
+var lastCreatedAttachmentId = 0;
+var editedAttachmentId = 0;
 
 addAttachmentButton.onclick = function () {
     isNewAttachment = true;
 
     document.getElementById('attachment-path').value = '';
     document.getElementById('attachment-comment').value = '';
-    attachmentFilePath.style.display = 'block';
+    document.getElementById('attachment-path').style.display = 'block';
 
     openModal(popupWindowAttachments);
 };
@@ -329,10 +334,36 @@ addAttachmentButton.onclick = function () {
 editAttachmentButton.onclick = function () {
     isNewAttachment = false;
 
-    document.getElementById('attachment-comment').value = 'edited attach';
+    var number = getCheckedItems('attachment-check')[0];
+    if(number !== undefined && number !== 0) {
+        document.getElementById('attachment-comment').value =
+            document.getElementById('contact-attachment-comment-' + number).innerHTML.trim();
 
-    attachmentFilePath.style.display = 'none';
-    openModal(popupWindowAttachments);
+        isNewAttachmentEdit = false;
+        editedAttachmentId = number;
+        document.getElementById('attachment-path').style.display = 'none';
+        openModal(popupWindowAttachments);
+    }
+
+    var newNumber = getCheckedItems('new-attachment-check')[0];
+    if(newNumber != undefined && newNumber != 0) {
+        document.getElementById('attachment-comment').value =
+            document.getElementById('new-contact-attachment-comment-' + newNumber).innerHTML.trim();
+
+        isNewAttachmentEdit = true;
+        editedAttachmentId = newNumber;
+        document.getElementById('attachment-path').style.display = 'none';
+        openModal(popupWindowAttachments);
+    }
+};
+
+deleteAttachmentButton.onclick = function () {
+    var allAttachmentsForDelete = getCheckedItems('attachment-check');
+    deleteItem(allAttachmentsForDelete, 'contact-attachment-');
+    var allNewAttachmentsForDelete = getCheckedItems('new-attachment-check');
+    deleteItem(allNewAttachmentsForDelete, 'new-contact-attachment-');
+    deleteItem(allNewAttachmentsForDelete, 'new-attachment-input-');
+    //deleting input
 };
 
 cancelAttachmentButton.onclick = function () {
@@ -340,5 +371,108 @@ cancelAttachmentButton.onclick = function () {
 };
 
 submitAttachmentButton.onclick = function () {
+    if(isNewAttachment) {
+        createNewAttachment();
+    } else {
+        editAttachment(editedAttachmentId, isNewAttachmentEdit);
+    }
     closeModal(popupWindowAttachments);
 };
+
+function getCurrentDate() {
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+
+    return  year + '-' + month + '-' + day;
+}
+
+function createNewAttachment() {
+    lastCreatedAttachmentId++;
+    var attachment = new Attachment();
+
+    attachment.id = lastCreatedAttachmentId;
+    attachment.dateUpload = getCurrentDate();
+    var fileName = document.getElementById('attachment-path').value;
+    fileName = fileName.split('\\');
+    attachment.fileName = fileName[fileName.length-1];
+    attachment.comment = document.getElementById('attachment-comment').value.trim();
+
+    var oneRow = document.createElement('div');
+    oneRow.className = 'one-row new-contact-attachment';
+    oneRow.id = 'new-contact-attachment-' + attachment.id;
+
+    var label = document.createElement('label');
+    label.htmlFor = 'new-attachment-check-' + attachment.id;
+
+    var columnWithCheckBox = document.createElement('div');
+    columnWithCheckBox.className = 'column column-2';
+    var input = document.createElement('input');
+    input.type = 'checkbox';
+    input.name = 'new-attachment-check';
+    input.id = 'new-attachment-check-' + attachment.id;
+    input.value = attachment.id;
+    columnWithCheckBox.appendChild(input);
+
+    var columnWithFileName = document.createElement('div');
+    columnWithFileName.className = 'column column-3';
+    columnWithFileName.id = 'new-contact-attachment-file-path-' + attachment.id;
+    columnWithFileName.appendChild(document.createTextNode(attachment.fileName));
+
+    var columnWithDateUpload = document.createElement('div');
+    columnWithDateUpload.className = 'column column-3';
+    columnWithDateUpload.id = 'new-contact-attachment-upload-date-' + attachment.id;
+    columnWithDateUpload.appendChild(document.createTextNode(attachment.dateUpload));
+
+    var columnWithAttachmentComment = document.createElement('div');
+    columnWithAttachmentComment.className = 'column column-x';
+    columnWithAttachmentComment.id = 'new-contact-attachment-comment-' + attachment.id;
+    columnWithAttachmentComment.appendChild(document.createTextNode(attachment.comment));
+
+    label.appendChild(columnWithCheckBox);
+    label.appendChild(columnWithFileName);
+    label.appendChild(columnWithDateUpload);
+    label.appendChild(columnWithAttachmentComment);
+
+    oneRow.appendChild(label);
+
+    contactAttachments.appendChild(oneRow);
+
+    var attachmentInput = document.getElementById('attachment-path');
+    addAttachmentToInputField(attachmentInput);
+}
+
+function addAttachmentToInputField(attachmentInput) {
+    var newAttachmentFileInput = attachmentInput;
+
+    newAttachmentFileInput.id = 'new-attachment-input-' + lastCreatedAttachmentId;
+    newAttachmentFileInput.name = 'new-attachment-input-' + lastCreatedAttachmentId;
+    newAttachmentFileInput.style.display = 'none';
+
+    var newAttachmentList = document.getElementById('attachment-input-field');
+    newAttachmentList.appendChild(newAttachmentFileInput);
+
+    var fileInputButton = document.createElement('input');
+    fileInputButton.type = 'file';
+    fileInputButton.id = 'attachment-path';
+
+    document.getElementById('path-to-file').appendChild(fileInputButton);
+}
+
+function editAttachment(attachmentID, isNewAttachmentEdit) {
+    var attachment = new Attachment();
+
+    attachment.id = attachmentID;
+    attachment.comment = document.getElementById('attachment-comment').value.trim();
+
+    if(isNewAttachmentEdit) {
+        document.getElementById('new-contact-attachment-comment-' + attachmentID).innerHTML = attachment.comment;
+    } else {
+        document.getElementById('contact-attachment-comment-' + attachmentID).innerHTML = attachment.comment;
+    }
+}
+
+function prepareAttachmentForSubmit() {
+    //TODO: push all new attachments into JSON array
+}
