@@ -20,7 +20,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
     private static final String SELECT_ALL_CONTACTS =
             "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
-            "birth_date, sex, marital_status.marital_status_name AS marital_status, " +
+            "birth_date, sex, marital_status.id_marital_status AS marital_status, " +
             "nationality.nationality_name AS nationality, " +
             "countries.country_name AS country, addresses.city AS city, " +
             "addresses.street AS street, addresses.house_number AS house, " +
@@ -34,7 +34,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
     private static final String SELECT_CONTACT_BY_ID =
             "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
-                    "birth_date, sex, marital_status.marital_status_name AS marital_status, " +
+                    "birth_date, sex, marital_status.id_marital_status AS marital_status, " +
                     "nationality.nationality_name AS nationality, " +
                     "countries.country_name AS country, addresses.city AS city, " +
                     "addresses.street AS street, addresses.house_number AS house, " +
@@ -48,7 +48,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
     private static final String SELECT_CERTAIN_COUNT =
             "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
-                    "birth_date, sex, marital_status.marital_status_name AS marital_status, " +
+                    "birth_date, sex, marital_status.id_marital_status AS marital_status, " +
                     "nationality.nationality_name AS nationality, " +
                     "countries.country_name AS country, addresses.city AS city, " +
                     "addresses.street AS street, addresses.house_number AS house, " +
@@ -124,6 +124,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             statement.setLong(2, from);
             contactResultSet = statement.executeQuery();
             while(contactResultSet.next()) {
+                log.info("ONE MORE");
                 Contact tempContact = (Contact) EntityFactory.createEntityFromResultSet(contactResultSet, Contact.class);
                 tempContact.setPhones(getContactPhones(tempContact.getId()));
                 tempContact.setAttachments(getContactAttachments(tempContact.getId()));

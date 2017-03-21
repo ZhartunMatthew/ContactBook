@@ -58,17 +58,17 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
     }
 
     @Override
-    public Phone read(Long aLong) {
+    public Phone read(Long id) {
         return null;
     }
 
     @Override
-    public void update(Long aLong, Phone val) {
+    public void update(Long id, Phone val) {
 
     }
 
     @Override
-    public void delete(Long aLong) {
+    public void delete(Long id) {
 
     }
 }

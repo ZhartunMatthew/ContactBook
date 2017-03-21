@@ -11,12 +11,30 @@
         <servlet-name>Controller</servlet-name>
         <servlet-class>com.zhartunmatthew.web.contactbook.controller.Controller</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>
         <url-pattern>/controller</url-pattern>
     </servlet-mapping>
-    
+
+    <filter>
+        <filter-name>Encoding Filter</filter-name>
+        <filter-class>com.zhartunmatthew.web.contactbook.filter.EncodingFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Encoding Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+        </jsp-property-group>
+    </jsp-config>
+
+
     <welcome-file-list>
         <welcome-file>controller</welcome-file>
     </welcome-file-list>

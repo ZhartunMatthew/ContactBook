@@ -53,17 +53,17 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
     }
 
     @Override
-    public Attachment read(Long aLong) {
+    public Attachment read(Long id) {
         return null;
     }
 
     @Override
-    public void update(Long aLong, Attachment val) {
+    public void update(Long id, Attachment val) {
 
     }
 
     @Override
-    public void delete(Long aLong) {
+    public void delete(Long id) {
 
     }
 }

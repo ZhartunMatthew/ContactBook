@@ -18,7 +18,6 @@ public abstract class AbstractDAO<PrKey, Type> implements AutoCloseable {
     public void close() {
         try {
             connection.close();
-            log.info("Connection autoclosed");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

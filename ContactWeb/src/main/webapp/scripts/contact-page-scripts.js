@@ -65,9 +65,10 @@ addPhoneButton.onclick = function () {
 };
 
 editPhoneButton.onclick = function () {
+
     isNewPhone = false;
     var number = getCheckedItems('phone-check')[0];
-    if(number !== undefined) {
+    if(number !== undefined && number !== 0) {
         var phone = document.getElementById('contact-phone-number-' + number).innerHTML.trim();
         alert(phone);
         var countryCode = phone.match(/^\+\d+ /)[0];
@@ -85,18 +86,21 @@ editPhoneButton.onclick = function () {
 
         isNewPhoneEdit = false;
         editedPhoneId = number;
+        number = 0;
+
+        openModal(popupWindowPhones);
     }
 
     var newNumber = getCheckedItems('new-phone-check')[0];
-    if(newNumber !== undefined) {
-        var phone = document.getElementById('new-contact-phone-number-' + newNumber).innerHTML.trim();
-        alert(phone);
-        var countryCode = phone.match(/^\+\d+ /)[0];
-        document.getElementById('country-code').value = countryCode.substr(1, countryCode.length).trim();
-        var operatorCode = phone.match(/\(\d+\)/)[0];
-        document.getElementById('operator-code').value = operatorCode.substr(1, operatorCode.length-2);
-        var phoneNumber = phone.match(/( )\b\d+\b/)[0];
-        document.getElementById('phone-number').value = phoneNumber.trim();
+    if(newNumber !== undefined && newNumber !== 0) {
+        var newPhone = document.getElementById('new-contact-phone-number-' + newNumber).innerHTML.trim();
+        alert(newPhone);
+        var newCountryCode = newPhone.match(/^\+\d+ /)[0];
+        document.getElementById('country-code').value = newCountryCode.substr(1, newCountryCode.length).trim();
+        var newOperatorCode = newPhone.match(/\(\d+\)/)[0];
+        document.getElementById('operator-code').value = newOperatorCode.substr(1, newOperatorCode.length-2);
+        var newPhoneNumber = newPhone.match(/( )\b\d+\b/)[0];
+        document.getElementById('phone-number').value = newPhoneNumber.trim();
 
         document.getElementById('phone-type').value =
             document.getElementById('new-contact-phone-type-' + newNumber).innerHTML.trim();
@@ -106,10 +110,12 @@ editPhoneButton.onclick = function () {
 
         isNewPhoneEdit = true;
         editedPhoneId = newNumber;
+        newNumber = 0;
+
+        openModal(popupWindowPhones);
     }
 
 
-    openModal(popupWindowPhones);
 };
 
 deletePhoneButton.onclick = function () {
@@ -295,6 +301,8 @@ function Attachment() {
     return attachment;
 }
 
+//TODO: attachment functions
+
 var contactAttachments = document.getElementById('contact-attachments');
 var popupWindowAttachments = document.getElementById('popup-window-attachment');
 
@@ -303,16 +311,27 @@ var deleteAttachmentButton = document.getElementById('delete-attachment-button')
 var editAttachmentButton = document.getElementById('edit-checked-attachment-button');
 var submitAttachmentButton = document.getElementById('popup-submit-attachment-button');
 var cancelAttachmentButton = document.getElementById('popup-cancel-attachment-button');
+var attachmentFilePath = document.getElementById('attachment-path');
 
 var isNewAttachment = false;
 var lastCreatedAttachment = 0;
 
 addAttachmentButton.onclick = function () {
-    isNewAttachment = false;
+    isNewAttachment = true;
 
     document.getElementById('attachment-path').value = '';
     document.getElementById('attachment-comment').value = '';
+    attachmentFilePath.style.display = 'block';
 
+    openModal(popupWindowAttachments);
+};
+
+editAttachmentButton.onclick = function () {
+    isNewAttachment = false;
+
+    document.getElementById('attachment-comment').value = 'edited attach';
+
+    attachmentFilePath.style.display = 'none';
     openModal(popupWindowAttachments);
 };
 

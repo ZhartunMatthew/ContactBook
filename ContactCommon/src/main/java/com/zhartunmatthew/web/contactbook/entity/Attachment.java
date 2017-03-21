@@ -1,6 +1,6 @@
 package com.zhartunmatthew.web.contactbook.entity;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 public class Attachment implements Entity {
 
@@ -8,7 +8,7 @@ public class Attachment implements Entity {
     private Long contactID;
     private String filePath;
     private String comment;
-    private Timestamp uploadDate;
+    private Date uploadDate;
 
     public Long getFileID() {
         return fileID;
@@ -42,11 +42,11 @@ public class Attachment implements Entity {
         this.comment = comment;
     }
 
-    public Timestamp getUploadDate() {
+    public Date getUploadDate() {
         return uploadDate;
     }
 
-    public void setUploadDate(Timestamp uploadDate) {
+    public void setUploadDate(Date uploadDate) {
         this.uploadDate = uploadDate;
     }
 }

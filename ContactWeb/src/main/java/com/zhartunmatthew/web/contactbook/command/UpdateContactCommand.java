@@ -1,9 +1,11 @@
 package com.zhartunmatthew.web.contactbook.command;
 
+import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.jsonbuilder.JSONBuilder;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 
 public class UpdateContactCommand implements AbstractCommand {
     private static Logger log = Logger.getLogger(UpdateContactCommand.class);
@@ -11,15 +13,19 @@ public class UpdateContactCommand implements AbstractCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        String param = request.getParameter("last-name");
-        String id = request.getParameter("id");
-        log.info("Last name: " + param + "Id = " + id);
 
         String jsonPhones = request.getParameter("old-phones");
-        JSONBuilder.buildPhoneListFromJSON(jsonPhones);
+        ArrayList<Phone> oldPhones = JSONBuilder.buildPhoneListFromJSON(jsonPhones);
+
+        for (Phone phone : oldPhones) {
+            log.info(phone);
+        }
 
         String newJsonPhones = request.getParameter("new-phones");
-        JSONBuilder.buildPhoneListFromJSON(newJsonPhones);
+        ArrayList<Phone> newPhones = JSONBuilder.buildPhoneListFromJSON(newJsonPhones);
+        for (Phone phone : newPhones) {
+            log.info(phone);
+        }
 
         return COMMAND_URL;
     }

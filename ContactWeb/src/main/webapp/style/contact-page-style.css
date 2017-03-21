@@ -13,10 +13,23 @@ form.contact .one-row label {
 }
 
 form.contact div.main-info label input {
+    display: block;
+    width: 150px;
     float: right;
 }
 
 form.contact div.one-row label input {
     margin-left: 15px;
     display: block;
+}
+
+form.contact div.main-info label select {
+    display: block;
+    width: 150px;
+    float: right;
+}
+
+.modal-attachment-comment {
+    display: block;
+    width: 238px;
 }

@@ -11,7 +11,7 @@ public class Contact implements Entity {
     private Date birthDate;
     private String sex;
     private String nationality;
-    private String maritalStatus;
+    private Long maritalStatus;
     private String website;
     private String email;
     private String photoPath;
@@ -82,11 +82,11 @@ public class Contact implements Entity {
         this.nationality = nationality;
     }
 
-    public String getMaritalStatus() {
+    public Long getMaritalStatus() {
         return maritalStatus;
     }
 
-    public void setMaritalStatus(String maritalStatus) {
+    public void setMaritalStatus(Long maritalStatus) {
         this.maritalStatus = maritalStatus;
     }
 

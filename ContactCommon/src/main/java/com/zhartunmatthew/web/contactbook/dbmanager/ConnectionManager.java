@@ -70,7 +70,6 @@ public class ConnectionManager {
                 ex.printStackTrace();
             }
             connections.add(connection);
-            log.debug("Returned in pool. Connections left: " + countNotNull());
         }
     }
 

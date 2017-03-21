@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <c:if test="${not empty contact}">
     <c:set var="titleName" value="${contact.lastName} ${contact.firstName}"/>
     <c:set var="actionOnSubmit" value="/controller?command=update_contact&id=${contact.id}"/>
@@ -21,22 +21,33 @@
                     <input type="text" name="last-name" value="${contact.lastName}">
                 </label>
                 <label> Имя
-                    <input type="text" value="${contact.firstName}">
+                    <input type="text" name="first-name" value="${contact.firstName}">
                 </label>
                 <label> Отчество
-                    <input type="text" value="${contact.patronymic}">
+                    <input type="text" name="patronymic" value="${contact.patronymic}">
                 </label>
                 <label> Дата рождения
-                    <input type="text" value="${contact.birthDate}">
+                    <input type="text" name="birth-date" value="${contact.birthDate}">
                 </label>
                 <label> Пол
-                    <input type="text" value="${contact.sex}">
+                    <select name="sex">
+                        <option ${empty contact.sex ? 'selected' : ''} value="X">Не выбран</option>
+                        <option ${contact.sex == 'M' ? 'selected' : ''} value="M"> Мужчина </option>
+                        <option ${contact.sex == 'F' ? 'selected' : ''} value="F"> Женщина </option>
+                    </select>
                 </label>
                 <label> Гражданство
                     <input type="text" value="${contact.nationality}">
                 </label>
                 <label> Семейное положение
-                    <input type="text" value="${contact.maritalStatus}">
+                    <select name="marital-status">
+                        <option ${empty contact.maritalStatus ? 'selected' : ''} value="0"> Не выбрано </option>
+                        <c:forEach var="maritalStatus" items="${martialStatuses}">
+                            <option ${contact.maritalStatus != maritalStatus.id ? '' : 'selected'} value="${maritalStatus.id}">
+                                    ${maritalStatus.name}
+                            </option>
+                        </c:forEach>
+                    </select>
                 </label>
                 <label> Website
                     <input type="text" value="${contact.website}">
@@ -66,7 +77,6 @@
                 </label>
             </div>
 
-            <%--TODO: action on buttons--%>
             <div class="nav-buttons">
                 <div class="nav-button add" id="add-phone-button"></div>
                 <div class="nav-button delete" id="delete-phone-button"></div>
@@ -103,7 +113,7 @@
             <div class="nav-buttons">
                 <div class="nav-button add" id="add-attachment-button"></div>
                 <div class="nav-button delete" id="delete-attachment-button"></div>
-                <div class="nav-button edit" id="edit-attachment-button"></div>
+                <div class="nav-button edit" id="edit-checked-attachment-button"></div>
             </div>
             <h3>Прикрепленные файлы</h3>
             <div class="first-row">
@@ -160,7 +170,6 @@
             </div>
         </div>
 
-        <%--TODO: modal window for attachments--%>
         <div id="popup-window-attachment" class="popup-window">
             <div class="popup-content">
                 <div class="popup-name">
@@ -171,7 +180,7 @@
                 </label>
                 <input type="hidden" id="attachment-upload-date">
                 <label> Комментарий
-                    <input type="text" id="attachment-comment">
+                    <input type="text" class="modal-attachment-comment" id="attachment-comment">
                 </label>
                 <div class="popup-buttons">
                     <div id="popup-submit-attachment-button" class="popup-button"> Применить </div>

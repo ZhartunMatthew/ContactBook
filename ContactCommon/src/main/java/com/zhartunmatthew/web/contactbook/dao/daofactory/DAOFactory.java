@@ -1,7 +1,8 @@
 package com.zhartunmatthew.web.contactbook.dao.daofactory;
 
 import com.zhartunmatthew.web.contactbook.dao.*;
-import com.zhartunmatthew.web.contactbook.dbmanager.*;
+import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionManager;
+import com.zhartunmatthew.web.contactbook.dbmanager.WrappedConnection;
 
 public class DAOFactory {
 
@@ -20,6 +21,11 @@ public class DAOFactory {
         if(type == PhoneDAO.class) {
             abstractDAO = new PhoneDAO(connection);
         }
+
+        if(type == MaritalStatusDAO.class) {
+            abstractDAO = new MaritalStatusDAO(connection);
+        }
+
 
         return abstractDAO;
     }

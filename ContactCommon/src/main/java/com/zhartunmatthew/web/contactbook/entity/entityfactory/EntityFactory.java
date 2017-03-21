@@ -38,7 +38,7 @@ public class EntityFactory {
         contact.setEmail(resultSet.getString("email"));
         contact.setWebsite(resultSet.getString("website"));
         contact.setNationality(resultSet.getString("nationality"));
-        contact.setMaritalStatus(resultSet.getString("marital_status"));
+        contact.setMaritalStatus(resultSet.getLong("marital_status"));
         contact.setJob(resultSet.getString("job"));
         contact.setCountry(resultSet.getString("country"));
         contact.setCity(resultSet.getString("city"));
@@ -68,7 +68,7 @@ public class EntityFactory {
         attachment.setContactID(resultSet.getLong("contact_id"));
         attachment.setFilePath(resultSet.getString("file_path"));
         attachment.setComment(resultSet.getString("comment"));
-        attachment.setUploadDate(resultSet.getTimestamp("upload_date"));
+        attachment.setUploadDate(resultSet.getDate("upload_date"));
         return attachment;
     }
 }
