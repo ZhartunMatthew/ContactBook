@@ -49,4 +49,15 @@ public class Attachment implements Entity {
     public void setUploadDate(Date uploadDate) {
         this.uploadDate = uploadDate;
     }
+
+    @Override
+    public String toString() {
+        return "Attachment{" +
+                "fileID=" + fileID +
+                ", contactID=" + contactID +
+                ", filePath='" + filePath + '\'' +
+                ", comment='" + comment + '\'' +
+                ", uploadDate=" + uploadDate +
+                '}';
+    }
 }

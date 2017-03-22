@@ -3,10 +3,12 @@
 <c:if test="${not empty contact}">
     <c:set var="titleName" value="${contact.lastName} ${contact.firstName}"/>
     <c:set var="actionOnSubmit" value="/controller?command=update_contact&id=${contact.id}"/>
+    <c:set var="photoPath" value="/image/${not empty contact.photoPath ? contact.photoPath : 'default.png'}"/>
 </c:if>
 <c:if test="${empty contact}">
     <c:set var="titleName" value="Создание контакта"/>
     <c:set var="actionOnSubmit" value="/controller?command=add_contact"/>
+    <c:set var="photoPath" value="/image/default.png"/>
 </c:if>
 <html>
     <head>
@@ -17,6 +19,11 @@
             <input type="submit" value="SAVE CHANGES" id="submit-contact-button">
             <div class="main-info">
                 <h3>Основная информация</h3>
+                
+                <div id="contact-photo" class="contact-photo-area">
+                    <img src="${photoPath}" class="contact-photo-image">
+                </div>
+                
                 <label> Фамилия
                     <input type="text" name="last-name" value="${contact.lastName}">
                 </label>

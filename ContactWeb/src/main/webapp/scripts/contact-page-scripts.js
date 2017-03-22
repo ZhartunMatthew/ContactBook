@@ -57,6 +57,8 @@ function deleteItem(items, checkValue) {
 
 submitContactButton.onclick = function () {
     preparePhonesForSubmit();
+    prepareAttachmentForSubmit();
+
     contactForm.submit();
 };
 
@@ -240,7 +242,7 @@ function preparePhonesForSubmit() {
     for(var oldI = 0; oldI < oldPhoneElements.length; oldI++) {
         var oldId = oldPhoneElements[oldI].id;
         oldId = oldId.split('-')[2];
-        alert(oldId);
+        alert('Old-phone: ' + oldId);
 
         var tempPhone = new Phone();
         tempPhone.id = oldId;
@@ -263,7 +265,7 @@ function preparePhonesForSubmit() {
     for(var newI = 0; newI < newPhoneElements.length; newI++) {
         var newId = newPhoneElements[newI].id;
         newId = newId.split('-')[3];
-        alert(newId);
+        alert('New-phone: ' + newId);
 
         var newTempPhone = new Phone();
         newTempPhone.id = newId;
@@ -474,5 +476,44 @@ function editAttachment(attachmentID, isNewAttachmentEdit) {
 }
 
 function prepareAttachmentForSubmit() {
-    //TODO: push all new attachments into JSON array
+    var oldAttachments = [];
+    var newAttachments = [];
+
+    var oldAttachmentElements = document.getElementsByClassName('contact-attachment');
+    for(var oldI = 0; oldI < oldAttachmentElements.length; oldI++) {
+        var oldId = oldAttachmentElements[oldI].id;
+        oldId = oldId.split('-')[2];
+
+        var tempAttachment = new Attachment();
+        tempAttachment.id = oldId;
+
+        tempAttachment.name = document.getElementById('contact-attachment-file-path-' + oldId).innerHTML.trim();
+        tempAttachment.dateUpload = document.getElementById('contact-attachment-upload-date-' + oldId).innerHTML.trim();
+        tempAttachment.comment = document.getElementById('contact-attachment-comment-' + oldId).innerHTML.trim();
+
+        alert('Old attachment: ' + tempAttachment.id + ' name: ' + tempAttachment.name);
+
+        oldAttachments.push(tempAttachment);
+    }
+
+    var newAttachmentElements = document.getElementsByClassName('new-contact-attachment');
+    for(var newI = 0; newI < newAttachmentElements.length; newI++) {
+        var newId = newAttachmentElements[newI].id;
+        newId = newId.split('-')[3];
+
+        var newTempAttachment = new Attachment();
+        newTempAttachment.id = newId;
+
+        newTempAttachment.name = document.getElementById('new-contact-attachment-file-path-' + newId).innerHTML.trim();
+        newTempAttachment.dateUpload = document.getElementById('new-contact-attachment-upload-date-' + newId).innerHTML.trim();
+        newTempAttachment.comment = document.getElementById('new-contact-attachment-comment-' + newId).innerHTML.trim();
+
+        alert('New attachment: ' + newTempAttachment.id + ' name: ' + newTempAttachment.name);
+
+        newAttachments.push(newTempAttachment);
+    }
+
+    contactForm.appendChild(addElementsInHiddenInput('old-attachments', JSON.stringify(oldAttachments)));
+    contactForm.appendChild(addElementsInHiddenInput('new-attachments', JSON.stringify(newAttachments)));
+
 }
