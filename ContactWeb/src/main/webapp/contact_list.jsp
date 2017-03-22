@@ -96,11 +96,10 @@
                                     <c:out value="${contact.birthDate}"/>
                                 </div>
                                 <div class="column column-4">
-                                    <c:out value="${contact.country} г.
-                                                  ${contact.city} ул.
-                                                  ${contact.street} д.
-                                                  ${contact.houseNumber} кв.
-                                                  ${contact.flat}"/>
+                                    <c:out value=" г. ${contact.city}
+                                                  ул. ${contact.street}
+                                                  д. ${contact.houseNumber}
+                                                  кв. ${contact.flat}"/>
                                 </div>
                                 <div class="column column-x">
                                     <c:out value="${contact.job}"/>

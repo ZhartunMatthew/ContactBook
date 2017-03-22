@@ -7,7 +7,7 @@ public class Phone implements Entity {
     private String countryCode;
     private String operatorCode;
     private String number;
-    private String type;
+    private int type;
     private String comment;
 
     public Long getPhoneID() {
@@ -50,11 +50,11 @@ public class Phone implements Entity {
         this.number = number;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 

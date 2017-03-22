@@ -26,6 +26,13 @@ public class DAOFactory {
             abstractDAO = new MaritalStatusDAO(connection);
         }
 
+        if(type == NationalityDAO.class) {
+            abstractDAO = new NationalityDAO(connection);
+        }
+
+        if(type == CountryDAO.class) {
+            abstractDAO = new CountryDAO(connection);
+        }
 
         return abstractDAO;
     }

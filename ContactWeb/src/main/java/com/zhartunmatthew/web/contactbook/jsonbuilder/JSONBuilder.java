@@ -30,7 +30,7 @@ public class JSONBuilder {
                 phone.setCountryCode((String) object.get("countryCode"));
                 phone.setOperatorCode((String) object.get("operatorCode"));
                 phone.setNumber((String) object.get("number"));
-                phone.setType((String) object.get("type"));
+                phone.setType(((Long) object.get("type")).intValue());
                 phone.setComment((String) object.get("comment"));
 
                 phones.add(phone);

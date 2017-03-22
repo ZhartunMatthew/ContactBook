@@ -15,15 +15,13 @@
         <title> <c:out value="${titleName}"/> </title>
     </head>
     <body>
-        <form id="contact-form" class="contact" method="post" action="${actionOnSubmit}">
+        <form id="contact-form" class="contact" method="post" action="${actionOnSubmit}" enctype="multipart/form-data">
             <input type="submit" value="SAVE CHANGES" id="submit-contact-button">
             <div class="main-info">
                 <h3>Основная информация</h3>
-                
                 <div id="contact-photo" class="contact-photo-area">
                     <img src="${photoPath}" class="contact-photo-image">
                 </div>
-                
                 <label> Фамилия
                     <input type="text" name="last-name" value="${contact.lastName}">
                 </label>
@@ -38,19 +36,26 @@
                 </label>
                 <label> Пол
                     <select name="sex">
-                        <option ${empty contact.sex ? 'selected' : ''} value="X">Не выбран</option>
+                        <option ${empty contact.sex ? 'selected' : ''} value="X"> Не выбран </option>
                         <option ${contact.sex == 'M' ? 'selected' : ''} value="M"> Мужчина </option>
                         <option ${contact.sex == 'F' ? 'selected' : ''} value="F"> Женщина </option>
                     </select>
                 </label>
                 <label> Гражданство
-                    <input name="nationality" type="text" value="${contact.nationality}">
+                    <select name="nationality">
+                        <option ${empty contact.nationality ? 'selected' : ''} value="0"> Не выбрано </option>
+                        <c:forEach var="nationality" items="${nationalities}">
+                            <option ${contact.nationality == nationality.id ? 'selected' : ''} value="${nationality.id}">
+                                    ${nationality.name}
+                            </option>
+                        </c:forEach>
+                    </select>
                 </label>
                 <label> Семейное положение
                     <select name="marital-status">
                         <option ${empty contact.maritalStatus ? 'selected' : ''} value="0"> Не выбрано </option>
                         <c:forEach var="maritalStatus" items="${martialStatuses}">
-                            <option ${contact.maritalStatus != maritalStatus.id ? '' : 'selected'} value="${maritalStatus.id}">
+                            <option ${contact.maritalStatus == maritalStatus.id ? 'selected' : ''} value="${maritalStatus.id}">
                                     ${maritalStatus.name}
                             </option>
                         </c:forEach>
@@ -68,7 +73,14 @@
 
                 <h3>Адрес</h3>
                 <label> Страна
-                    <input name ="country" type="text" value="${contact.country}">
+                    <select name="country">
+                        <option ${empty contact.country ? 'selected' : ''} value="0"> Не выбрано </option>
+                        <c:forEach var="country" items="${countries}">
+                            <option ${contact.country == country.id ? 'selected' : ''} value="${country.id}">
+                                    ${country.name}
+                            </option>
+                        </c:forEach>
+                    </select>
                 </label>
                 <label> Город
                     <input name="city" type="text" value="${contact.city}">
@@ -107,7 +119,7 @@
                                 <c:out value="+${phone.countryCode} (${phone.operatorCode}) ${phone.number}"/>
                             </div>
                             <div class="column column-3" id="contact-phone-type-${phone.phoneID}">
-                                ${phone.type}
+                                ${phone.type == 1 ? 'Домашний' : 'Мобильный'}
                             </div>
                             <div class="column column-x" id="contact-phone-comment-${phone.phoneID}">
                                 ${phone.comment}
@@ -168,7 +180,10 @@
                     <input type="text" id="phone-number">
                 </label>
                 <label> Тип
-                    <input type="text" id="phone-type">
+                    <select id="phone-type">
+                        <option value="1">Домашний</option>
+                        <option value="2" selected>Мобильный</option>
+                    </select>
                 </label>
                 <label> Коментарий
                     <input type="text" id="phone-comment">

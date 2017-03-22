@@ -10,13 +10,13 @@ public class Contact implements Entity {
     private String patronymic;
     private Date birthDate;
     private String sex;
-    private String nationality;
+    private Long nationality;
     private Long maritalStatus;
     private String website;
     private String email;
     private String photoPath;
     private String job;
-    private String country;
+    private Long country;
     private String city;
     private String street;
     private String houseNumber;
@@ -74,11 +74,11 @@ public class Contact implements Entity {
         this.sex = sex;
     }
 
-    public String getNationality() {
+    public Long getNationality() {
         return nationality;
     }
 
-    public void setNationality(String nationality) {
+    public void setNationality(Long nationality) {
         this.nationality = nationality;
     }
 
@@ -122,11 +122,11 @@ public class Contact implements Entity {
         this.job = job;
     }
 
-    public String getCountry() {
+    public Long getCountry() {
         return country;
     }
 
-    public void setCountry(String state) {
+    public void setCountry(Long state) {
         this.country = state;
     }
 

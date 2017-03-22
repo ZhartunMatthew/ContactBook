@@ -15,30 +15,49 @@ public class UpdateContactCommand implements AbstractCommand {
     @Override
     public String execute(HttpServletRequest request) {
 
-        String jsonPhones = request.getParameter("old-phones");
-        ArrayList<Phone> oldPhones = JSONBuilder.buildPhoneListFromJSON(jsonPhones);
+        log.info("ID = " + request.getParameter("id"));
+        log.info("Last name = " + request.getParameter("last-name"));
 
-        for (Phone phone : oldPhones) {
-            log.info("Old: " + phone);
+        String jsonPhones = request.getParameter("old-phones");
+        if(jsonPhones != null) {
+            ArrayList<Phone> oldPhones = JSONBuilder.buildPhoneListFromJSON(jsonPhones);
+
+            for (Phone phone : oldPhones) {
+                log.info("Old: " + phone);
+            }
+        } else {
+            log.info("OLD PHONES NULL");
         }
 
         String newJsonPhones = request.getParameter("new-phones");
-        ArrayList<Phone> newPhones = JSONBuilder.buildPhoneListFromJSON(newJsonPhones);
-        for (Phone phone : newPhones) {
-            log.info("New: " + phone);
+        if(newJsonPhones != null) {
+            ArrayList<Phone> newPhones = JSONBuilder.buildPhoneListFromJSON(newJsonPhones);
+            for (Phone phone : newPhones) {
+                log.info("New: " + phone);
+            }
+        } else {
+            log.info("NEW PHONES NULL");
         }
 
         String jsonAttachments = request.getParameter("old-attachments");
-        ArrayList<Attachment> oldAttachments = JSONBuilder.buildAttachmentListFromJSON(jsonAttachments);
 
-        for (Attachment attachment : oldAttachments) {
-            log.info("Old: " + attachment);
+        if(jsonAttachments != null) {
+            ArrayList<Attachment> oldAttachments = JSONBuilder.buildAttachmentListFromJSON(jsonAttachments);
+            for (Attachment attachment : oldAttachments) {
+                log.info("Old: " + attachment);
+            }
+        } else {
+            log.info("OLD ATTACH NULL");
         }
 
         String newJsonAttachments = request.getParameter("new-attachments");
-        ArrayList<Attachment> newAttachments = JSONBuilder.buildAttachmentListFromJSON(newJsonAttachments);
-        for (Attachment attachment : newAttachments) {
-            log.info("New: " + attachment);
+        if(newJsonAttachments != null) {
+            ArrayList<Attachment> newAttachments = JSONBuilder.buildAttachmentListFromJSON(newJsonAttachments);
+            for (Attachment attachment : newAttachments) {
+                log.info("New: " + attachment);
+            }
+        } else {
+            log.info("NEW ATTACHMENT NULL");
         }
 
         return COMMAND_URL;

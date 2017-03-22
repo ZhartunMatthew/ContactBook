@@ -25,6 +25,10 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
             "FROM contactbook.phones " +
             "WHERE phones.contact_id = ?";
 
+    private static final String INSERT_CONTACT_PHONES =
+            "INSERT INTO phones (contact_id, country_code, operator_code, phone_number, comment, type)" +
+            "VALUES (?, ?, ?, ?, ?, ?);";
+
     public PhoneDAO(WrappedConnection connection) {
         super(connection);
     }
@@ -54,6 +58,23 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
 
     @Override
     public void insert(Phone val) {
+
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(INSERT_CONTACT_PHONES);
+
+            statement.setLong(1, val.getContactID());
+            statement.setString(2, val.getCountryCode());
+            statement.setString(3, val.getOperatorCode());
+            statement.setString(4, val.getNumber());
+            statement.setString(5, val.getComment());
+            statement.setInt(6, val.getType());
+
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -6,11 +6,14 @@ function Phone() {
         countryCode : '',
         operatorCode : '',
         number : '',
-        type : '',
+        type : 0,
         comment : ''
     };
     return phone;
 }
+
+var oldPhones = [];
+var newPhones = [];
 
 var contactForm = document.getElementById('contact-form');
 
@@ -75,7 +78,7 @@ addPhoneButton.onclick = function () {
     document.getElementById('country-code').value = '';
     document.getElementById('operator-code').value = '';
     document.getElementById('phone-number').value = '';
-    document.getElementById('phone-type').value = '';
+    document.getElementById('phone-type').value = 2;
     document.getElementById('phone-comment').value = '';
 
     openModal(popupWindowPhones);
@@ -84,10 +87,17 @@ addPhoneButton.onclick = function () {
 editPhoneButton.onclick = function () {
 
     isNewPhone = false;
-    var number = getCheckedItems('phone-check')[0];
+    var items = getCheckedItems('phone-check');
+    var newItems = getCheckedItems('new-phone-check');
+
+    if(items.length + newItems.length > 1) {
+        alert('To much checked phones');
+        return;
+    }
+
+    var number = items[0];
     if(number !== undefined && number !== 0) {
         var phone = document.getElementById('contact-phone-number-' + number).innerHTML.trim();
-        alert(phone);
         var countryCode = phone.match(/^\+\d+ /)[0];
         document.getElementById('country-code').value = countryCode.substr(1, countryCode.length).trim();
         var operatorCode = phone.match(/\(\d+\)/)[0];
@@ -95,8 +105,9 @@ editPhoneButton.onclick = function () {
         var phoneNumber = phone.match(/( )\b\d+\b/)[0];
         document.getElementById('phone-number').value = phoneNumber.trim();
 
-        document.getElementById('phone-type').value =
-            document.getElementById('contact-phone-type-' + number).innerHTML.trim();
+        var typeName = document.getElementById('contact-phone-type-' + number).innerHTML.trim();
+        document.getElementById('phone-type').value = typeToVal(typeName);
+
 
         document.getElementById('phone-comment').value =
             document.getElementById('contact-phone-comment-' + number).innerHTML.trim();
@@ -108,10 +119,9 @@ editPhoneButton.onclick = function () {
         openModal(popupWindowPhones);
     }
 
-    var newNumber = getCheckedItems('new-phone-check')[0];
+    var newNumber = newItems[0];
     if(newNumber !== undefined && newNumber !== 0) {
         var newPhone = document.getElementById('new-contact-phone-number-' + newNumber).innerHTML.trim();
-        alert(newPhone);
         var newCountryCode = newPhone.match(/^\+\d+ /)[0];
         document.getElementById('country-code').value = newCountryCode.substr(1, newCountryCode.length).trim();
         var newOperatorCode = newPhone.match(/\(\d+\)/)[0];
@@ -119,8 +129,9 @@ editPhoneButton.onclick = function () {
         var newPhoneNumber = newPhone.match(/( )\b\d+\b/)[0];
         document.getElementById('phone-number').value = newPhoneNumber.trim();
 
-        document.getElementById('phone-type').value =
-            document.getElementById('new-contact-phone-type-' + newNumber).innerHTML.trim();
+        var newTypeName = document.getElementById('new-contact-phone-type-' + newNumber).innerHTML.trim();
+        document.getElementById('phone-type').value = typeToVal(newTypeName);
+
 
         document.getElementById('phone-comment').value =
             document.getElementById('new-contact-phone-comment-' + newNumber).innerHTML.trim();
@@ -163,7 +174,7 @@ function createNewPhone() {
     phone.countryCode = document.getElementById('country-code').value.trim();
     phone.operatorCode = document.getElementById('operator-code').value.trim();
     phone.number = document.getElementById('phone-number').value.trim();
-    phone.type = document.getElementById('phone-type').value.trim();
+    phone.type = document.getElementById('phone-type').value;
     phone.comment = document.getElementById('phone-comment').value.trim();
 
     var oneRow = document.createElement('div');
@@ -190,7 +201,7 @@ function createNewPhone() {
     var columnWithPhoneType = document.createElement('div');
     columnWithPhoneType.className = 'column column-3';
     columnWithPhoneType.id = 'new-contact-phone-type-' + phone.id;
-    columnWithPhoneType.appendChild(document.createTextNode(phone.type));
+    columnWithPhoneType.appendChild(document.createTextNode(valToType(phone.type)));
 
     var columnWithPhoneComment = document.createElement('div');
     columnWithPhoneComment.className = 'column column-x';
@@ -214,35 +225,31 @@ function editPhone(phoneID, isNewPhoneEdit) {
     phone.countryCode = document.getElementById('country-code').value.trim();
     phone.operatorCode = document.getElementById('operator-code').value.trim();
     phone.number = document.getElementById('phone-number').value.trim();
-    phone.type = document.getElementById('phone-type').value.trim();
+    phone.type = document.getElementById('phone-type').value;
     phone.comment = document.getElementById('phone-comment').value.trim();
-
-    alert(phoneID);
 
     if(isNewPhoneEdit == true) {
         document.getElementById('new-contact-phone-number-' + phoneID).innerHTML =
             '+' + phone.countryCode + ' (' + phone.operatorCode + ') ' + phone.number;
 
-        document.getElementById('new-contact-phone-type-' + phoneID).innerHTML = phone.type;
+        document.getElementById('new-contact-phone-type-' + phoneID).innerHTML = valToType(phone.type);
         document.getElementById('new-contact-phone-comment-' + phoneID).innerHTML = phone.comment;
     } else {
         document.getElementById('contact-phone-number-' + phoneID).innerHTML =
             '+' + phone.countryCode + ' (' + phone.operatorCode + ') ' + phone.number;
 
-        document.getElementById('contact-phone-type-' + phoneID).innerHTML = phone.type;
+        document.getElementById('contact-phone-type-' + phoneID).innerHTML = valToType(phone.type);
         document.getElementById('contact-phone-comment-' + phoneID).innerHTML = phone.comment;
     }
 }
 
 function preparePhonesForSubmit() {
-    var oldPhones = [];
-    var newPhones = [];
+
 
     var oldPhoneElements = document.getElementsByClassName('contact-phone');
     for(var oldI = 0; oldI < oldPhoneElements.length; oldI++) {
         var oldId = oldPhoneElements[oldI].id;
         oldId = oldId.split('-')[2];
-        alert('Old-phone: ' + oldId);
 
         var tempPhone = new Phone();
         tempPhone.id = oldId;
@@ -255,8 +262,16 @@ function preparePhonesForSubmit() {
         var oldPhoneNumber = oldFullPhone.match(/( )\b\d+\b/)[0];
         tempPhone.number = oldPhoneNumber.trim();
 
-        tempPhone.type = document.getElementById('contact-phone-type-' + oldId).innerHTML.trim();
+        var tempType = document.getElementById('contact-phone-type-' + oldId).innerHTML.trim();
+        tempPhone.type = typeToVal(tempType);
         tempPhone.comment = document.getElementById('contact-phone-comment-' + oldId).innerHTML.trim();
+
+        alert("Old: id=" + tempPhone.id
+            + "\ncount: " + tempPhone.countryCode
+            + "\noper: " + tempPhone.operatorCode
+            +"\nnumber: " + tempPhone.number
+            + "\ntype" + tempPhone.type
+            + "\ncomment " + tempPhone.comment);
 
         oldPhones.push(tempPhone);
     }
@@ -265,7 +280,6 @@ function preparePhonesForSubmit() {
     for(var newI = 0; newI < newPhoneElements.length; newI++) {
         var newId = newPhoneElements[newI].id;
         newId = newId.split('-')[3];
-        alert('New-phone: ' + newId);
 
         var newTempPhone = new Phone();
         newTempPhone.id = newId;
@@ -278,11 +292,20 @@ function preparePhonesForSubmit() {
         var newPhoneNumber = newFullPhone.match(/( )\b\d+\b/)[0];
         newTempPhone.number = newPhoneNumber.trim();
 
-        newTempPhone.type = document.getElementById('new-contact-phone-type-' + newId).innerHTML.trim();
+        var newTempType = document.getElementById('new-contact-phone-type-' + newId).innerHTML.trim();
+        newTempPhone.type = typeToVal(newTempType);
         newTempPhone.comment = document.getElementById('new-contact-phone-comment-' + newId).innerHTML.trim();
+
+        alert("New: id=" + newTempPhone.id
+            + "\ncount: " + newTempPhone.countryCode
+            + "\noper: " + newTempPhone.operatorCode
+            + "\nnumber: " + newTempPhone.number
+            + "\ntype" + newTempPhone.type
+            + "\ncomment " + newTempPhone.comment);
 
         newPhones.push(newTempPhone);
     }
+
     contactForm.appendChild(addElementsInHiddenInput('old-phones', JSON.stringify(oldPhones)));
     contactForm.appendChild(addElementsInHiddenInput('new-phones', JSON.stringify(newPhones)));
 }
@@ -293,6 +316,14 @@ function addElementsInHiddenInput(name, items) {
     input.name = name;
     input.value = items;
     return input;
+}
+
+function typeToVal(type) {
+    return type == 'Домашний' ? 1 : 2;
+}
+
+function valToType(value) {
+    return value == 1 ? 'Домашний' : 'Мобильный';
 }
 
 //------------------------ATTACHMENT FUNCTIONS--------------------------
@@ -336,7 +367,15 @@ addAttachmentButton.onclick = function () {
 editAttachmentButton.onclick = function () {
     isNewAttachment = false;
 
-    var number = getCheckedItems('attachment-check')[0];
+    var items = getCheckedItems('attachment-check');
+    var newItems = getCheckedItems('new-attachment-check');
+
+    if(items.length + newItems.length > 1) {
+        alert('To much checked attachments');
+        return;
+    }
+
+    var number = items[0];
     if(number !== undefined && number !== 0) {
         document.getElementById('attachment-comment').value =
             document.getElementById('contact-attachment-comment-' + number).innerHTML.trim();
@@ -347,7 +386,7 @@ editAttachmentButton.onclick = function () {
         openModal(popupWindowAttachments);
     }
 
-    var newNumber = getCheckedItems('new-attachment-check')[0];
+    var newNumber = newItems[0];
     if(newNumber != undefined && newNumber != 0) {
         document.getElementById('attachment-comment').value =
             document.getElementById('new-contact-attachment-comment-' + newNumber).innerHTML.trim();
@@ -365,7 +404,6 @@ deleteAttachmentButton.onclick = function () {
     var allNewAttachmentsForDelete = getCheckedItems('new-attachment-check');
     deleteItem(allNewAttachmentsForDelete, 'new-contact-attachment-');
     deleteItem(allNewAttachmentsForDelete, 'new-attachment-input-');
-    //deleting input
 };
 
 cancelAttachmentButton.onclick = function () {

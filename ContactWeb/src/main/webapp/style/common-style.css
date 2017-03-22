@@ -36,6 +36,12 @@
     float: right;
 }
 
+.popup-content label select {
+    width: 110px;
+    margin-right: 35px;
+    float: right;
+}
+
 .popup-button {
     width: 185px;
     margin-top: 10px;

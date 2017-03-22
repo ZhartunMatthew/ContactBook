@@ -37,10 +37,10 @@ public class EntityFactory {
         contact.setSex(resultSet.getString("sex"));
         contact.setEmail(resultSet.getString("email"));
         contact.setWebsite(resultSet.getString("website"));
-        contact.setNationality(resultSet.getString("nationality"));
+        contact.setNationality(resultSet.getLong("nationality"));
         contact.setMaritalStatus(resultSet.getLong("marital_status"));
         contact.setJob(resultSet.getString("job"));
-        contact.setCountry(resultSet.getString("country"));
+        contact.setCountry(resultSet.getLong("country"));
         contact.setCity(resultSet.getString("city"));
         contact.setStreet(resultSet.getString("street"));
         contact.setHouseNumber(resultSet.getString("house"));
@@ -54,7 +54,7 @@ public class EntityFactory {
         Phone phone = new Phone();
         phone.setPhoneID(resultSet.getLong("id"));
         phone.setContactID(resultSet.getLong("contact_id"));
-        phone.setType(resultSet.getString("phone_type"));
+        phone.setType(resultSet.getInt("phone_type"));
         phone.setCountryCode(resultSet.getString("country_code"));
         phone.setOperatorCode(resultSet.getString("operator_code"));
         phone.setNumber(resultSet.getString("number"));
