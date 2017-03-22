@@ -11,6 +11,7 @@ import com.zhartunmatthew.web.contactbook.handler.MainHandler;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 
 public class AddContactCommand implements AbstractCommand {
 
@@ -33,7 +34,7 @@ public class AddContactCommand implements AbstractCommand {
 
     private void createNewContact(Contact contact) {
         Long lastId = 0L;
-        try (ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class)){
+        try (ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class)) {
             contactDAO.insert(contact);
             lastId = contactDAO.getLastInsertedId();
             contactDAO.insertContactAddress(contact, lastId);
@@ -42,19 +43,27 @@ public class AddContactCommand implements AbstractCommand {
         }
 
         try (PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.createDAO(PhoneDAO.class)) {
-            for (Phone phone : contact.getPhones()) {
-                phone.setContactID(lastId);
-                phoneDAO.insert(phone);
+            ArrayList<Phone> phones = contact.getPhones();
+            if(phones != null) {
+                for (Phone phone : phones) {
+                    phone.setContactID(lastId);
+                    phoneDAO.insert(phone);
+                }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        try (AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.createDAO(AttachmentDAO.class)){
-            for (Attachment attachment : contact.getAttachments()) {
-                attachment.setContactID(lastId);
-                attachmentDAO.insert(attachment);
+        try (AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.createDAO(AttachmentDAO.class)) {
+            ArrayList<Attachment> attachments = contact.getAttachments();
+            if(attachments != null) {
+                for (Attachment attachment : attachments) {
+                    attachment.setContactID(lastId);
+                    attachmentDAO.insert(attachment);
+                }
             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
     }

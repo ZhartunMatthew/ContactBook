@@ -8,10 +8,7 @@ import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.entityfactory.EntityFactory;
 import org.apache.log4j.Logger;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class ContactDAO extends AbstractDAO<Long, Contact> {
@@ -189,9 +186,23 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             statement.setString(3, val.getPatronymic());
             statement.setDate(4, val.getBirthDate());
             statement.setString(5, val.getSex());
-            statement.setLong(6, val.getMaritalStatus());
-            statement.setLong(7, val.getNationality());
-            statement.setLong(8, val.getCountry());
+            if(val.getMaritalStatus() == null || val.getMaritalStatus().equals(0L)) {
+                statement.setNull(6, Types.INTEGER);
+            } else {
+                statement.setLong(6, val.getMaritalStatus());
+            }
+
+            if(val.getNationality() == null || val.getNationality().equals(0L)) {
+                statement.setNull(7, Types.INTEGER);
+            } else {
+                statement.setLong(7, val.getNationality());
+            }
+
+            if( val.getCountry() == null || val.getCountry().equals(0L)) {
+                statement.setNull(8, Types.INTEGER);
+            } else {
+                statement.setLong(8, val.getCountry());
+            }
             statement.setString(9, val.getWebsite());
             statement.setString(10, val.getEmail());
             statement.setString(11, val.getPhotoPath());
@@ -221,8 +232,8 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
     }
 
     public Long getLastInsertedId() {
-        Statement statement = null;
-        ResultSet resultSet = null;
+        Statement statement;
+        ResultSet resultSet;
         Long lastId = 0L;
         try {
             statement = connection.createStatement();

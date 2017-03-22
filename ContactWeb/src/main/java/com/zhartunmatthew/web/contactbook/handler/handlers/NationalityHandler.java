@@ -5,6 +5,11 @@ import com.zhartunmatthew.web.contactbook.entity.Contact;
 public class NationalityHandler extends AbstractHandler  {
     @Override
     public void handleField(Contact contact, String data) {
-        contact.setNationality(Long.parseLong(data));
+        Long id = Long.parseLong(data);
+        if(id.equals(0L)) {
+            contact.setNationality(null);
+        } else {
+            contact.setNationality(id);
+        }
     }
 }
