@@ -1,7 +1,6 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
 import com.zhartunmatthew.web.contactbook.dao.daofactory.DAOFactory;
-import com.zhartunmatthew.web.contactbook.dbmanager.WrappedConnection;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
@@ -76,7 +75,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
     private static final String GET_LAST_ID = "SELECT last_insert_id() AS last_id FROM contacts";
 
-    public ContactDAO(WrappedConnection connection) {
+    public ContactDAO(Connection connection) {
         super(connection);
     }
 

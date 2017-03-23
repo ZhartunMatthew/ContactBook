@@ -1,8 +1,8 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
-import com.zhartunmatthew.web.contactbook.dbmanager.WrappedConnection;
 import com.zhartunmatthew.web.contactbook.entity.Country;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,7 +12,7 @@ public class CountryDAO  extends AbstractDAO<Long, Country> {
 
     private static String SELECT_ALL = "SELECT countries.id_country, countries.country_name FROM countries";
 
-    public CountryDAO(WrappedConnection connection) {
+    public CountryDAO(Connection connection) {
         super(connection);
     }
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <Resource
+        name="jdbc/contactbook"
+        type="javax.sql.DataSource"
+        auth="Container"
+        maxTotal="30"
+        maxIdle="10"
+        maxWaitMillis="1000"
+        username="root"
+        password="1208"
+        driverClassName="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://localhost:3306/contactbook"/>
+</Context>

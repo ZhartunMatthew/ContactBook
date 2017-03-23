@@ -1,17 +1,17 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
-import com.zhartunmatthew.web.contactbook.dbmanager.WrappedConnection;
 import org.apache.log4j.Logger;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public abstract class AbstractDAO<PrKey, Type> implements AutoCloseable {
 
     Logger log = Logger.getLogger(AbstractDAO.class);
-    protected WrappedConnection connection;
+    protected Connection connection;
 
-    protected AbstractDAO(WrappedConnection connection) {
+    protected AbstractDAO(Connection connection) {
         this.connection = connection;
     }
 

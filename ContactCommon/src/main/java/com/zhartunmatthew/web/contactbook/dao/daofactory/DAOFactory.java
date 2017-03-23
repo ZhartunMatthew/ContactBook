@@ -2,13 +2,15 @@ package com.zhartunmatthew.web.contactbook.dao.daofactory;
 
 import com.zhartunmatthew.web.contactbook.dao.*;
 import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionManager;
-import com.zhartunmatthew.web.contactbook.dbmanager.WrappedConnection;
+
+import java.sql.Connection;
 
 public class DAOFactory {
 
     public static AbstractDAO createDAO(Class<? extends AbstractDAO> type) {
         AbstractDAO abstractDAO = null;
-        WrappedConnection connection = ConnectionManager.getConnection();
+        ConnectionManager manager = ConnectionManager.getInstance();
+        Connection connection = manager.getConnection();
 
         if(type == AttachmentDAO.class) {
             abstractDAO = new AttachmentDAO(connection);

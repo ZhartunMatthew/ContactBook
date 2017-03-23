@@ -1,9 +1,9 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
-import com.zhartunmatthew.web.contactbook.dbmanager.WrappedConnection;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.entityfactory.EntityFactory;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +27,7 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
     private static final String DELETE_ATTACHMENT =
             "DELETE FROM attachments WHERE contact_id = ?";
 
-    public AttachmentDAO(WrappedConnection connection) {
+    public AttachmentDAO(Connection connection) {
         super(connection);
     }
 

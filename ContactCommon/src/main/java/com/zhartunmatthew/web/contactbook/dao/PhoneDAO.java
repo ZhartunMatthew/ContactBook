@@ -1,10 +1,10 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
-import com.zhartunmatthew.web.contactbook.dbmanager.WrappedConnection;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.entityfactory.EntityFactory;
 import org.apache.log4j.Logger;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +32,7 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
     private static final String DELETE_PHONE =
             "DELETE FROM phones WHERE contact_id = ?";
 
-    public PhoneDAO(WrappedConnection connection) {
+    public PhoneDAO(Connection connection) {
         super(connection);
     }
 
