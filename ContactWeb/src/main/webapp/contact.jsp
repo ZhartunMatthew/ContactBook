@@ -19,9 +19,11 @@
             <input type="submit" value="SAVE CHANGES" id="submit-contact-button">
             <div class="main-info">
                 <h3>Основная информация</h3>
+
                 <div id="contact-photo" class="contact-photo-area">
-                    <img src="${photoPath}" class="contact-photo-image">
+                    <img src="${photoPath}" id="contact-photo-image" class="contact-photo-image">
                 </div>
+
                 <label> Фамилия
                     <input type="text" name="last-name" value="${contact.lastName}">
                 </label>
@@ -165,10 +167,25 @@
 
             </div>
         </form>
+
+        <div id="popup-window-photo" class="popup-window">
+            <div class="popup-content">
+                <div class="popup-name"> Выбор фото
+                </div>
+                <label> Путь к фото
+                    <input type="file" id="photo-file-input" value="Выберите фото" accept="image/jpeg,image/png">
+                </label>
+                <div class="popup-buttons">
+                    <div id="save-photo-button" class="popup-button">Сохранить</div>
+                    <div id="cancel-photo-button" class="popup-button">Отменить</div>
+                    <div id="delete-photo-button" class="popup-button">Удалить</div>
+                </div>
+            </div>
+        </div>
+
         <div id="popup-window-phone" class="popup-window">
             <div class="popup-content">
-                <div class="popup-name">
-                    Подменю телефонов
+                <div class="popup-name"> Подменю телефонов
                 </div>
                 <label> Код страны
                     <input type="text" id="country-code">
@@ -213,6 +230,7 @@
                 </div>
             </div>
         </div>
+
         <link rel="stylesheet" type="text/css" href="style/column-style.css">
         <link rel="stylesheet" type="text/css" href="style/contact-page-style.css">
         <link rel="stylesheet" type="text/css" href="style/common-style.css">

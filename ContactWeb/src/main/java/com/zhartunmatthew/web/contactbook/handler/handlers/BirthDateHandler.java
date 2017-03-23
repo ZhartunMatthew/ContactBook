@@ -17,8 +17,7 @@ public class BirthDateHandler extends AbstractHandler {
                 date = dateFormat.parse(data);
                 sqlDate = new java.sql.Date(date.getTime());
             } else {
-                date = dateFormat.parse("2000-01-01");
-                sqlDate = new java.sql.Date(date.getTime());
+                sqlDate = null;
             }
         } catch (ParseException e) {
             e.printStackTrace();

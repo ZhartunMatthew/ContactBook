@@ -184,7 +184,13 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             statement.setString(1, val.getFirstName());
             statement.setString(2, val.getLastName());
             statement.setString(3, val.getPatronymic());
-            statement.setDate(4, val.getBirthDate());
+
+            if(val.getBirthDate() == null) {
+                statement.setNull(4, Types.DATE);
+            } else {
+                statement.setDate(4, val.getBirthDate());
+            }
+
             statement.setString(5, val.getSex());
             if(val.getMaritalStatus() == null || val.getMaritalStatus().equals(0L)) {
                 statement.setNull(6, Types.INTEGER);

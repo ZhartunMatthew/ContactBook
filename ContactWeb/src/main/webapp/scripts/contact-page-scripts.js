@@ -553,5 +553,40 @@ function prepareAttachmentForSubmit() {
 
     contactForm.appendChild(addElementsInHiddenInput('old-attachments', JSON.stringify(oldAttachments)));
     contactForm.appendChild(addElementsInHiddenInput('new-attachments', JSON.stringify(newAttachments)));
-
 }
+
+//----------------------------------PHOTO FUNCTIONS---------------------------
+
+var photoFileInput = document.getElementById('photo-file-input');
+var savePhotoButton = document.getElementById('save-photo-button');
+var cancelPhotoButton = document.getElementById('cancel-photo-button');
+var deletePhotoButton = document.getElementById('delete-photo-button');
+
+var photoImage = document.getElementById('contact-photo-image');
+
+var popupWindowPhoto = document.getElementById('popup-window-photo');
+
+photoImage.onclick = function () {
+    photoFileInput.value = '';
+    openModal(popupWindowPhoto);
+};
+
+cancelPhotoButton.onclick = function () {
+    closeModal(popupWindowPhoto);
+};
+
+savePhotoButton.onclick = function() {
+    var reader = new FileReader;
+    var image = photoFileInput.files[0];
+    reader.onload = function () {
+        photoImage.src = this.result;
+    };
+    reader.readAsDataURL(image);
+    closeModal(popupWindowPhoto);
+};
+
+deletePhotoButton.onclick = function () {
+    photoImage.src = '/image/default.png';
+    closeModal(popupWindowPhoto);
+};
+
