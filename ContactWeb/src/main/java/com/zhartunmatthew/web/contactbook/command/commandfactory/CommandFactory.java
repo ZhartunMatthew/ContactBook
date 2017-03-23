@@ -36,6 +36,11 @@ public class CommandFactory {
             log.debug("Returned command 'AddContact'");
         }
 
+        if(Objects.equals("delete_contact", command)) {
+            abstractCommand = new DeleteContactCommand();
+            log.debug("Returned command 'DeleteContact'");
+        }
+
         if(abstractCommand == null) {
             abstractCommand = new ShowContactListCommand();
             log.debug("Returned default command 'ShowContactList'");
