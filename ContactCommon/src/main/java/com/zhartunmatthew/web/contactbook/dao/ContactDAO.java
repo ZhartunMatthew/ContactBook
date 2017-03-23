@@ -66,6 +66,12 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             "INSERT INTO addresses (contact_id, city, street, house_number, flat, postcode)" +
                     " VALUES (?, ?, ?, ?, ?, ?);";
 
+    private static final String DELETE_CONTACT =
+            "DELETE FROM contacts WHERE id = ?";
+
+    private static final String DELETE_CONTACTS_ADDRESS =
+            "DELETE FROM addresses WHERE contact_id = ?";
+
     private static final String GET_COUNT = "SELECT COUNT(*) AS count FROM contactbook.contacts";
 
     private static final String GET_LAST_ID = "SELECT last_insert_id() AS last_id FROM contacts";
@@ -286,6 +292,40 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
     @Override
     public void delete(Long l) {
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(DELETE_CONTACT);
+            statement.setLong(1, l);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
+    public void deleteContactAddress(Long id) {
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(DELETE_CONTACTS_ADDRESS);
+            statement.setLong(1, id);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

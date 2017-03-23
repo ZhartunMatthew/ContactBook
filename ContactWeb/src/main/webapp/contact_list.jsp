@@ -8,7 +8,7 @@
         <div class="nav-buttons">
             <a class="nav-button home" href="/controller?command=show_contact_list&page=1"> </a>
             <a class="nav-button add" href="/controller?command=show_contact"> </a>
-            <a id="delete-contact-button" class="nav-button delete" href="/controller?command=delete_contact"></a>
+            <a id="delete-contact-button" class="nav-button delete"></a>
             <a class="nav-button search" href="/controller?command=search_contact"></a>
             <a class="nav-button send-mail" href="/controller?command=send_mail"></a>
         </div>
@@ -79,8 +79,7 @@
             <div class="column column-4"> Адрес проживания </div>
             <div class="column column-x"> Место работы </div>
         </div>
-        <form id="contact-list-form" method="post" enctype="text/plain">
-            <input type="hidden" name="testinput" value="123">
+        <form id="contact-list-form" method="post">
             <div id="contact-list">
                 <c:forEach var="contact" items="${contacts}">
                     <div class="one-row id=${contact.id}">

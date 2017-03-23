@@ -29,6 +29,9 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
             "INSERT INTO phones (contact_id, country_code, operator_code, phone_number, comment, type)" +
             "VALUES (?, ?, ?, ?, ?, ?);";
 
+    private static final String DELETE_PHONE =
+            "DELETE FROM phones WHERE contact_id = ?";
+
     public PhoneDAO(WrappedConnection connection) {
         super(connection);
     }
@@ -90,6 +93,21 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
 
     @Override
     public void delete(Long id) {
-
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(DELETE_PHONE);
+            statement.setLong(1, id);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

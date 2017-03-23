@@ -24,6 +24,9 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
             "INSERT INTO attachments (contact_id, file_path, upload_date, comment) " +
                     "VALUES (?, ?, ?, ?);";
 
+    private static final String DELETE_ATTACHMENT =
+            "DELETE FROM attachments WHERE contact_id = ?";
+
     public AttachmentDAO(WrappedConnection connection) {
         super(connection);
     }
@@ -79,6 +82,21 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
 
     @Override
     public void delete(Long id) {
-
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(DELETE_ATTACHMENT);
+            statement.setLong(1, id);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
