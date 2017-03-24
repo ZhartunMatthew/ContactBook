@@ -1,6 +1,6 @@
 package com.zhartunmatthew.web.contactbook.controller;
 
-import com.zhartunmatthew.web.contactbook.command.AbstractCommand;
+import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
 import com.zhartunmatthew.web.contactbook.command.commandfactory.CommandFactory;
 import org.apache.log4j.Logger;
 

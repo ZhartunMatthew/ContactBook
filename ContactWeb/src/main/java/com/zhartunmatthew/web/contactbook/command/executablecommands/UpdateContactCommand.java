@@ -1,5 +1,6 @@
-package com.zhartunmatthew.web.contactbook.command;
+package com.zhartunmatthew.web.contactbook.command.executablecommands;
 
+import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.jsonbuilder.JSONBuilder;

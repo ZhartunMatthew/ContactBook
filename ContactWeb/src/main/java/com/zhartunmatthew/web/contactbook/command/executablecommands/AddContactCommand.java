@@ -1,5 +1,6 @@
-package com.zhartunmatthew.web.contactbook.command;
+package com.zhartunmatthew.web.contactbook.command.executablecommands;
 
+import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
 import com.zhartunmatthew.web.contactbook.dao.AttachmentDAO;
 import com.zhartunmatthew.web.contactbook.dao.ContactDAO;
 import com.zhartunmatthew.web.contactbook.dao.PhoneDAO;
@@ -20,7 +21,6 @@ public class AddContactCommand implements AbstractCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-
         MainHandler mainHandler = new MainHandler();
         mainHandler.handleInputs(request);
 
@@ -65,7 +65,6 @@ public class AddContactCommand implements AbstractCommand {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
     }
 
     @Override

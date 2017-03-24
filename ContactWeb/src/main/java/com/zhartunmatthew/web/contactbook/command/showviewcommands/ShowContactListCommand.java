@@ -1,5 +1,6 @@
-package com.zhartunmatthew.web.contactbook.command;
+package com.zhartunmatthew.web.contactbook.command.showviewcommands;
 
+import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
 import com.zhartunmatthew.web.contactbook.dao.ContactDAO;
 import com.zhartunmatthew.web.contactbook.dao.daofactory.DAOFactory;
 import com.zhartunmatthew.web.contactbook.entity.Contact;

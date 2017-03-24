@@ -1,6 +1,11 @@
 package com.zhartunmatthew.web.contactbook.command.commandfactory;
 
-import com.zhartunmatthew.web.contactbook.command.*;
+import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
+import com.zhartunmatthew.web.contactbook.command.executablecommands.AddContactCommand;
+import com.zhartunmatthew.web.contactbook.command.executablecommands.DeleteContactCommand;
+import com.zhartunmatthew.web.contactbook.command.executablecommands.UpdateContactCommand;
+import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactCommand;
+import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactListCommand;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;

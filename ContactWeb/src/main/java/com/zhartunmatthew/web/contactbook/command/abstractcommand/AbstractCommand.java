@@ -1,4 +1,4 @@
-package com.zhartunmatthew.web.contactbook.command;
+package com.zhartunmatthew.web.contactbook.command.abstractcommand;
 
 import javax.servlet.http.HttpServletRequest;
 
