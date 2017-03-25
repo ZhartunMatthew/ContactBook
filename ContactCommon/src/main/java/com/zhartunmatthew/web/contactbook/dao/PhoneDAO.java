@@ -38,10 +38,8 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
 
     public ArrayList<Phone> readContactPhones(Long contactId) {
         ArrayList<Phone> phones = new ArrayList<>();
-        PreparedStatement statement = null;
         ResultSet phoneResultSet = null;
-        try {
-            statement = connection.prepareStatement(SELECT_CONTACT_PHONES);
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_CONTACT_PHONES)){
             statement.setLong(1, contactId);
             phoneResultSet = statement.executeQuery();
             while(phoneResultSet.next()) {
@@ -61,11 +59,7 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
 
     @Override
     public void insert(Phone val) {
-
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement(INSERT_CONTACT_PHONES);
-
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_CONTACT_PHONES)){
             statement.setLong(1, val.getContactID());
             statement.setString(2, val.getCountryCode());
             statement.setString(3, val.getOperatorCode());
@@ -93,21 +87,11 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
 
     @Override
     public void delete(Long id) {
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement(DELETE_PHONE);
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_PHONE)){
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if(statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 }

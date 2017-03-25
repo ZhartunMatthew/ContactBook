@@ -33,10 +33,8 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
 
     public ArrayList<Attachment> readContactAttachments(Long contactId) {
         ArrayList<Attachment> attachments = new ArrayList<>();
-        PreparedStatement statement = null;
         ResultSet attachmentResultSet = null;
-        try {
-            statement = connection.prepareStatement(SELECT_CONTACT_ATTACHMENTS);
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_CONTACT_ATTACHMENTS)){
             statement.setLong(1, contactId);
             attachmentResultSet = statement.executeQuery();
             while(attachmentResultSet.next()) {
@@ -56,8 +54,7 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
 
     @Override
     public void insert(Attachment val) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(INSERT_ATTACHMENT_QUERY);
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_ATTACHMENT_QUERY)) {
             statement.setLong(1, val.getContactID());
             statement.setString(2, val.getFilePath());
             statement.setDate(3, val.getUploadDate());
@@ -82,21 +79,11 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
 
     @Override
     public void delete(Long id) {
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement(DELETE_ATTACHMENT);
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_ATTACHMENT)){
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if(statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 }

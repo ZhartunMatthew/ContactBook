@@ -3,14 +3,14 @@ package com.zhartunmatthew.web.contactbook.dao;
 import com.zhartunmatthew.web.contactbook.entity.Nationality;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 public class NationalityDAO extends AbstractDAO<Long, Nationality> {
 
-    private static String SELECT_ALL = "SELECT nationality.id_nationality, nationality.nationality_name FROM nationality";
+    private static String SELECT_ALL =
+            "SELECT nationality.id_nationality, nationality.nationality_name FROM nationality";
 
     public NationalityDAO(Connection connection) {
         super(connection);
@@ -19,11 +19,10 @@ public class NationalityDAO extends AbstractDAO<Long, Nationality> {
     @Override
     public ArrayList<Nationality> readAll() {
         ArrayList<Nationality> nationalities = new ArrayList<>();
-        Statement statement = null;
+
         ResultSet resultSet = null;
-        try {
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(SELECT_ALL);
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL) ){
+            resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Nationality nationality = new Nationality();
                 nationality.setId(resultSet.getLong("id_nationality"));
@@ -32,14 +31,6 @@ public class NationalityDAO extends AbstractDAO<Long, Nationality> {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return nationalities;
     }

@@ -2,10 +2,7 @@ package com.zhartunmatthew.web.contactbook.dao;
 
 import com.zhartunmatthew.web.contactbook.entity.MaritalStatus;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class MaritalStatusDAO extends AbstractDAO <Long, MaritalStatus> {
@@ -19,11 +16,9 @@ public class MaritalStatusDAO extends AbstractDAO <Long, MaritalStatus> {
     @Override
     public ArrayList<MaritalStatus> readAll() {
         ArrayList<MaritalStatus> maritalStatuses = new ArrayList<>();
-        Statement statement = null;
         ResultSet resultSet = null;
-        try {
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(SELECT_ALL);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL)){
+            resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 MaritalStatus maritalStatus = new MaritalStatus();
                 maritalStatus.setId(resultSet.getInt("id_marital_status"));
@@ -32,14 +27,6 @@ public class MaritalStatusDAO extends AbstractDAO <Long, MaritalStatus> {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return maritalStatuses;
     }

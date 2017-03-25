@@ -2,72 +2,36 @@ package com.zhartunmatthew.web.contactbook.handler.handlerfactory;
 
 import com.zhartunmatthew.web.contactbook.handler.handlers.*;
 
-public class HandlerFactory {
-    public static AbstractHandler getFieldHandler(String inputFieldName) {
-        AbstractHandler abstractHandler = null;
+import java.util.HashMap;
+import java.util.Map;
 
-        switch (inputFieldName){
-            case "first-name":
-                abstractHandler = new FirstNameHandler();
-                break;
-            case "last-name":
-                abstractHandler = new LastNameHandler();
-                break;
-            case "patronymic":
-                abstractHandler = new PatronymicHandler();
-                break;
-            case "birth-date":
-                abstractHandler = new BirthDateHandler();
-                break;
-            case "marital-status":
-                abstractHandler = new MaritalStatusHandler();
-                break;
-            case "sex":
-                abstractHandler = new SexHandler();
-                break;
-            case "nationality":
-                abstractHandler = new NationalityHandler();
-                break;
-            case "website":
-                abstractHandler = new WebsiteHandler();
-                break;
-            case "email":
-                abstractHandler = new EmailHandler();
-                break;
-            case "job":
-                abstractHandler = new JobHandler();
-                break;
-            case "country":
-                abstractHandler = new CountryHandler();
-                break;
-            case "city":
-                abstractHandler = new CityHandler();
-                break;
-            case "street":
-                abstractHandler = new StreetHandler();
-                break;
-            case "house-number":
-                abstractHandler = new HouseHandler();
-                break;
-            case "flat":
-                abstractHandler = new FlatHandler();
-                break;
-            case "postcode":
-                abstractHandler = new PostcodeHandler();
-                break;
-            case "old-phones":
-                abstractHandler = new OldPhonesHandler();
-                break;
-            case "old-attachments":
-                abstractHandler = new OldAttachmentHandler();
-                break;
-            case "new-phones":
-                abstractHandler = new NewPhonesHandler();
-                break;
-            case "new-attachments":
-                abstractHandler = new NewAttachmentHandler();
-                break;
-        }
-        return abstractHandler;
+public class HandlerFactory {
+    
+    private static Map<String, AbstractHandler> handlerMap = new HashMap<>();
+    static {
+         handlerMap.put("first-name", new FirstNameHandler());
+         handlerMap.put("last-name", new LastNameHandler());
+         handlerMap.put("patronymic", new PatronymicHandler());
+         handlerMap.put("birth-date", new BirthDateHandler());
+         handlerMap.put("marital-status", new MaritalStatusHandler());
+         handlerMap.put("sex", new SexHandler());
+         handlerMap.put("nationality", new NationalityHandler());
+         handlerMap.put("website", new WebsiteHandler());
+         handlerMap.put("email", new EmailHandler());
+         handlerMap.put("job", new JobHandler());
+         handlerMap.put("country", new CountryHandler());
+         handlerMap.put("city", new CityHandler());
+         handlerMap.put("street", new StreetHandler());
+         handlerMap.put("house-number", new HouseHandler());
+         handlerMap.put("flat", new FlatHandler());
+         handlerMap.put("postcode", new PostcodeHandler());
+         handlerMap.put("old-phones", new OldPhonesHandler());
+         handlerMap.put("old-attachments", new OldAttachmentHandler());
+         handlerMap.put("new-phones", new NewPhonesHandler());
+         handlerMap.put("new-attachments", new NewAttachmentHandler());
+    }
+    
+    public static AbstractHandler getFieldHandler(String inputFieldName) {
+        return handlerMap.get(inputFieldName);
     }
 }

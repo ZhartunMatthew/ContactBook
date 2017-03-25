@@ -1,15 +1,11 @@
 package com.zhartunmatthew.web.contactbook.command.showviewcommands;
 
 import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
-import com.zhartunmatthew.web.contactbook.dao.ContactDAO;
-import com.zhartunmatthew.web.contactbook.dao.CountryDAO;
-import com.zhartunmatthew.web.contactbook.dao.MaritalStatusDAO;
-import com.zhartunmatthew.web.contactbook.dao.NationalityDAO;
-import com.zhartunmatthew.web.contactbook.dao.daofactory.DAOFactory;
-import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Country;
 import com.zhartunmatthew.web.contactbook.entity.MaritalStatus;
 import com.zhartunmatthew.web.contactbook.entity.Nationality;
+import com.zhartunmatthew.web.contactbook.services.ContactService;
+import com.zhartunmatthew.web.contactbook.services.UtilService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,31 +20,20 @@ public class ShowContactCommand implements AbstractCommand {
     @Override
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("contact_id");
-        Contact contact;
+
         if(!Objects.isNull(id)) {
-            try (ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class)) {
-                contact = contactDAO.read(Long.parseLong(id));
-                request.setAttribute("contact", contact);
-            }
+            ContactService contactService = new ContactService();
+            request.setAttribute("contact", contactService.getContactById(Long.parseLong(id)));
         }
-            ArrayList<MaritalStatus> maritalStatuses;
-            try (MaritalStatusDAO maritalStatusDAO = (MaritalStatusDAO) DAOFactory.createDAO(MaritalStatusDAO.class)) {
-                maritalStatuses = maritalStatusDAO.readAll();
-            }
 
-            ArrayList<Nationality> nationalities;
-            try (NationalityDAO nationalityDAO = (NationalityDAO) DAOFactory.createDAO(NationalityDAO.class)) {
-                nationalities = nationalityDAO.readAll();
-            }
+        UtilService utilService = new UtilService();
+        ArrayList<MaritalStatus> maritalStatuses = utilService.getMaritalStatuses();
+        ArrayList<Nationality> nationalities = utilService.getNationalities();
+        ArrayList<Country> countries = utilService.getCountries();
 
-            ArrayList<Country> countries;
-            try (CountryDAO countryDAO = (CountryDAO) DAOFactory.createDAO(CountryDAO.class)) {
-                countries = countryDAO.readAll();
-            }
-
-            request.setAttribute("nationalities", nationalities);
-            request.setAttribute("countries", countries);
-            request.setAttribute("martialStatuses", maritalStatuses);
+        request.setAttribute("nationalities", nationalities);
+        request.setAttribute("countries", countries);
+        request.setAttribute("martialStatuses", maritalStatuses);
 
         return COMMAND_URL;
     }

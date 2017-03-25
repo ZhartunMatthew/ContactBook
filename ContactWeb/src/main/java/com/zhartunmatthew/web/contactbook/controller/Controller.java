@@ -14,16 +14,19 @@ public class Controller extends HttpServlet {
 
     private static Logger log = Logger.getLogger(Controller.class);
     private static String REDIRECT_URL = "/controller";
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         processRequest(request, response);
 
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         log.debug("SERVLET LOG");
         AbstractCommand command = CommandFactory.createCommand(request);
         String commandURL = command.execute(request);

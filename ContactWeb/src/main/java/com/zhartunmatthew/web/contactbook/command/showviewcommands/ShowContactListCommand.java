@@ -1,11 +1,10 @@
 package com.zhartunmatthew.web.contactbook.command.showviewcommands;
 
 import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
-import com.zhartunmatthew.web.contactbook.dao.ContactDAO;
-import com.zhartunmatthew.web.contactbook.dao.daofactory.DAOFactory;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.pagination.Pagination;
 import com.zhartunmatthew.web.contactbook.pagination.PaginationManager;
+import com.zhartunmatthew.web.contactbook.services.ContactService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,16 +18,16 @@ public class ShowContactListCommand implements AbstractCommand {
     @Override
     public String execute(HttpServletRequest request) {
 
-        int offset = PaginationManager.getOffset(request);
-        int contactsPerPage = PaginationManager.getLimit();
-        ArrayList<Contact> contacts = null;
-        try (ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class)) {
-            contacts = contactDAO.readCertainCount(offset, contactsPerPage);
-        }
+        ContactService contactService = new ContactService();
+        long count = contactService.getContactCount();
 
-        Pagination pagination = new Pagination();
-        pagination.setActivePage(PaginationManager.getActivePage(request));
-        pagination.setPageCount(PaginationManager.getPageCount());
+        PaginationManager paginationManager = new PaginationManager(request, count);
+        Pagination pagination = paginationManager.getPagination();
+
+        int offset = paginationManager.getOffset();
+        int contactsPerPage = paginationManager.getLimit();
+
+        ArrayList<Contact> contacts = contactService.getCertainCount(offset, contactsPerPage);
 
         log.info("SHOW CONTACT LIST");
         log.info("ACTIVE PAGE = " + pagination.getActivePage());

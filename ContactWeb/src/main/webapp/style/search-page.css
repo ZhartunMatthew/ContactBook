@@ -1,0 +1,21 @@
+form {
+    width: 40%;
+}
+
+form label {
+    margin: 5px 0;
+    display: block;
+}
+
+form label input {
+    display: block;
+    width: 150px;
+    float: right;
+}
+
+
+form label select {
+    display: block;
+    width: 150px;
+    float: right;
+}

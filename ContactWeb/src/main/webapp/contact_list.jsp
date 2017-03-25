@@ -9,69 +9,72 @@
             <a class="nav-button home" href="/controller?command=show_contact_list&page=1"> </a>
             <a class="nav-button add" href="/controller?command=show_contact"> </a>
             <a id="delete-contact-button" class="nav-button delete"></a>
-            <a class="nav-button search" href="/controller?command=search_contact"></a>
+            <a class="nav-button search" href="/controller?command=show_contact_search"></a>
             <a class="nav-button send-mail" href="/controller?command=send_mail"></a>
         </div>
-        <div class="pagination">
-            <c:set var="firstPage" value="${1}"/>
-            <c:set var="lastPage" value="${pagination.pageCount}"/>
-            <c:set var="activePage" value="${pagination.activePage}"/>
-            <ul>
-                <li>
-                    <a href="/controller?command=show_contact_list&page=${firstPage}">
-                        <div class="page-n first-page">
-                            <<
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="/controller?command=show_contact_list&page=${activePage <= 1 ? 1 : activePage - 1}">
-                        <div class="page-n prev-page">
-                            <
-                        </div>
-                    </a>
-                </li>
-                <c:forEach var="number" begin="${firstPage}" end="${activePage-1}">
+        <c:if test="${not empty pagination}">
+            <div class="pagination">
+                <c:set var="firstPage" value="${1}"/>
+                <c:set var="lastPage" value="${pagination.pageCount}"/>
+                <c:set var="activePage" value="${pagination.activePage}"/>
+
+                <ul>
                     <li>
-                        <a href="/controller?command=show_contact_list&page=${number}">
-                            <div class="page-n">
-                                <c:out value="${number}"/>
+                        <a href="/controller?command=show_contact_list&page=${firstPage}">
+                            <div class="page-n first-page">
+                                <<
                             </div>
                         </a>
                     </li>
-                </c:forEach>
-                <li>
-                    <a href="/controller?command=show_contact_list&page=${activePage}">
-                        <div class="page-n active-page">
-                            <c:out value="${activePage}"/>
-                        </div>
-                    </a>
-                </li>
-                <c:forEach var="number" begin="${activePage + 1}" end="${lastPage}">
                     <li>
-                        <a href="/controller?command=show_contact_list&page=${number}">
-                            <div class="page-n">
-                                <c:out value="${number}"/>
+                        <a href="/controller?command=show_contact_list&page=${activePage <= 1 ? 1 : activePage - 1}">
+                            <div class="page-n prev-page">
+                                <
                             </div>
                         </a>
                     </li>
-                </c:forEach>
-                <li>
-                    <a href="/controller?command=show_contact_list&page=${activePage >= lastPage ? lastPage : activePage + 1}">
-                        <div class="page-n next-page">
-                            >
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="/controller?command=show_contact_list&page=${lastPage}">
-                        <div class="page-n last-page">
-                            >>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </div>
+                    <c:forEach var="number" begin="${firstPage}" end="${activePage-1}">
+                        <li>
+                            <a href="/controller?command=show_contact_list&page=${number}">
+                                <div class="page-n">
+                                    <c:out value="${number}"/>
+                                </div>
+                            </a>
+                        </li>
+                    </c:forEach>
+                    <li>
+                        <a href="/controller?command=show_contact_list&page=${activePage}">
+                            <div class="page-n active-page">
+                                <c:out value="${activePage}"/>
+                            </div>
+                        </a>
+                    </li>
+                    <c:forEach var="number" begin="${activePage + 1}" end="${lastPage}">
+                        <li>
+                            <a href="/controller?command=show_contact_list&page=${number}">
+                                <div class="page-n">
+                                    <c:out value="${number}"/>
+                                </div>
+                            </a>
+                        </li>
+                    </c:forEach>
+                    <li>
+                        <a href="/controller?command=show_contact_list&page=${activePage >= lastPage ? lastPage : activePage + 1}">
+                            <div class="page-n next-page">
+                                >
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/controller?command=show_contact_list&page=${lastPage}">
+                            <div class="page-n last-page">
+                                >>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </c:if>
         <div class="first-row">
             <div class="column column-1"> # </div>
             <div class="column column-3"> Фамилия, имя </div>

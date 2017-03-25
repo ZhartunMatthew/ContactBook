@@ -3,9 +3,11 @@ package com.zhartunmatthew.web.contactbook.command.commandfactory;
 import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
 import com.zhartunmatthew.web.contactbook.command.executablecommands.AddContactCommand;
 import com.zhartunmatthew.web.contactbook.command.executablecommands.DeleteContactCommand;
+import com.zhartunmatthew.web.contactbook.command.executablecommands.search.SearchContactsCommand;
 import com.zhartunmatthew.web.contactbook.command.executablecommands.UpdateContactCommand;
 import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactCommand;
 import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactListCommand;
+import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactSearchCommand;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +31,16 @@ public class CommandFactory {
         if(Objects.equals("show_contact", command)) {
             abstractCommand = new ShowContactCommand();
             log.debug("Returned command 'ShowContact'");
+        }
+
+        if(Objects.equals("show_contact_search", command)) {
+            abstractCommand = new ShowContactSearchCommand();
+            log.debug("Returned command 'ShowContactSearch'");
+        }
+
+        if(Objects.equals("search_contacts", command)) {
+            abstractCommand = new SearchContactsCommand();
+            log.debug("Returned command 'ContactSearch'");
         }
 
         if(Objects.equals("update_contact", command)) {

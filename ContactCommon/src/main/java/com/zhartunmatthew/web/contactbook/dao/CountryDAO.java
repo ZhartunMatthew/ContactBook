@@ -3,9 +3,8 @@ package com.zhartunmatthew.web.contactbook.dao;
 import com.zhartunmatthew.web.contactbook.entity.Country;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 public class CountryDAO  extends AbstractDAO<Long, Country> {
@@ -19,11 +18,9 @@ public class CountryDAO  extends AbstractDAO<Long, Country> {
     @Override
     public ArrayList<Country> readAll() {
         ArrayList<Country> countries = new ArrayList<>();
-        Statement statement = null;
         ResultSet resultSet = null;
-        try {
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(SELECT_ALL);
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL)){
+            resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Country country = new Country();
                 country.setId(resultSet.getLong("id_country"));
@@ -32,14 +29,6 @@ public class CountryDAO  extends AbstractDAO<Long, Country> {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return countries;
     }

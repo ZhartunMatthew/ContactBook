@@ -42,14 +42,6 @@ public class ConnectionManager {
         return connection;
     }
 
-    public void releaseConnection(Connection connection) {
-        try {
-            connection.close();
-        } catch (SQLException ex){
-            ex.printStackTrace();
-        }
-    }
-
     public void deregisterDrivers() {
         Enumeration<Driver> driverEnumeration = DriverManager.getDrivers();
         while(driverEnumeration.hasMoreElements()) {
