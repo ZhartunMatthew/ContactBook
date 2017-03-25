@@ -78,4 +78,30 @@ public class Phone implements Entity {
                 ", comment='" + comment + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Phone phone = (Phone) o;
+
+        if (type != phone.type) return false;
+        if (phoneID != null ? !phoneID.equals(phone.phoneID) : phone.phoneID != null) return false;
+        if (countryCode != null ? !countryCode.equals(phone.countryCode) : phone.countryCode != null) return false;
+        if (operatorCode != null ? !operatorCode.equals(phone.operatorCode) : phone.operatorCode != null) return false;
+        if (number != null ? !number.equals(phone.number) : phone.number != null) return false;
+        return comment != null ? comment.equals(phone.comment) : phone.comment == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = countryCode != null ? countryCode.hashCode() : 0;
+        result = 31 * result + (operatorCode != null ? operatorCode.hashCode() : 0);
+        result = 31 * result + (number != null ? number.hashCode() : 0);
+        result = 31 * result + type;
+        result = 31 * result + (comment != null ? comment.hashCode() : 0);
+        return result;
+    }
 }

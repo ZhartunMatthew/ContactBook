@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class DeleteContactCommand implements AbstractCommand {
 
     private static Logger log = Logger.getLogger(DeleteContactCommand.class);
+    private static String REDIRECT_URL = "/controller";
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -28,7 +29,7 @@ public class DeleteContactCommand implements AbstractCommand {
         ContactService contactService = new ContactService();
         contactService.deleteContacts(checkedItems);
 
-        return null;
+        return REDIRECT_URL;
     }
 
     @Override

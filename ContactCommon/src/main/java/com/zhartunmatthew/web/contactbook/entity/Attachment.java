@@ -60,4 +60,25 @@ public class Attachment implements Entity {
                 ", uploadDate=" + uploadDate +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Attachment that = (Attachment) o;
+
+        if (fileID != null ? !fileID.equals(that.fileID) : that.fileID != null) return false;
+        if (filePath != null ? !filePath.equals(that.filePath) : that.filePath != null) return false;
+        if (comment != null ? !comment.equals(that.comment) : that.comment != null) return false;
+        return uploadDate != null ? uploadDate.equals(that.uploadDate) : that.uploadDate == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = filePath != null ? filePath.hashCode() : 0;
+        result = 31 * result + (comment != null ? comment.hashCode() : 0);
+        return result;
+    }
 }

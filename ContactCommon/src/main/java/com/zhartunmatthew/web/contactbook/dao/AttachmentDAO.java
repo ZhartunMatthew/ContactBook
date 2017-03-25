@@ -24,8 +24,14 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
             "INSERT INTO attachments (contact_id, file_path, upload_date, comment) " +
                     "VALUES (?, ?, ?, ?);";
 
-    private static final String DELETE_ATTACHMENT =
+    private static final String DELETE_CONTACT_ATTACHMENTS =
             "DELETE FROM attachments WHERE contact_id = ?";
+
+    private static final String UPDATE_ATTACHMENT =
+            "UPDATE attachments SET file_path = ?, comment = ? WHERE id_file = ?;";
+
+    private static final String DELETE_ATTACHMENT =
+            "DELETE FROM attachments WHERE id_file = ?";
 
     public AttachmentDAO(Connection connection) {
         super(connection);
@@ -74,16 +80,28 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
 
     @Override
     public void update(Long id, Attachment val) {
-
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_ATTACHMENT)){
+            statement.setString(1, val.getFilePath());
+            statement.setString(2, val.getComment());
+            statement.setLong(3, val.getFileID());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void delete(Long id) {
-
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_ATTACHMENT)){
+            statement.setLong(1, id);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteContactAttachment(Long id) {
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_ATTACHMENT)){
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_CONTACT_ATTACHMENTS)){
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {

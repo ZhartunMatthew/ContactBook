@@ -10,12 +10,16 @@ import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.search.SearchParameters;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ContactService {
+
+    private static Logger logger = Logger.getLogger(ContactService.class);
 
     public ContactService() {}
 
@@ -44,7 +48,7 @@ public class ContactService {
                     attachmentDAO.insert(attachment);
                 }
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
@@ -70,7 +74,7 @@ public class ContactService {
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
             contacts = contactDAO.readAll();
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
@@ -83,7 +87,7 @@ public class ContactService {
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
             contact = contactDAO.read(id);
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return contact;
@@ -94,7 +98,7 @@ public class ContactService {
         try(Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
             count = contactDAO.getContactCount();
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return count;
@@ -105,7 +109,7 @@ public class ContactService {
         try (Connection connection = ConnectionUtils.getConnection()){
             ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
             contacts = contactDAO.readCertainCount(from, limit);
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return contacts;
@@ -116,9 +120,87 @@ public class ContactService {
         try (Connection connection = ConnectionUtils.getConnection()){
             ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
             contacts = contactDAO.searchUserByParameters(parameters);
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return contacts;
+    }
+
+    public void updateContact(Contact contact) {
+        try (Connection connection = ConnectionUtils.getConnection()){
+            ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
+            contactDAO.update(contact.getId(), contact);
+            logger.info(contact.getPhones());
+            updatePhones(contact.getId(), contact.getPhones());
+            updateAttachments(contact.getId(), contact.getAttachments());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void updatePhones(Long id, ArrayList<Phone> phones) {
+        ArrayList<Phone> phonesFromDB;
+        try(Connection connection = ConnectionUtils.getConnection()) {
+            PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.createDAO(PhoneDAO.class, connection);
+            phonesFromDB = phoneDAO.readContactPhones(id);
+            for (Phone phone : phones) {
+                if(phone.getPhoneID() == null) {
+                    logger.info("INSERT: " + phone);
+                    phoneDAO.insert(phone);
+                } else {
+                    if(!phonesFromDB.contains(phone)) {
+                        logger.info("UPDATE: " + phone);
+                        phoneDAO.update(phone.getPhoneID(), phone);
+                    }
+                    Iterator<Phone> phoneIterator = phonesFromDB.iterator();
+                    while(phoneIterator.hasNext()) {
+                        Phone tempPhone = phoneIterator.next();
+                        if(tempPhone.getPhoneID().equals(phone.getPhoneID())) {
+                            phoneIterator.remove();
+                            break;
+                        }
+                    }
+                }
+            }
+            for (Phone phone : phonesFromDB) {
+                logger.info("DELETE: " + phone);
+                phoneDAO.delete(phone.getPhoneID());
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void updateAttachments(Long id, ArrayList<Attachment> attachments) {
+        ArrayList<Attachment> attachmentsFromDB;
+        try(Connection connection = ConnectionUtils.getConnection()) {
+            AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.createDAO(AttachmentDAO.class, connection);
+            attachmentsFromDB = attachmentDAO.readContactAttachments(id);
+            for (Attachment attachment : attachments) {
+                if(attachment.getFileID() == null) {
+                    logger.info("INSERT: " + attachment);
+                    attachmentDAO.insert(attachment);
+                } else {
+                    if(!attachmentsFromDB.contains(attachment)) {
+                        logger.info("UPDATE: " + attachment);
+                        attachmentDAO.update(attachment.getFileID(), attachment);
+                    }
+                    Iterator<Attachment> attachmentIterator = attachmentsFromDB.iterator();
+                    while(attachmentIterator.hasNext()) {
+                        Attachment tempAttachment = attachmentIterator.next();
+                        if(tempAttachment.getFileID().equals(attachment.getFileID())) {
+                            attachmentIterator.remove();
+                            break;
+                        }
+                    }
+                }
+            }
+            for (Attachment attachment : attachmentsFromDB) {
+                logger.info("DELETE: " + attachment);
+                attachmentDAO.delete(attachment.getFileID());
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }

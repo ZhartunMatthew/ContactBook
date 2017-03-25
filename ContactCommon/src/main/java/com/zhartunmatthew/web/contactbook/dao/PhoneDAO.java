@@ -29,8 +29,13 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
             "INSERT INTO phones (contact_id, country_code, operator_code, phone_number, comment, type)" +
             "VALUES (?, ?, ?, ?, ?, ?);";
 
-    private static final String DELETE_PHONE =
+    private static final String DELETE_CONTACT_PHONE =
             "DELETE FROM phones WHERE contact_id = ?";
+
+    private static final String UPDATE_PHONE =
+            "UPDATE phones SET country_code = ?, operator_code = ?, phone_number = ?, type = ?, comment = ? WHERE phone_id = ?";
+
+    private static final String DELETE_PHONE = "DELETE FROM phones WHERE phone_id = ?";
 
     public PhoneDAO(Connection connection) {
         super(connection);
@@ -38,7 +43,7 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
 
     public ArrayList<Phone> readContactPhones(Long contactId) {
         ArrayList<Phone> phones = new ArrayList<>();
-        ResultSet phoneResultSet = null;
+        ResultSet phoneResultSet;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_CONTACT_PHONES)){
             statement.setLong(1, contactId);
             phoneResultSet = statement.executeQuery();
@@ -82,16 +87,31 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
 
     @Override
     public void update(Long id, Phone val) {
-
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_PHONE)){
+            statement.setString(1, val.getCountryCode());
+            statement.setString(2, val.getOperatorCode());
+            statement.setString(3, val.getNumber());
+            statement.setInt(4, val.getType());
+            statement.setString(5, val.getComment());
+            statement.setLong(6, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void delete(Long id) {
-
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_PHONE)){
+            statement.setLong(1, id);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteContactPhones(Long id) {
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_PHONE)){
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_CONTACT_PHONE)){
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {

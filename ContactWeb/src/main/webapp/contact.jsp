@@ -4,11 +4,13 @@
     <c:set var="titleName" value="${contact.lastName} ${contact.firstName}"/>
     <c:set var="actionOnSubmit" value="/controller?command=update_contact&id=${contact.id}"/>
     <c:set var="photoPath" value="/image/${not empty contact.photoPath ? contact.photoPath : 'default.png'}"/>
+    <c:set var="contactID" value="${contact.id}"/>
 </c:if>
 <c:if test="${empty contact}">
     <c:set var="titleName" value="Создание контакта"/>
     <c:set var="actionOnSubmit" value="/controller?command=add_contact"/>
     <c:set var="photoPath" value="/image/default.png"/>
+    <c:set var="contactID" value="${null}"/>
 </c:if>
 <html>
     <head>
@@ -16,6 +18,7 @@
     </head>
     <body>
         <form id="contact-form" class="contact" method="post" action="${actionOnSubmit}" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="${contactID}">
             <input type="submit" value="SAVE CHANGES" id="submit-contact-button">
             <div class="main-info">
                 <h3>Основная информация</h3>

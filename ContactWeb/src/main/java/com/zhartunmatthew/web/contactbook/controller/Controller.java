@@ -13,7 +13,6 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
 
     private static Logger log = Logger.getLogger(Controller.class);
-    private static String REDIRECT_URL = "/controller";
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
@@ -32,7 +31,7 @@ public class Controller extends HttpServlet {
         String commandURL = command.execute(request);
         log.debug("Command URL: " + commandURL);
         if(command.isRedirectedCommand()) {
-            response.sendRedirect(REDIRECT_URL);
+            response.sendRedirect(commandURL);
         } else {
             request.getRequestDispatcher(commandURL).forward(request, response);
         }

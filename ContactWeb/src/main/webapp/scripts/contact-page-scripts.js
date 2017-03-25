@@ -2,7 +2,7 @@
 
 function Phone() {
     var phone = {
-        id : 0,
+        id : null,
         countryCode : '',
         operatorCode : '',
         number : '',
@@ -244,8 +244,6 @@ function editPhone(phoneID, isNewPhoneEdit) {
 }
 
 function preparePhonesForSubmit() {
-
-
     var oldPhoneElements = document.getElementsByClassName('contact-phone');
     for(var oldI = 0; oldI < oldPhoneElements.length; oldI++) {
         var oldId = oldPhoneElements[oldI].id;
@@ -266,13 +264,6 @@ function preparePhonesForSubmit() {
         tempPhone.type = typeToVal(tempType);
         tempPhone.comment = document.getElementById('contact-phone-comment-' + oldId).innerHTML.trim();
 
-        alert("Old: id=" + tempPhone.id
-            + "\ncount: " + tempPhone.countryCode
-            + "\noper: " + tempPhone.operatorCode
-            +"\nnumber: " + tempPhone.number
-            + "\ntype" + tempPhone.type
-            + "\ncomment " + tempPhone.comment);
-
         oldPhones.push(tempPhone);
     }
 
@@ -282,8 +273,6 @@ function preparePhonesForSubmit() {
         newId = newId.split('-')[3];
 
         var newTempPhone = new Phone();
-        newTempPhone.id = newId;
-
         var newFullPhone = document.getElementById('new-contact-phone-number-' + newId).innerHTML.trim();
         var newCountryCode = newFullPhone.match(/^\+\d+ /)[0];
         newTempPhone.countryCode = newCountryCode.substr(1, newCountryCode.length).trim();
@@ -295,13 +284,6 @@ function preparePhonesForSubmit() {
         var newTempType = document.getElementById('new-contact-phone-type-' + newId).innerHTML.trim();
         newTempPhone.type = typeToVal(newTempType);
         newTempPhone.comment = document.getElementById('new-contact-phone-comment-' + newId).innerHTML.trim();
-
-        alert("New: id=" + newTempPhone.id
-            + "\ncount: " + newTempPhone.countryCode
-            + "\noper: " + newTempPhone.operatorCode
-            + "\nnumber: " + newTempPhone.number
-            + "\ntype" + newTempPhone.type
-            + "\ncomment " + newTempPhone.comment);
 
         newPhones.push(newTempPhone);
     }
@@ -330,7 +312,7 @@ function valToType(value) {
 
 function Attachment() {
     var attachment = {
-        id : 0,
+        id : null,
         fileName : '',
         dateUpload : '',
         comment: ''
@@ -529,8 +511,6 @@ function prepareAttachmentForSubmit() {
         tempAttachment.dateUpload = document.getElementById('contact-attachment-upload-date-' + oldId).innerHTML.trim();
         tempAttachment.comment = document.getElementById('contact-attachment-comment-' + oldId).innerHTML.trim();
 
-        alert('Old attachment: ' + tempAttachment.id + ' name: ' + tempAttachment.name);
-
         oldAttachments.push(tempAttachment);
     }
 
@@ -540,13 +520,10 @@ function prepareAttachmentForSubmit() {
         newId = newId.split('-')[3];
 
         var newTempAttachment = new Attachment();
-        newTempAttachment.id = newId;
 
         newTempAttachment.name = document.getElementById('new-contact-attachment-file-path-' + newId).innerHTML.trim();
         newTempAttachment.dateUpload = document.getElementById('new-contact-attachment-upload-date-' + newId).innerHTML.trim();
         newTempAttachment.comment = document.getElementById('new-contact-attachment-comment-' + newId).innerHTML.trim();
-
-        alert('New attachment: ' + newTempAttachment.id + ' name: ' + newTempAttachment.name);
 
         newAttachments.push(newTempAttachment);
     }

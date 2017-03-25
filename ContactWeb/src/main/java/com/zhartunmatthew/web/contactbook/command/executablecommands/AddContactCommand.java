@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 public class AddContactCommand implements AbstractCommand {
 
     private static Logger log = Logger.getLogger(AddContactCommand.class);
-    private final static String COMMAND_URL = "contact.jsp";
+    private static String REDIRECT_URL = "/controller";
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -24,7 +24,7 @@ public class AddContactCommand implements AbstractCommand {
         ContactService contactService = new ContactService();
         contactService.insertContact(contact);
 
-        return COMMAND_URL;
+        return REDIRECT_URL;
     }
 
     @Override

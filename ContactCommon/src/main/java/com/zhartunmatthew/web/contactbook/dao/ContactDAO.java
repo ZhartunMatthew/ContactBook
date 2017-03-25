@@ -88,8 +88,15 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             "LEFT JOIN nationality ON nationality.id_nationality = contacts.nationality_id " +
             "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
             "LEFT JOIN countries ON countries.id_country = contacts.country_id " +
-            "LEFT JOIN addresses ON addresses.contact_id = contacts.id WHERE TRUE ";
+            "LEFT JOIN addresses ON addresses.contact_id = contacts.id WHERE TRUE";
 
+    private static final String UPDATE_CONTACT =
+            "UPDATE contacts SET " +
+            "first_name = ?, last_name = ?, patronymic = ?, birth_date = ?, sex = ?, marital_status_id = ?, " +
+            "nationality_id = ?, website = ?, email = ?, photo_path = ?, job = ?, country_id = ? WHERE id = ?";
+
+    private static final String UPDATE_CONTACT_ADDRESS =
+            "UPDATE addresses SET city = ?, street = ?, house_number = ?, flat = ? WHERE contact_id = ?";
 
     public ContactDAO(Connection connection) {
         super(connection);
@@ -262,7 +269,58 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
     @Override
     public void update(Long l, Contact val) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_CONTACT)) {
+            statement.setString(1, val.getFirstName());
+            statement.setString(2, val.getLastName());
+            statement.setString(3, val.getPatronymic());
+            statement.setDate(4, val.getBirthDate());
+            statement.setString(5, val.getSex());
 
+            Long maritalStatus = val.getMaritalStatus();
+            if(maritalStatus == null) {
+                statement.setNull(6, Types.INTEGER);
+            } else {
+                statement.setLong(6, maritalStatus);
+            }
+
+            Long nationality = val.getNationality();
+            if(nationality == null) {
+                statement.setNull(7, Types.INTEGER);
+            } else {
+                statement.setLong(7, nationality);
+            }
+
+            statement.setString(8, val.getWebsite());
+            statement.setString(9, val.getEmail());
+            statement.setString(10, val.getPhotoPath());
+            statement.setString(11, val.getJob());
+
+            Long country = val.getCountry();
+            if(country == null) {
+                statement.setNull(12, Types.INTEGER);
+            } else {
+                statement.setLong(12, country);
+            }
+
+            statement.setLong(13, l);
+            statement.executeUpdate();
+            updateContactAddress(l, val);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void updateContactAddress(Long l, Contact val) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_CONTACT_ADDRESS)) {
+            statement.setString(1, val.getCity());
+            statement.setString(2, val.getStreet());
+            statement.setString(3, val.getHouseNumber());
+            statement.setString(4, val.getFlat());
+            statement.setLong(5, val.getId());
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override

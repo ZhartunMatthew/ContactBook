@@ -26,7 +26,12 @@ public class JSONBuilder {
                 JSONObject object = (JSONObject) item;
                 Phone phone = new Phone();
 
-                phone.setPhoneID(Long.parseLong(object.get("id").toString()));
+                Object id = object.get("id");
+                if(id != null) {
+                    phone.setPhoneID(Long.parseLong(id.toString()));
+                } else {
+                    phone.setPhoneID(null);
+                }
                 phone.setCountryCode((String) object.get("countryCode"));
                 phone.setOperatorCode((String) object.get("operatorCode"));
                 phone.setNumber((String) object.get("number"));
@@ -51,7 +56,13 @@ public class JSONBuilder {
                 JSONObject object = (JSONObject) item;
                 Attachment attachment = new Attachment();
 
-                attachment.setFileID(Long.parseLong(object.get("id").toString()));
+                Object id = object.get("id");
+                if(id != null) {
+                    attachment.setFileID(Long.parseLong(id.toString()));
+                } else {
+                    attachment.setFileID(null);
+                }
+
                 attachment.setUploadDate(new Date(DateTime.now().getMillis()));
                 attachment.setFilePath((String) object.get("name"));
                 attachment.setComment((String) object.get("comment"));

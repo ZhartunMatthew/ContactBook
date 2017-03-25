@@ -5,11 +5,10 @@ import com.zhartunmatthew.web.contactbook.dao.MaritalStatusDAO;
 import com.zhartunmatthew.web.contactbook.dao.NationalityDAO;
 import com.zhartunmatthew.web.contactbook.dao.daofactory.DAOFactory;
 import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionUtils;
-import com.zhartunmatthew.web.contactbook.entity.Country;
-import com.zhartunmatthew.web.contactbook.entity.MaritalStatus;
-import com.zhartunmatthew.web.contactbook.entity.Nationality;
+import com.zhartunmatthew.web.contactbook.entity.*;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UtilService {
@@ -22,7 +21,7 @@ public class UtilService {
             MaritalStatusDAO maritalStatusDAO = (MaritalStatusDAO)
                     DAOFactory.createDAO(MaritalStatusDAO.class, connection);
             maritalStatuses = maritalStatusDAO.readAll();
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return maritalStatuses;
@@ -34,7 +33,7 @@ public class UtilService {
             NationalityDAO maritalStatusDAO = (NationalityDAO)
                     DAOFactory.createDAO(NationalityDAO.class, connection);
             nationalities = maritalStatusDAO.readAll();
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return nationalities;
@@ -46,7 +45,7 @@ public class UtilService {
             CountryDAO maritalStatusDAO = (CountryDAO)
                     DAOFactory.createDAO(CountryDAO.class, connection);
             countries = maritalStatusDAO.readAll();
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return countries;
