@@ -18,16 +18,26 @@ public class SearchContactsCommand implements AbstractCommand {
     public String execute(HttpServletRequest request) {
         SearchParameters searchParameters = new SearchParameters();
 
-        searchParameters.setFirstName(request.getParameter("first-name").trim());
-        searchParameters.setLastName(request.getParameter("last-name").trim());
-        searchParameters.setPatronymic(request.getParameter("patronymic").trim());
-        searchParameters.setSex(request.getParameter("sex").trim());
-        searchParameters.setMaritalStatus(Integer.parseInt(request.getParameter("marital-status").trim()));
-        searchParameters.setNationality(Integer.parseInt(request.getParameter("nationality").trim()));
-        searchParameters.setCountry(Integer.parseInt(request.getParameter("country").trim()));
+        searchParameters.setFirstName(request.getParameter("first-name"));
+        searchParameters.setLastName(request.getParameter("last-name"));
+        searchParameters.setPatronymic(request.getParameter("patronymic"));
+        searchParameters.setSex(request.getParameter("sex"));
+
+        String maritalStatus = request.getParameter("marital-status");
+        searchParameters.setMaritalStatus(maritalStatus == null ? 0 : Integer.parseInt(maritalStatus));
+
+        String nationality = request.getParameter("nationality");
+        searchParameters.setNationality((nationality == null ? 0 : Integer.parseInt(nationality)));
+
+        String country = request.getParameter("country");
+        searchParameters.setCountry(country == null ? 0 : Integer.parseInt(country));
         searchParameters.setCity(request.getParameter("city"));
-//        searchParameters.setHouse(Integer.parseInt(request.getParameter("house")));
-//        searchParameters.setFlat(Integer.parseInt(request.getParameter("flat")));
+
+        String house = request.getParameter("house-number");
+        searchParameters.setHouse(house == null || house.isEmpty() ? 0 : Integer.parseInt(house));
+
+        String flat = request.getParameter("flat");
+        searchParameters.setFlat(flat == null || flat.isEmpty() ? 0 : Integer.parseInt(flat));
 
         ContactService contactService = new ContactService();
         ArrayList<Contact> contacts = contactService.findAllByParameters(searchParameters);

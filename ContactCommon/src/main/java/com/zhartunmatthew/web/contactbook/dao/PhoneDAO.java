@@ -87,6 +87,10 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
 
     @Override
     public void delete(Long id) {
+
+    }
+
+    public void deleteContactPhones(Long id) {
         try (PreparedStatement statement = connection.prepareStatement(DELETE_PHONE)){
             statement.setLong(1, id);
             statement.execute();

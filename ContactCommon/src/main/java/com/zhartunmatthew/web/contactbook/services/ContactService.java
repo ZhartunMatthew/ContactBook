@@ -52,13 +52,11 @@ public class ContactService {
     public void deleteContacts(ArrayList<Long> items) {
         try (Connection connection = ConnectionUtils.getConnection()) {
             AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.createDAO(AttachmentDAO.class, connection);
-            items.forEach(attachmentDAO::delete);
-
             PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.createDAO(PhoneDAO.class, connection);
-            items.forEach(phoneDAO::delete);
-
             ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
             for(Long id : items) {
+                attachmentDAO.deleteContactAttachment(id);
+                phoneDAO.deleteContactPhones(id);
                 contactDAO.deleteContactAddress(id);
                 contactDAO.delete(id);
             }

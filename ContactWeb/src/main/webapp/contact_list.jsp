@@ -12,12 +12,11 @@
             <a class="nav-button search" href="/controller?command=show_contact_search"></a>
             <a class="nav-button send-mail" href="/controller?command=send_mail"></a>
         </div>
-        <c:if test="${not empty pagination}">
+        <c:if test="${not empty pagination && pagination.pageCount > 1 }">
             <div class="pagination">
                 <c:set var="firstPage" value="${1}"/>
                 <c:set var="lastPage" value="${pagination.pageCount}"/>
                 <c:set var="activePage" value="${pagination.activePage}"/>
-
                 <ul>
                     <li>
                         <a href="/controller?command=show_contact_list&page=${firstPage}">

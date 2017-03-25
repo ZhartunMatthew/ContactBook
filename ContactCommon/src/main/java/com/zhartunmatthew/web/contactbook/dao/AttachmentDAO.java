@@ -79,6 +79,10 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
 
     @Override
     public void delete(Long id) {
+
+    }
+
+    public void deleteContactAttachment(Long id) {
         try (PreparedStatement statement = connection.prepareStatement(DELETE_ATTACHMENT)){
             statement.setLong(1, id);
             statement.execute();

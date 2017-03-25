@@ -1,3 +1,5 @@
+-- MySQL Workbench Forward Engineering
+
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
@@ -35,6 +37,17 @@ DEFAULT CHARACTER SET utf8;
 
 
 -- -----------------------------------------------------
+-- Table `contactbook`.`countries`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `contactbook`.`countries` (
+  `id_country` INT NOT NULL AUTO_INCREMENT,
+  `country_name` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`id_country`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET utf8;
+
+
+-- -----------------------------------------------------
 -- Table `contactbook`.`contacts`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `contactbook`.`contacts` (
@@ -67,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `contactbook`.`contacts` (
     ON UPDATE NO ACTION,
   CONSTRAINT `country_id_key`
     FOREIGN KEY (`country_id`)
-    REFERENCES `contactbook`.`contacts` (`id`)
+    REFERENCES `contactbook`.`countries` (`id_country`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -90,17 +103,6 @@ CREATE TABLE IF NOT EXISTS `contactbook`.`addresses` (
     REFERENCES `contactbook`.`contacts` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET utf8;
-
-
--- -----------------------------------------------------
--- Table `contactbook`.`countries`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `contactbook`.`countries` (
-  `id_country` INT NOT NULL AUTO_INCREMENT,
-  `country_name` VARCHAR(30) NOT NULL,
-  PRIMARY KEY (`id_country`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET utf8;
 
@@ -150,3 +152,24 @@ DEFAULT CHARACTER SET utf8;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+INSERT INTO `contactbook`.`marital_status` (`id_marital_status`, `marital_status_name`) VALUES ('1', 'Холост/Не замужем');
+INSERT INTO `contactbook`.`marital_status` (`id_marital_status`, `marital_status_name`) VALUES ('2', 'Женат/Замужем');
+INSERT INTO `contactbook`.`marital_status` (`id_marital_status`, `marital_status_name`) VALUES ('3', 'Гражданский брак');
+
+INSERT INTO `contactbook`.`nationality` (`id_nationality`, `nationality_name`) VALUES ('1', 'беларус');
+INSERT INTO `contactbook`.`nationality` (`id_nationality`, `nationality_name`) VALUES ('2', 'русский');
+INSERT INTO `contactbook`.`nationality` (`id_nationality`, `nationality_name`) VALUES ('3', 'украинец');
+INSERT INTO `contactbook`.`nationality` (`id_nationality`, `nationality_name`) VALUES ('4', 'поляк');
+INSERT INTO `contactbook`.`nationality` (`id_nationality`, `nationality_name`) VALUES ('5', 'чех');
+INSERT INTO `contactbook`.`nationality` (`id_nationality`, `nationality_name`) VALUES ('6', 'немец');
+INSERT INTO `contactbook`.`nationality` (`id_nationality`, `nationality_name`) VALUES ('7', 'француз');
+
+INSERT INTO `contactbook`.`countries` (`id_country`, `country_name`) VALUES ('1', 'Беларусь');
+INSERT INTO `contactbook`.`countries` (`id_country`, `country_name`) VALUES ('2', 'Россия');
+INSERT INTO `contactbook`.`countries` (`id_country`, `country_name`) VALUES ('3', 'Украина');
+INSERT INTO `contactbook`.`countries` (`id_country`, `country_name`) VALUES ('4', 'Польша');
+INSERT INTO `contactbook`.`countries` (`id_country`, `country_name`) VALUES ('5', 'Чехия');
+INSERT INTO `contactbook`.`countries` (`id_country`, `country_name`) VALUES ('6', 'Германия');
+INSERT INTO `contactbook`.`countries` (`id_country`, `country_name`) VALUES ('7', 'Франция');

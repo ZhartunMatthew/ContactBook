@@ -315,32 +315,32 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
     private String buildQuery(SearchParameters parameters, String query) {
 
-        if (!parameters.getFirstName().isEmpty()) {
+        if (parameters.getFirstName() != null && !parameters.getFirstName().isEmpty()) {
             query += " AND first_name LIKE '" + parameters.getFirstName() + "'";
         }
-        if (!parameters.getLastName().isEmpty()) {
+        if (parameters.getLastName() != null && !parameters.getLastName().isEmpty()) {
             query += " AND last_name LIKE '" + parameters.getLastName() + "'";
         }
-        if (!parameters.getPatronymic().equals("")) {
+        if (parameters.getPatronymic() != null && !parameters.getPatronymic().equals("")) {
             query += " AND patronymic LIKE '" + parameters.getPatronymic() + "'";
         }
-        if (!parameters.getSex().equals("X")) {
+        if (parameters.getSex() != null && !parameters.getSex().equals("X")) {
             query += " AND sex = '" + parameters.getSex() + "'";
         }
         if (parameters.getMaritalStatus() != 0) {
             query += " AND marital_status LIKE '" + parameters.getMaritalStatus() + "'";
         }
-        if (parameters.getNationality() != 0) {
+        if ( parameters.getNationality() != 0) {
             query += " AND nationality LIKE '" + parameters.getNationality() + "'";
         }
         if (parameters.getCountry() != 0) {
             query += " AND state LIKE '" + parameters.getCountry() + "'";
         }
-        if (!parameters.getCity().isEmpty()) {
+        if (parameters.getCity() != null && !parameters.getCity().isEmpty()) {
             query += " AND city LIKE '" + parameters.getCity() + "'";
         }
-        if (!parameters.getCity().isEmpty()) {
-            query += " AND house LIKE '" + parameters.getCity() + "'";
+        if (parameters.getHouse() != 0) {
+            query += " AND house_number LIKE '" + parameters.getHouse() + "'";
         }
         if (parameters.getFlat() != 0) {
             query += " AND flat LIKE '" + parameters.getFlat() + "';";

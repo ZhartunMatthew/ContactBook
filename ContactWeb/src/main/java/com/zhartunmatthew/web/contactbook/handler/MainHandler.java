@@ -9,6 +9,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -21,7 +22,8 @@ public class MainHandler {
     public void handleInputs(HttpServletRequest request) {
         DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
         ServletFileUpload fileUpload = new ServletFileUpload(fileItemFactory);
-        File tempDir = new File(System.getProperty("java.io.tmpdir"));
+        ServletContext app = request.getServletContext();
+        File tempDir = new File(String.valueOf(app.getAttribute("javax.servlet.context.tempdir")));
         fileItemFactory.setRepository(tempDir);
 
         File realUploadDir = new File("D:\\ServerData");
@@ -30,7 +32,7 @@ public class MainHandler {
         }
 
         try {
-            List<FileItem> items = fileUpload.parseRequest(request);
+            List<FileItem> items = fileUpload.parseRequest(request); // <-- ПАДАЕТ ВОТ ТУТ
             Contact contact = new Contact();
             items.forEach(item -> {
                 if(item.isFormField()) {
