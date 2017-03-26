@@ -535,8 +535,6 @@ function prepareAttachmentForSubmit() {
 
 //----------------------------------PHOTO FUNCTIONS---------------------------
 
-//TODO: fix bug with updating photo
-
 var photoFileInput = document.getElementById('photo-file-input');
 var contactPhoto = document.getElementById('contact-photo');
 var photoImage = document.getElementById('contact-photo-image');
@@ -570,6 +568,7 @@ savePhotoButton.onclick = function() {
         photoFileInput.style.display = 'none';
         contactPhoto.appendChild(photoFileInput);
         photoFileInput = createPhotoFileInput();
+        document.getElementById('popup-photo-label').appendChild(photoFileInput);
     }
     closeModal(popupWindowPhoto);
 };

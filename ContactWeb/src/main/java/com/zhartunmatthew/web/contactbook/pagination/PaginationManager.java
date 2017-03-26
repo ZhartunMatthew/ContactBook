@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class PaginationManager {
 
-    private static final int CONTACTS_PER_PAGE = 3;
+    private static final int CONTACTS_PER_PAGE = 15;
     private static final String PAGE_PARAMETER = "page";
     private int pageCount = 0;
     private HttpServletRequest request;

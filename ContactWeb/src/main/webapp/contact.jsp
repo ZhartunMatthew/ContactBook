@@ -183,7 +183,7 @@
             <div class="popup-content">
                 <div class="popup-name"> Выбор фото
                 </div>
-                <label> Путь к фото
+                <label id="popup-photo-label"> Путь к фото
                     <input type="file" id="photo-file-input" value="Выберите фото" accept="image/jpeg,image/png">
                 </label>
                 <div class="popup-buttons">

@@ -30,7 +30,6 @@ public class ShowContactListCommand implements AbstractCommand {
 
         ArrayList<Contact> contacts = contactService.getCertainCount(offset, contactsPerPage);
 
-        log.info("SHOW CONTACT LIST");
         log.info("ACTIVE PAGE = " + pagination.getActivePage());
         log.info("PAGE COUNT = " + pagination.getPageCount());
         log.info("OFFSET = " + offset);
