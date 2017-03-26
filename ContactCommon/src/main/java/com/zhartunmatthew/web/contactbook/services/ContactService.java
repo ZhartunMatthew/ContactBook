@@ -10,6 +10,9 @@ import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.search.SearchParameters;
+import com.zhartunmatthew.web.contactbook.services.FileService.AttachmentService;
+import com.zhartunmatthew.web.contactbook.services.FileService.ImageService;
+import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -23,13 +26,18 @@ public class ContactService {
 
     public ContactService() {}
 
-    public void insertContact(Contact contact) {
+    public void insertContact(Contact contact, FileItem fileItem, ArrayList<FileItem> files) {
         Long lastId;
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
+
+            ImageService.writePhoto(contact, fileItem);
+
             contactDAO.insert(contact);
             lastId = contactDAO.getLastInsertedId();
             contactDAO.insertContactAddress(contact, lastId);
+
+            AttachmentService.writeAttachments(lastId, files);
 
             PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.createDAO(PhoneDAO.class, connection);
             ArrayList<Phone> phones = contact.getPhones();
@@ -126,9 +134,13 @@ public class ContactService {
         return contacts;
     }
 
-    public void updateContact(Contact contact) {
+    public void updateContact(Contact contact, FileItem fileItem, ArrayList<FileItem> files) {
         try (Connection connection = ConnectionUtils.getConnection()){
             ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
+
+            ImageService.writePhoto(contact, fileItem);
+            AttachmentService.writeAttachments(contact.getId(), files);
+
             contactDAO.update(contact.getId(), contact);
             logger.info(contact.getPhones());
             updatePhones(contact.getId(), contact.getPhones());

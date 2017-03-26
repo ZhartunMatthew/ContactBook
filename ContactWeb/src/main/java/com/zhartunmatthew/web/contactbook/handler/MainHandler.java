@@ -13,7 +13,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainHandler {
@@ -27,7 +27,7 @@ public class MainHandler {
         File tempDir = new File(String.valueOf(app.getAttribute("javax.servlet.context.tempdir")));
         fileItemFactory.setRepository(tempDir);
 
-        HashMap<Integer, FileItem> files = new HashMap<>();
+        ArrayList<FileItem> files = new ArrayList<>();
 
         try {
             List<FileItem> items = fileUpload.parseRequest(request);
@@ -48,17 +48,17 @@ public class MainHandler {
                 } else {
                     String fileName = item.getFieldName();
                     if(fileName.startsWith("new-attachment")) {
-                        int fileIndex = Integer.parseInt(fileName.split("-")[3]);
-                        files.put(fileIndex, item);
+                        log.info("FILE: " + item.getName());
+                        files.add(item);
                     } else {
                         log.info("IMAGE ITEM " + item.getName());
                         request.setAttribute("photo-item", item);
                     }
                 }
             });
+
             request.setAttribute("files", files);
             request.setAttribute("contact", contact);
-
         } catch (FileUploadException ex) {
             ex.printStackTrace();
         }

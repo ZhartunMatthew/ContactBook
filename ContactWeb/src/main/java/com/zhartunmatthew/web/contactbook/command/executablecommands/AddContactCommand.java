@@ -9,15 +9,12 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.util.ResourceBundle;
+import java.util.ArrayList;
 
 public class AddContactCommand implements AbstractCommand {
 
     private static Logger log = Logger.getLogger(AddContactCommand.class);
-    private static String REDIRECT_URL = "/controller?command=show_contact&contact_id=";
-    private final static String PROPERTIES_PATH = "directories";
-    private static ResourceBundle resBundle = ResourceBundle.getBundle(PROPERTIES_PATH);
+    private static String REDIRECT_URL = "/controller";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -25,29 +22,14 @@ public class AddContactCommand implements AbstractCommand {
         mainHandler.handleInputs(request);
 
         Contact contact = (Contact) request.getAttribute("contact");
-        log.info(contact);
         FileItem photoItem = (FileItem) request.getAttribute("photo-item");
-
-        if (photoItem != null && !photoItem.getName().isEmpty()) {
-            String photoPath = resBundle.getString("images-directory") + "image_" + contact.getId();
-            File photoFile = new File(photoPath);
-            contact.setPhotoPath(photoPath);
-            try {
-                photoItem.write(photoFile);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            if(photoItem == null && contact.getPhotoPath() == null) {
-                contact.setPhotoPath(null);
-            }
-        }
+        ArrayList<FileItem> fileItems = (ArrayList<FileItem>) request.getAttribute("files");
 
         ContactService contactService = new ContactService();
-        contactService.insertContact(contact);
+        contactService.insertContact(contact, photoItem, fileItems);
         Long id = contactService.getLastInsertedContactId();
 
-        return REDIRECT_URL + id;
+        return REDIRECT_URL;
     }
 
     @Override
