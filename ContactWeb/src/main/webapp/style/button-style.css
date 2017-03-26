@@ -28,7 +28,11 @@
 }
 
 .edit {
-   background-position: -325px -165px;
+    background-position: -325px -165px;
+}
+
+.save {
+    background: url('/sprite/save.png');
 }
 
 .home {

@@ -24,7 +24,10 @@
     <body>
         <form id="contact-form" class="contact" method="post" action="${actionOnSubmit}" enctype="multipart/form-data">
             <input type="hidden" name="id" value="${contactID}">
-            <input type="submit" value="SAVE CHANGES" id="submit-contact-button">
+            <div class="nav-buttons">
+                <a class="nav-button save" id="submit-contact-button"></a>
+                <a class="nav-button home" href="/controller?command=show_contact_list&page=1"></a>
+            </div>
             <div class="main-info">
                 <h3>Основная информация</h3>
 
