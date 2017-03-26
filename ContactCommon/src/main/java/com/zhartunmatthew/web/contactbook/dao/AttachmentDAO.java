@@ -83,7 +83,7 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_ATTACHMENT)){
             statement.setString(1, val.getFilePath());
             statement.setString(2, val.getComment());
-            statement.setLong(3, val.getFileID());
+            statement.setLong(3, val.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

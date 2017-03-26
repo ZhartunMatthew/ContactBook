@@ -123,18 +123,18 @@
             </div>
             <div id="contact-phones">
                 <c:forEach var="phone" items="${contact.phones}">
-                    <div class="one-row contact-phone" id="contact-phone-${phone.phoneID}">
-                        <label for="phone-check-${phone.phoneID}">
+                    <div class="one-row contact-phone" id="contact-phone-${phone.id}">
+                        <label for="phone-check-${phone.id}">
                             <div class="column column-2">
-                                <input type="checkbox" name="phone-check" id="phone-check-${phone.phoneID}" value="${phone.phoneID}">
+                                <input type="checkbox" name="phone-check" id="phone-check-${phone.id}" value="${phone.id}">
                             </div>
-                            <div class="column column-3" id="contact-phone-number-${phone.phoneID}">
+                            <div class="column column-3" id="contact-phone-number-${phone.id}">
                                 <c:out value="+${phone.countryCode} (${phone.operatorCode}) ${phone.number}"/>
                             </div>
-                            <div class="column column-3" id="contact-phone-type-${phone.phoneID}">
+                            <div class="column column-3" id="contact-phone-type-${phone.id}">
                                 ${phone.type == 1 ? 'Домашний' : 'Мобильный'}
                             </div>
-                            <div class="column column-x" id="contact-phone-comment-${phone.phoneID}">
+                            <div class="column column-x" id="contact-phone-comment-${phone.id}">
                                 ${phone.comment}
                             </div>
                         </label>
@@ -156,18 +156,18 @@
             </div>
             <div id="contact-attachments">
                 <c:forEach var="attachment" items="${contact.attachments}">
-                    <div class="one-row contact-attachment" id="contact-attachment-${attachment.fileID}">
-                        <label for="attachment-check-${attachment.fileID}">
+                    <div class="one-row contact-attachment" id="contact-attachment-${attachment.id}">
+                        <label for="attachment-check-${attachment.id}">
                             <div class="column column-2">
-                                <input type="checkbox" name="attachment-check" id="attachment-check-${attachment.fileID}" value="${attachment.fileID}">
+                                <input type="checkbox" name="attachment-check" id="attachment-check-${attachment.id}" value="${attachment.id}">
                             </div>
-                            <div class="column column-3" id="contact-attachment-file-path-${attachment.fileID}">
+                            <div class="column column-3" id="contact-attachment-file-path-${attachment.id}">
                                 <c:out value="${attachment.filePath}"/>
                             </div>
-                            <div class="column column-3" id="contact-attachment-upload-date-${attachment.fileID}">
+                            <div class="column column-3" id="contact-attachment-upload-date-${attachment.id}">
                                 <c:out value="${attachment.uploadDate}"/>
                             </div>
-                            <div class="column column-x" id="contact-attachment-comment-${attachment.fileID}">
+                            <div class="column column-x" id="contact-attachment-comment-${attachment.id}">
                                 <c:out value="${attachment.comment}"/>
                             </div>
                         </label>

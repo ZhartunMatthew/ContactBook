@@ -2,7 +2,7 @@ package com.zhartunmatthew.web.contactbook.entity;
 
 public class Phone implements Entity {
 
-    private Long phoneID;
+    private Long id;
     private Long contactID;
     private String countryCode;
     private String operatorCode;
@@ -10,12 +10,12 @@ public class Phone implements Entity {
     private int type;
     private String comment;
 
-    public Long getPhoneID() {
-        return phoneID;
+    public Long getId() {
+        return id;
     }
 
-    public void setPhoneID(Long phoneID) {
-        this.phoneID = phoneID;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getContactID() {
@@ -69,7 +69,7 @@ public class Phone implements Entity {
     @Override
     public String toString() {
         return "Phone{" +
-                "phoneID=" + phoneID +
+                "id=" + id +
                 ", contactID=" + contactID +
                 ", countryCode='" + countryCode + '\'' +
                 ", operatorCode='" + operatorCode + '\'' +
@@ -87,7 +87,7 @@ public class Phone implements Entity {
         Phone phone = (Phone) o;
 
         if (type != phone.type) return false;
-        if (phoneID != null ? !phoneID.equals(phone.phoneID) : phone.phoneID != null) return false;
+        if (id != null ? !id.equals(phone.id) : phone.id != null) return false;
         if (countryCode != null ? !countryCode.equals(phone.countryCode) : phone.countryCode != null) return false;
         if (operatorCode != null ? !operatorCode.equals(phone.operatorCode) : phone.operatorCode != null) return false;
         if (number != null ? !number.equals(phone.number) : phone.number != null) return false;

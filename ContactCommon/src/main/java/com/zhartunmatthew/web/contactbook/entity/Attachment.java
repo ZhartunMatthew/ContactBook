@@ -4,18 +4,18 @@ import java.sql.Date;
 
 public class Attachment implements Entity {
 
-    private Long fileID;
+    private Long id;
     private Long contactID;
     private String filePath;
     private String comment;
     private Date uploadDate;
 
-    public Long getFileID() {
-        return fileID;
+    public Long getId() {
+        return id;
     }
 
-    public void setFileID(Long fileID) {
-        this.fileID = fileID;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getContactID() {
@@ -53,7 +53,7 @@ public class Attachment implements Entity {
     @Override
     public String toString() {
         return "Attachment{" +
-                "fileID=" + fileID +
+                "id=" + id +
                 ", contactID=" + contactID +
                 ", filePath='" + filePath + '\'' +
                 ", comment='" + comment + '\'' +
@@ -68,7 +68,7 @@ public class Attachment implements Entity {
 
         Attachment that = (Attachment) o;
 
-        if (fileID != null ? !fileID.equals(that.fileID) : that.fileID != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (filePath != null ? !filePath.equals(that.filePath) : that.filePath != null) return false;
         if (comment != null ? !comment.equals(that.comment) : that.comment != null) return false;
         return uploadDate != null ? uploadDate.equals(that.uploadDate) : that.uploadDate == null;

@@ -28,9 +28,9 @@ public class JSONBuilder {
 
                 Object id = object.get("id");
                 if(id != null) {
-                    phone.setPhoneID(Long.parseLong(id.toString()));
+                    phone.setId(Long.parseLong(id.toString()));
                 } else {
-                    phone.setPhoneID(null);
+                    phone.setId(null);
                 }
                 phone.setCountryCode((String) object.get("countryCode"));
                 phone.setOperatorCode((String) object.get("operatorCode"));
@@ -58,9 +58,9 @@ public class JSONBuilder {
 
                 Object id = object.get("id");
                 if(id != null) {
-                    attachment.setFileID(Long.parseLong(id.toString()));
+                    attachment.setId(Long.parseLong(id.toString()));
                 } else {
-                    attachment.setFileID(null);
+                    attachment.setId(null);
                 }
 
                 attachment.setUploadDate(new Date(DateTime.now().getMillis()));

@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 public class AddContactCommand implements AbstractCommand {
 
     private static Logger log = Logger.getLogger(AddContactCommand.class);
-    private static String REDIRECT_URL = "/controller";
+    private static String REDIRECT_URL = "/controller?command=show_contact&contact_id=";
     private final static String PROPERTIES_PATH = "directories";
     private static ResourceBundle resBundle = ResourceBundle.getBundle(PROPERTIES_PATH);
 
@@ -45,8 +45,9 @@ public class AddContactCommand implements AbstractCommand {
 
         ContactService contactService = new ContactService();
         contactService.insertContact(contact);
+        Long id = contactService.getLastInsertedContactId();
 
-        return REDIRECT_URL;
+        return REDIRECT_URL + id;
     }
 
     @Override

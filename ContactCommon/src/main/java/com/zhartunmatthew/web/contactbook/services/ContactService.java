@@ -144,18 +144,18 @@ public class ContactService {
             PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.createDAO(PhoneDAO.class, connection);
             phonesFromDB = phoneDAO.readContactPhones(id);
             for (Phone phone : phones) {
-                if(phone.getPhoneID() == null) {
+                if(phone.getId() == null) {
                     logger.info("INSERT: " + phone);
                     phoneDAO.insert(phone);
                 } else {
                     if(!phonesFromDB.contains(phone)) {
                         logger.info("UPDATE: " + phone);
-                        phoneDAO.update(phone.getPhoneID(), phone);
+                        phoneDAO.update(phone.getId(), phone);
                     }
                     Iterator<Phone> phoneIterator = phonesFromDB.iterator();
                     while(phoneIterator.hasNext()) {
                         Phone tempPhone = phoneIterator.next();
-                        if(tempPhone.getPhoneID().equals(phone.getPhoneID())) {
+                        if(tempPhone.getId().equals(phone.getId())) {
                             phoneIterator.remove();
                             break;
                         }
@@ -164,7 +164,7 @@ public class ContactService {
             }
             for (Phone phone : phonesFromDB) {
                 logger.info("DELETE: " + phone);
-                phoneDAO.delete(phone.getPhoneID());
+                phoneDAO.delete(phone.getId());
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -177,18 +177,18 @@ public class ContactService {
             AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.createDAO(AttachmentDAO.class, connection);
             attachmentsFromDB = attachmentDAO.readContactAttachments(id);
             for (Attachment attachment : attachments) {
-                if(attachment.getFileID() == null) {
+                if(attachment.getId() == null) {
                     logger.info("INSERT: " + attachment);
                     attachmentDAO.insert(attachment);
                 } else {
                     if(!attachmentsFromDB.contains(attachment)) {
                         logger.info("UPDATE: " + attachment);
-                        attachmentDAO.update(attachment.getFileID(), attachment);
+                        attachmentDAO.update(attachment.getId(), attachment);
                     }
                     Iterator<Attachment> attachmentIterator = attachmentsFromDB.iterator();
                     while(attachmentIterator.hasNext()) {
                         Attachment tempAttachment = attachmentIterator.next();
-                        if(tempAttachment.getFileID().equals(attachment.getFileID())) {
+                        if(tempAttachment.getId().equals(attachment.getId())) {
                             attachmentIterator.remove();
                             break;
                         }
@@ -197,10 +197,21 @@ public class ContactService {
             }
             for (Attachment attachment : attachmentsFromDB) {
                 logger.info("DELETE: " + attachment);
-                attachmentDAO.delete(attachment.getFileID());
+                attachmentDAO.delete(attachment.getId());
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public Long getLastInsertedContactId() {
+        Long id = null;
+        try(Connection connection = ConnectionUtils.getConnection()) {
+            ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
+            id = contactDAO.getLastInsertedId();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return id;
     }
 }

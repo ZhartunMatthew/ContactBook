@@ -52,7 +52,7 @@ public class EntityFactory {
 
     private static Phone createPhone(ResultSet resultSet) throws SQLException {
         Phone phone = new Phone();
-        phone.setPhoneID(resultSet.getLong("id"));
+        phone.setId(resultSet.getLong("id"));
         phone.setContactID(resultSet.getLong("contact_id"));
         phone.setType(resultSet.getInt("phone_type"));
         phone.setCountryCode(resultSet.getString("country_code"));
@@ -64,7 +64,7 @@ public class EntityFactory {
 
     private static Attachment createAttachment(ResultSet resultSet) throws SQLException {
         Attachment attachment = new Attachment();
-        attachment.setFileID(resultSet.getLong("id"));
+        attachment.setId(resultSet.getLong("id"));
         attachment.setContactID(resultSet.getLong("contact_id"));
         attachment.setFilePath(resultSet.getString("file_path"));
         attachment.setComment(resultSet.getString("comment"));
