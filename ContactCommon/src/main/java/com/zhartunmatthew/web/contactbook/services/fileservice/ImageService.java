@@ -1,4 +1,4 @@
-package com.zhartunmatthew.web.contactbook.services.FileService;
+package com.zhartunmatthew.web.contactbook.services.fileservice;
 
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import org.apache.commons.fileupload.FileItem;

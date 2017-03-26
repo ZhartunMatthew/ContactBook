@@ -1,5 +1,6 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
+import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.entity.MaritalStatus;
 
 import java.sql.*;
@@ -14,9 +15,9 @@ public class MaritalStatusDAO extends AbstractDAO <Long, MaritalStatus> {
     }
 
     @Override
-    public ArrayList<MaritalStatus> readAll() {
+    public ArrayList<MaritalStatus> readAll() throws DAOException {
         ArrayList<MaritalStatus> maritalStatuses = new ArrayList<>();
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL)){
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -32,22 +33,22 @@ public class MaritalStatusDAO extends AbstractDAO <Long, MaritalStatus> {
     }
 
     @Override
-    protected void insert(MaritalStatus val) {
+    public void insert(MaritalStatus val) throws DAOException {
 
     }
 
     @Override
-    protected MaritalStatus read(Long id) {
+    public MaritalStatus read(Long id) throws DAOException {
         return null;
     }
 
     @Override
-    protected void update(Long id, MaritalStatus val) {
+    public void update(Long id, MaritalStatus val) throws DAOException {
 
     }
 
     @Override
-    protected void delete(Long id) {
+    public void delete(Long id) throws DAOException {
 
     }
 }

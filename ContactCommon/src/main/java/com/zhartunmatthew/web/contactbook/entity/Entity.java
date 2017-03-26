@@ -1,3 +1,5 @@
 package com.zhartunmatthew.web.contactbook.entity;
 
-public interface Entity {}
+public interface Entity {
+    Long getId();
+}

@@ -1,5 +1,6 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
+import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.entityfactory.EntityFactory;
 import org.apache.log4j.Logger;
@@ -41,7 +42,7 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
         super(connection);
     }
 
-    public ArrayList<Phone> readContactPhones(Long contactId) {
+    public ArrayList<Phone> readByContactId(Long contactId) throws DAOException {
         ArrayList<Phone> phones = new ArrayList<>();
         ResultSet phoneResultSet;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_CONTACT_PHONES)){
@@ -58,12 +59,12 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
     }
 
     @Override
-    public ArrayList<Phone> readAll() {
+    public ArrayList<Phone> readAll() throws DAOException {
         return null;
     }
 
     @Override
-    public void insert(Phone val) {
+    public void insert(Phone val) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_CONTACT_PHONES)){
             statement.setLong(1, val.getContactID());
             statement.setString(2, val.getCountryCode());
@@ -81,12 +82,12 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
     }
 
     @Override
-    public Phone read(Long id) {
+    public Phone read(Long id) throws DAOException {
         return null;
     }
 
     @Override
-    public void update(Long id, Phone val) {
+    public void update(Long id, Phone val) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_PHONE)){
             statement.setString(1, val.getCountryCode());
             statement.setString(2, val.getOperatorCode());
@@ -101,7 +102,7 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(DELETE_PHONE)){
             statement.setLong(1, id);
             statement.execute();
@@ -110,7 +111,7 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
         }
     }
 
-    public void deleteContactPhones(Long id) {
+    public void deleteByContactId(Long id) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(DELETE_CONTACT_PHONE)){
             statement.setLong(1, id);
             statement.execute();

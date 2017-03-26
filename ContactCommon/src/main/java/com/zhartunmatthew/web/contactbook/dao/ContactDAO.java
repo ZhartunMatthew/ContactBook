@@ -1,6 +1,7 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
 import com.zhartunmatthew.web.contactbook.dao.daofactory.DAOFactory;
+import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
@@ -103,7 +104,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
     }
 
     @Override
-    public ArrayList<Contact> readAll() {
+    public ArrayList<Contact> readAll() throws DAOException {
         ArrayList<Contact> contacts = new ArrayList<>();
 
         ResultSet contactResultSet;
@@ -122,29 +123,29 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         return contacts;
     }
 
-    private ArrayList<Phone> getContactPhones(long i) {
+    private ArrayList<Phone> getContactPhones(long i) throws DAOException {
         ArrayList<Phone> phones = null;
         PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.createDAO(PhoneDAO.class, connection);
         try {
-            phones = phoneDAO.readContactPhones(i);
+            phones = phoneDAO.readByContactId(i);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         return phones;
     }
 
-    private ArrayList<Attachment> getContactAttachments(long i) {
+    private ArrayList<Attachment> getContactAttachments(long i) throws DAOException {
         ArrayList<Attachment> attachments = null;
         AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.createDAO(AttachmentDAO.class, connection);
         try {
-            attachments = attachmentDAO.readContactAttachments(i);
+            attachments = attachmentDAO.readByContactId(i);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         return attachments;
     }
 
-    public ArrayList<Contact> readCertainCount(long from, long count) {
+    public ArrayList<Contact> readCertainCount(long from, long count) throws DAOException {
         ArrayList<Contact> contacts = new ArrayList<>();
 
         ResultSet contactResultSet;
@@ -166,7 +167,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         return contacts;
     }
 
-    public Long getContactCount() {
+    public Long getContactCount() throws DAOException {
         ResultSet resultSet;
         Long count = 0L;
         try (PreparedStatement statement = connection.prepareStatement(GET_COUNT)){
@@ -181,7 +182,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
     }
 
     @Override
-    public void insert(Contact val) {
+    public void insert(Contact val) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_CONTACT_QUERY)) {
             statement.setString(1, val.getFirstName());
             statement.setString(2, val.getLastName());
@@ -222,7 +223,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         }
     }
 
-    public void insertContactAddress(Contact val, Long contactId) {
+    public void insertContactAddress(Contact val, Long contactId) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_CONTACT_ADDRESS_QUERY)) {
             statement.setLong(1, contactId);
             statement.setString(2, val.getCity());
@@ -237,7 +238,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         }
     }
 
-    public Long getLastInsertedId() {
+    public Long getLastInsertedId() throws DAOException {
         ResultSet resultSet;
         Long lastId = 0L;
         try (PreparedStatement statement = connection.prepareStatement(GET_LAST_ID)){
@@ -250,7 +251,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
     }
 
     @Override
-    public Contact read(Long l) {
+    public Contact read(Long l) throws DAOException {
         Contact contact = new Contact();
         ResultSet contactResultSet;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_CONTACT_BY_ID)) {
@@ -268,7 +269,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
     }
 
     @Override
-    public void update(Long l, Contact val) {
+    public void update(Long l, Contact val) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_CONTACT)) {
             statement.setString(1, val.getFirstName());
             statement.setString(2, val.getLastName());
@@ -310,7 +311,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         }
     }
 
-    private void updateContactAddress(Long l, Contact val) {
+    private void updateContactAddress(Long l, Contact val) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_CONTACT_ADDRESS)) {
             statement.setString(1, val.getCity());
             statement.setString(2, val.getStreet());
@@ -324,7 +325,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
     }
 
     @Override
-    public void delete(Long l) {
+    public void delete(Long l) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(DELETE_CONTACT)){
             statement.setLong(1, l);
             statement.execute();
@@ -333,7 +334,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         }
     }
 
-    public void deleteContactAddress(Long id) {
+    public void deleteContactAddress(Long id) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(DELETE_CONTACTS_ADDRESS)){
             statement.setLong(1, id);
             statement.execute();
@@ -342,7 +343,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         }
     }
 
-    public ArrayList<Contact> searchUserByParameters(SearchParameters parameters) throws SQLException {
+    public ArrayList<Contact> searchUserByParameters(SearchParameters parameters) throws DAOException, SQLException {
         PreparedStatement statement = connection.prepareStatement(buildQuery(parameters, PARAMS_QUERY));
 
         ResultSet contactResult = statement.executeQuery();

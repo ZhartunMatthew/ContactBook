@@ -1,5 +1,6 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
+import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.entityfactory.EntityFactory;
 
@@ -37,9 +38,9 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
         super(connection);
     }
 
-    public ArrayList<Attachment> readContactAttachments(Long contactId) {
+    public ArrayList<Attachment> readByContactId(Long contactId) throws DAOException {
         ArrayList<Attachment> attachments = new ArrayList<>();
-        ResultSet attachmentResultSet = null;
+        ResultSet attachmentResultSet;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_CONTACT_ATTACHMENTS)){
             statement.setLong(1, contactId);
             attachmentResultSet = statement.executeQuery();
@@ -54,12 +55,12 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
     }
 
     @Override
-    public ArrayList<Attachment> readAll() {
+    public ArrayList<Attachment> readAll() throws DAOException {
         return null;
     }
 
     @Override
-    public void insert(Attachment val) {
+    public void insert(Attachment val) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_ATTACHMENT_QUERY)) {
             statement.setLong(1, val.getContactID());
             statement.setString(2, val.getFilePath());
@@ -74,12 +75,12 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
     }
 
     @Override
-    public Attachment read(Long id) {
+    public Attachment read(Long id) throws DAOException {
         return null;
     }
 
     @Override
-    public void update(Long id, Attachment val) {
+    public void update(Long id, Attachment val) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_ATTACHMENT)){
             statement.setString(1, val.getFilePath());
             statement.setString(2, val.getComment());
@@ -91,7 +92,7 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(DELETE_ATTACHMENT)){
             statement.setLong(1, id);
             statement.execute();
@@ -100,7 +101,7 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
         }
     }
 
-    public void deleteContactAttachment(Long id) {
+    public void deleteByContactId(Long id) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(DELETE_CONTACT_ATTACHMENTS)){
             statement.setLong(1, id);
             statement.execute();

@@ -1,5 +1,6 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
+import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.entity.Nationality;
 
 import java.sql.Connection;
@@ -17,10 +18,10 @@ public class NationalityDAO extends AbstractDAO<Long, Nationality> {
     }
 
     @Override
-    public ArrayList<Nationality> readAll() {
+    public ArrayList<Nationality> readAll() throws DAOException {
         ArrayList<Nationality> nationalities = new ArrayList<>();
 
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL) ){
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -36,22 +37,22 @@ public class NationalityDAO extends AbstractDAO<Long, Nationality> {
     }
 
     @Override
-    public void insert(Nationality val) {
+    public void insert(Nationality val) throws DAOException {
 
     }
 
     @Override
-    public Nationality read(Long aLong) {
+    public Nationality read(Long aLong) throws DAOException {
         return null;
     }
 
     @Override
-    public void update(Long aLong, Nationality val) {
+    public void update(Long aLong, Nationality val) throws DAOException {
 
     }
 
     @Override
-    public void delete(Long aLong) {
+    public void delete(Long aLong) throws DAOException {
 
     }
 }
