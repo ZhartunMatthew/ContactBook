@@ -1,6 +1,7 @@
 package com.zhartunmatthew.web.contactbook.command.showviewcommands;
 
 import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
+import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Country;
 import com.zhartunmatthew.web.contactbook.entity.MaritalStatus;
 import com.zhartunmatthew.web.contactbook.entity.Nationality;
@@ -9,6 +10,7 @@ import com.zhartunmatthew.web.contactbook.services.UtilService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -18,12 +20,13 @@ public class ShowContactCommand implements AbstractCommand {
     private final static String COMMAND_URL = "contact.jsp";
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("contact_id");
 
         if(!Objects.isNull(id)) {
             ContactService contactService = new ContactService();
-            request.setAttribute("contact", contactService.getContactById(Long.parseLong(id)));
+            Contact contact = contactService.getContactById(Long.parseLong(id));
+            request.setAttribute("contact", contact);
         }
 
         UtilService utilService = new UtilService();

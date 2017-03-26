@@ -13,6 +13,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainHandler {
@@ -26,13 +27,10 @@ public class MainHandler {
         File tempDir = new File(String.valueOf(app.getAttribute("javax.servlet.context.tempdir")));
         fileItemFactory.setRepository(tempDir);
 
-        File realUploadDir = new File("D:\\ServerData");
-        if(!realUploadDir.exists()) {
-            realUploadDir.mkdir();
-        }
+        HashMap<Integer, FileItem> files = new HashMap<>();
 
         try {
-            List<FileItem> items = fileUpload.parseRequest(request); // <-- ПАДАЕТ ВОТ ТУТ
+            List<FileItem> items = fileUpload.parseRequest(request);
             Contact contact = new Contact();
             items.forEach(item -> {
                 if(item.isFormField()) {
@@ -48,9 +46,17 @@ public class MainHandler {
                         log.info("Form: " + item.getFieldName() + "is null");
                     }
                 } else {
-                    log.info("File: " + item.getFieldName());
+                    String fileName = item.getFieldName();
+                    if(fileName.startsWith("new-attachment")) {
+                        int fileIndex = Integer.parseInt(fileName.split("-")[3]);
+                        files.put(fileIndex, item);
+                    } else {
+                        log.info("IMAGE ITEM " + item.getName());
+                        request.setAttribute("photo-item", item);
+                    }
                 }
             });
+            request.setAttribute("files", files);
             request.setAttribute("contact", contact);
 
         } catch (FileUploadException ex) {

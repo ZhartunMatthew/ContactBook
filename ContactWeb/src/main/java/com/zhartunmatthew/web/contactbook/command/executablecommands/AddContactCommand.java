@@ -7,6 +7,7 @@ import com.zhartunmatthew.web.contactbook.services.ContactService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class AddContactCommand implements AbstractCommand {
 
@@ -14,7 +15,7 @@ public class AddContactCommand implements AbstractCommand {
     private static String REDIRECT_URL = "/controller";
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         MainHandler mainHandler = new MainHandler();
         mainHandler.handleInputs(request);
 

@@ -5,6 +5,7 @@ import com.zhartunmatthew.web.contactbook.services.ContactService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 public class DeleteContactCommand implements AbstractCommand {
@@ -13,7 +14,7 @@ public class DeleteContactCommand implements AbstractCommand {
     private static String REDIRECT_URL = "/controller";
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         String[] items = request.getParameterValues("contact-check");
         ArrayList<Long> checkedItems = new ArrayList<>();
 

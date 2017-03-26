@@ -3,8 +3,9 @@ package com.zhartunmatthew.web.contactbook.command.commandfactory;
 import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
 import com.zhartunmatthew.web.contactbook.command.executablecommands.AddContactCommand;
 import com.zhartunmatthew.web.contactbook.command.executablecommands.DeleteContactCommand;
-import com.zhartunmatthew.web.contactbook.command.executablecommands.search.SearchContactsCommand;
 import com.zhartunmatthew.web.contactbook.command.executablecommands.UpdateContactCommand;
+import com.zhartunmatthew.web.contactbook.command.executablecommands.search.SearchContactsCommand;
+import com.zhartunmatthew.web.contactbook.command.getcommand.GetImageCommand;
 import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactCommand;
 import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactListCommand;
 import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactSearchCommand;
@@ -56,6 +57,11 @@ public class CommandFactory {
         if(Objects.equals("delete_contact", command)) {
             abstractCommand = new DeleteContactCommand();
             log.debug("Returned command 'DeleteContact'");
+        }
+
+        if(Objects.equals("get_image", command)) {
+            abstractCommand = new GetImageCommand();
+            log.debug("Returned command 'GetImage'");
         }
 
         if(abstractCommand == null) {

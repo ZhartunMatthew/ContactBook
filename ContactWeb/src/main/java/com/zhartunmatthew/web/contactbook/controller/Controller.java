@@ -16,7 +16,6 @@ public class Controller extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -28,12 +27,15 @@ public class Controller extends HttpServlet {
             throws ServletException, IOException {
         log.debug("SERVLET LOG");
         AbstractCommand command = CommandFactory.createCommand(request);
-        String commandURL = command.execute(request);
+        String commandURL = command.execute(request, response);
         log.debug("Command URL: " + commandURL);
-        if(command.isRedirectedCommand()) {
+        if (command.isRedirectedCommand()) {
             response.sendRedirect(commandURL);
         } else {
-            request.getRequestDispatcher(commandURL).forward(request, response);
+            if(commandURL != null) {
+                request.getRequestDispatcher(commandURL).forward(request, response);
+            }
         }
+
     }
 }

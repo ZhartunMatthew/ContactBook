@@ -8,6 +8,7 @@ import com.zhartunmatthew.web.contactbook.services.ContactService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 public class ShowContactListCommand implements AbstractCommand {
@@ -16,7 +17,7 @@ public class ShowContactListCommand implements AbstractCommand {
     private final static String COMMAND_URL = "contact_list.jsp";
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         ContactService contactService = new ContactService();
         long count = contactService.getContactCount();
