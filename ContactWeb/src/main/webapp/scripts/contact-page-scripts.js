@@ -61,6 +61,7 @@ function deleteItem(items, checkValue) {
 submitContactButton.onclick = function () {
     preparePhonesForSubmit();
     prepareAttachmentForSubmit();
+    preparePhotoForSubmit();
 
     contactForm.submit();
 };
@@ -537,13 +538,14 @@ function prepareAttachmentForSubmit() {
 //TODO: fix bug with updating photo
 
 var photoFileInput = document.getElementById('photo-file-input');
+var contactPhoto = document.getElementById('contact-photo');
+var photoImage = document.getElementById('contact-photo-image');
+var popupWindowPhoto = document.getElementById('popup-window-photo');
+
 var savePhotoButton = document.getElementById('save-photo-button');
 var cancelPhotoButton = document.getElementById('cancel-photo-button');
 var deletePhotoButton = document.getElementById('delete-photo-button');
-var contactPhoto = document.getElementById('contact-photo');
-var photoImage = document.getElementById('contact-photo-image');
-
-var popupWindowPhoto = document.getElementById('popup-window-photo');
+var isPhotoDeleted = false;
 
 photoImage.onclick = function () {
     photoFileInput.value = '';
@@ -555,12 +557,13 @@ cancelPhotoButton.onclick = function () {
 };
 
 savePhotoButton.onclick = function() {
+    isPhotoDeleted = false;
     var reader = new FileReader;
     var image = photoFileInput.files[0];
     reader.onload = function () {
         photoImage.src = this.result;
     };
-    if (image) {
+    if(image) {
         reader.readAsDataURL(image);
         photoFileInput.id = 'uploaded-contact-photo';
         photoFileInput.name = 'upload-photo';
@@ -580,7 +583,15 @@ function createPhotoFileInput() {
 }
 
 deletePhotoButton.onclick = function () {
+    isPhotoDeleted = true;
     photoImage.src = '/image/default.png';
     closeModal(popupWindowPhoto);
 };
+
+function preparePhotoForSubmit() {
+    if(isPhotoDeleted) {
+        photoImage.src = null;
+        document.getElementById("old-contact-photo").value = null;
+    }
+}
 

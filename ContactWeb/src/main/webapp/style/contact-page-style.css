@@ -39,3 +39,7 @@ form.contact div.main-info label select {
     max-height: 300px;
     margin-bottom: 20px;
 }
+
+.hidden {
+    display: none;
+}

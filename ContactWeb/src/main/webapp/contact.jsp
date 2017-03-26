@@ -30,11 +30,11 @@
             </div>
             <div class="main-info">
                 <h3>Основная информация</h3>
-
                 <div id="contact-photo" class="contact-photo-area">
                     <img src="${photoPath}" id="contact-photo-image" class="contact-photo-image">
+                    <input type="file" class="hidden" id="uploaded-contact-photo">
                 </div>
-
+                <input id="old-contact-photo" type="hidden" name="photo-path" value="${contact.photoPath}">
                 <label> Фамилия
                     <input type="text" name="last-name" value="${contact.lastName}">
                 </label>

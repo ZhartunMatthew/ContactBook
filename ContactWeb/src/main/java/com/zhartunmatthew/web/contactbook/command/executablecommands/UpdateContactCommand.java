@@ -33,7 +33,9 @@ public class UpdateContactCommand implements AbstractCommand {
                 e.printStackTrace();
             }
         } else {
-            contact.setPhotoPath(null);
+            if(photoItem == null && contact.getPhotoPath() == null) {
+                contact.setPhotoPath(null);
+            }
         }
 
         ContactService contactService = new ContactService();
