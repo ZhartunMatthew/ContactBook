@@ -314,6 +314,7 @@ function valToType(value) {
 function Attachment() {
     var attachment = {
         id : null,
+        filePath : '',
         fileName : '',
         dateUpload : '',
         comment: ''
@@ -342,6 +343,7 @@ addAttachmentButton.onclick = function () {
 
     document.getElementById('attachment-path').value = '';
     document.getElementById('attachment-comment').value = '';
+    document.getElementById('attachment-name').value = '';
     document.getElementById('attachment-path').style.display = 'block';
 
     openModal(popupWindowAttachments);
@@ -363,6 +365,9 @@ editAttachmentButton.onclick = function () {
         document.getElementById('attachment-comment').value =
             document.getElementById('contact-attachment-comment-' + number).innerHTML.trim();
 
+        document.getElementById('attachment-name').value =
+            document.getElementById('contact-attachment-file-name-' + number).innerHTML.trim();
+
         isNewAttachmentEdit = false;
         editedAttachmentId = number;
         document.getElementById('attachment-path').style.display = 'none';
@@ -373,6 +378,9 @@ editAttachmentButton.onclick = function () {
     if(newNumber != undefined && newNumber != 0) {
         document.getElementById('attachment-comment').value =
             document.getElementById('new-contact-attachment-comment-' + newNumber).innerHTML.trim();
+
+        document.getElementById('attachment-name').value =
+            document.getElementById('new-contact-attachment-fileK-name-' + newNumber).innerHTML.trim();
 
         isNewAttachmentEdit = true;
         editedAttachmentId = newNumber;
@@ -406,6 +414,7 @@ function getCurrentDate() {
     var date = new Date();
     var year = date.getFullYear();
     var month = date.getMonth() + 1;
+    month = month < 10 ? '0' + month : month;
     var day = date.getDate();
 
     return  year + '-' + month + '-' + day;
@@ -417,10 +426,11 @@ function createNewAttachment() {
 
     attachment.id = lastCreatedAttachmentId;
     attachment.dateUpload = getCurrentDate();
-    var fileName = document.getElementById('attachment-path').value;
-    fileName = fileName.split('\\');
-    attachment.fileName = fileName[fileName.length-1];
+    var filePath = document.getElementById('attachment-path').value;
+    filePath = filePath.split('\\');
+    attachment.filePath = filePath[filePath.length-1];
     attachment.comment = document.getElementById('attachment-comment').value.trim();
+    attachment.fileName = document.getElementById('attachment-name').value.trim();
 
     var oneRow = document.createElement('div');
     oneRow.className = 'one-row new-contact-attachment';
@@ -438,9 +448,14 @@ function createNewAttachment() {
     input.value = attachment.id;
     columnWithCheckBox.appendChild(input);
 
+    var columnWithFilePath = document.createElement('div');
+    columnWithFilePath.className = 'hidden';
+    columnWithFilePath.id = 'new-contact-attachment-file-path-' + attachment.id;
+    columnWithFilePath.appendChild(document.createTextNode(attachment.filePath));
+
     var columnWithFileName = document.createElement('div');
     columnWithFileName.className = 'column column-3';
-    columnWithFileName.id = 'new-contact-attachment-file-path-' + attachment.id;
+    columnWithFileName.id = 'new-contact-attachment-file-name-' + attachment.id;
     columnWithFileName.appendChild(document.createTextNode(attachment.fileName));
 
     var columnWithDateUpload = document.createElement('div');
@@ -455,6 +470,7 @@ function createNewAttachment() {
 
     label.appendChild(columnWithCheckBox);
     label.appendChild(columnWithFileName);
+    label.appendChild(columnWithFilePath);
     label.appendChild(columnWithDateUpload);
     label.appendChild(columnWithAttachmentComment);
 
@@ -487,12 +503,16 @@ function editAttachment(attachmentID, isNewAttachmentEdit) {
     var attachment = new Attachment();
 
     attachment.id = attachmentID;
+    alert("ATTACHID : "  + attachment.id);
+    attachment.fileName = document.getElementById('attachment-name').value.trim();
     attachment.comment = document.getElementById('attachment-comment').value.trim();
 
     if(isNewAttachmentEdit) {
         document.getElementById('new-contact-attachment-comment-' + attachmentID).innerHTML = attachment.comment;
+        document.getElementById('new-contact-attachment-file-name-' + attachmentID).innerHTML = attachment.fileName;
     } else {
         document.getElementById('contact-attachment-comment-' + attachmentID).innerHTML = attachment.comment;
+        document.getElementById('contact-attachment-file-name-' + attachmentID).innerHTML = attachment.fileName;
     }
 }
 
@@ -508,7 +528,8 @@ function prepareAttachmentForSubmit() {
         var tempAttachment = new Attachment();
         tempAttachment.id = oldId;
 
-        tempAttachment.name = document.getElementById('contact-attachment-file-path-' + oldId).innerHTML.trim();
+        tempAttachment.filePath = document.getElementById('contact-attachment-file-path-' + oldId).innerHTML.trim();
+        tempAttachment.fileName = document.getElementById('contact-attachment-file-name-' + oldId).innerHTML.trim();
         tempAttachment.dateUpload = document.getElementById('contact-attachment-upload-date-' + oldId).innerHTML.trim();
         tempAttachment.comment = document.getElementById('contact-attachment-comment-' + oldId).innerHTML.trim();
 
@@ -522,7 +543,8 @@ function prepareAttachmentForSubmit() {
 
         var newTempAttachment = new Attachment();
 
-        newTempAttachment.name = document.getElementById('new-contact-attachment-file-path-' + newId).innerHTML.trim();
+        newTempAttachment.filePath = document.getElementById('new-contact-attachment-file-path-' + newId).innerHTML.trim();
+        newTempAttachment.fileName = document.getElementById('new-contact-attachment-file-name-' + newId).innerHTML.trim();
         newTempAttachment.dateUpload = document.getElementById('new-contact-attachment-upload-date-' + newId).innerHTML.trim();
         newTempAttachment.comment = document.getElementById('new-contact-attachment-comment-' + newId).innerHTML.trim();
 

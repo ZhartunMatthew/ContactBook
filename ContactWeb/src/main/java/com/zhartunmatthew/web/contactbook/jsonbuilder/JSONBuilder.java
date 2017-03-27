@@ -64,7 +64,8 @@ public class JSONBuilder {
                 }
 
                 attachment.setUploadDate(new Date(DateTime.now().getMillis()));
-                attachment.setFilePath((String) object.get("name"));
+                attachment.setFilePath((String) object.get("filePath"));
+                attachment.setFileName((String) object.get("fileName"));
                 attachment.setComment((String) object.get("comment"));
 
                 attachments.add(attachment);

@@ -167,8 +167,8 @@ public class ContactService {
                 AttachmentService.writeAttachments(contact.getId(), files);
                 contactDAO.update(contact.getId(), contact);
                 logger.info(contact.getPhones());
-                updateEntities(contact.getId(), contact.getPhones(), phoneDAO.readByContactId(contact.getId()), phoneDAO);
-                updateEntities(contact.getId(), contact.getAttachments(), attachmentDAO.readByContactId(contact.getId()), attachmentDAO);
+                updateEntities(contact.getPhones(), phoneDAO.readByContactId(contact.getId()), phoneDAO);
+                updateEntities(contact.getAttachments(), attachmentDAO.readByContactId(contact.getId()), attachmentDAO);
                 connection.commit();
             } catch (DAOException ex) {
                 connection.rollback();
@@ -181,7 +181,7 @@ public class ContactService {
         }
     }
 
-    private <Type extends Entity> void updateEntities(Long id, ArrayList<Type> entities,
+    private <Type extends Entity> void updateEntities(ArrayList<Type> entities,
                                                       ArrayList<Type> entitiesFromDB,
                                                       AbstractDAO entityDAO) throws DAOException {
         try {

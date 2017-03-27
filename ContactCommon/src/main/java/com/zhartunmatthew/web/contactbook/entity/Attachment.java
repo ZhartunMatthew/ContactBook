@@ -7,6 +7,7 @@ public class Attachment implements Entity {
     private Long id;
     private Long contactID;
     private String filePath;
+    private String fileName;
     private String comment;
     private Date uploadDate;
 
@@ -32,6 +33,14 @@ public class Attachment implements Entity {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getComment() {

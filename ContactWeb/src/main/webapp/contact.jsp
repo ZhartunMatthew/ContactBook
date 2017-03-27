@@ -161,7 +161,10 @@
                             <div class="column column-2">
                                 <input type="checkbox" name="attachment-check" id="attachment-check-${attachment.id}" value="${attachment.id}">
                             </div>
-                            <div class="column column-3" id="contact-attachment-file-path-${attachment.id}">
+                            <div class="column column-3" id="contact-attachment-file-name-${attachment.id}">
+                                <c:out value="${attachment.fileName}"/>
+                            </div>
+                            <div class="hidden" id="contact-attachment-file-path-${attachment.id}">
                                 <c:out value="${attachment.filePath}"/>
                             </div>
                             <div class="column column-3" id="contact-attachment-upload-date-${attachment.id}">
@@ -232,6 +235,9 @@
                     <input type="file" id="attachment-path">
                 </label>
                 <input type="hidden" id="attachment-upload-date">
+                <label> Имя
+                    <input type="text" class="modal-attachment-comment" id="attachment-name">
+                </label>
                 <label> Комментарий
                     <input type="text" class="modal-attachment-comment" id="attachment-comment">
                 </label>
