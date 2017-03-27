@@ -29,13 +29,13 @@ public class ContactService {
 
     public ContactService() {}
 
-    public void insertContact(Contact contact, FileItem fileItem, ArrayList<FileItem> files) {
+    public void insertContact(Contact contact, FileItem contactPhoto, ArrayList<FileItem> files) {
         Long lastId;
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
             connection.setAutoCommit(false);
             try {
-                ImageService.writePhoto(contact, fileItem);
+                ImageService.writePhoto(contact, contactPhoto);
 
                 contactDAO.insert(contact);
                 lastId = contactDAO.getLastInsertedId();
@@ -155,7 +155,7 @@ public class ContactService {
         return contacts;
     }
 
-    public void updateContact(Contact contact, FileItem fileItem, ArrayList<FileItem> files) {
+    public void updateContact(Contact contact, FileItem contactPhoto, ArrayList<FileItem> files) {
         try (Connection connection = ConnectionUtils.getConnection()){
             ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
             AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.createDAO(AttachmentDAO.class, connection);
@@ -163,7 +163,7 @@ public class ContactService {
 
             connection.setAutoCommit(false);
             try {
-                ImageService.writePhoto(contact, fileItem);
+                ImageService.writePhoto(contact, contactPhoto);
                 AttachmentService.writeAttachments(contact.getId(), files);
                 contactDAO.update(contact.getId(), contact);
                 logger.info(contact.getPhones());
@@ -183,7 +183,7 @@ public class ContactService {
 
     private <Type extends Entity> void updateEntities(ArrayList<Type> entities,
                                                       ArrayList<Type> entitiesFromDB,
-                                                      AbstractDAO entityDAO) throws DAOException {
+                                                      AbstractDAO<Long, Type> entityDAO) throws DAOException {
         try {
             for (Type entity : entities) {
                 if(entity.getId() == null) {

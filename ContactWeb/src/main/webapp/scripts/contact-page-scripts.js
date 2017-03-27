@@ -503,7 +503,6 @@ function editAttachment(attachmentID, isNewAttachmentEdit) {
     var attachment = new Attachment();
 
     attachment.id = attachmentID;
-    alert("ATTACHID : "  + attachment.id);
     attachment.fileName = document.getElementById('attachment-name').value.trim();
     attachment.comment = document.getElementById('attachment-comment').value.trim();
 
