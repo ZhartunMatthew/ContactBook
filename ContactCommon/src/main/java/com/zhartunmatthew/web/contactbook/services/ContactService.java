@@ -35,11 +35,11 @@ public class ContactService {
             ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
             connection.setAutoCommit(false);
             try {
-                ImageService.writePhoto(contact, contactPhoto);
-
                 contactDAO.insert(contact);
                 lastId = contactDAO.getLastInsertedId();
                 contactDAO.insertContactAddress(contact, lastId);
+                String photoPath = ImageService.writePhoto(lastId, contactPhoto);
+                contactDAO.updateContactPhoto(lastId, photoPath);
 
                 AttachmentService.writeAttachments(lastId, files);
 
@@ -163,10 +163,10 @@ public class ContactService {
 
             connection.setAutoCommit(false);
             try {
-                ImageService.writePhoto(contact, contactPhoto);
+                String photoPath = ImageService.writePhoto(contact.getId(), contactPhoto);
                 AttachmentService.writeAttachments(contact.getId(), files);
                 contactDAO.update(contact.getId(), contact);
-                logger.info(contact.getPhones());
+                contactDAO.updateContactPhoto(contact.getId(), photoPath);
                 updateEntities(contact.getPhones(), phoneDAO.readByContactId(contact.getId()), phoneDAO);
                 updateEntities(contact.getAttachments(), attachmentDAO.readByContactId(contact.getId()), attachmentDAO);
                 connection.commit();

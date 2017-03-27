@@ -67,6 +67,9 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             "INSERT INTO addresses (contact_id, city, street, house_number, flat, postcode)" +
             " VALUES (?, ?, ?, ?, ?, ?);";
 
+    private static final String INSERT_CONTACT_PHOTO =
+            "INSERT INTO contacts (photo_path) VALUES (?) WHERE id = ?;";
+
     private static final String DELETE_CONTACT = "DELETE FROM contacts WHERE id = ?";
 
     private static final String DELETE_CONTACTS_ADDRESS = "DELETE FROM addresses WHERE contact_id = ?";
@@ -316,6 +319,16 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             statement.setString(3, val.getHouseNumber());
             statement.setString(4, val.getFlat());
             statement.setLong(5, val.getId());
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void updateContactPhoto(Long id, String photoPath) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_CONTACT_ADDRESS)) {
+            statement.setString(1, photoPath);
+            statement.setLong(2, id);
             statement.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
