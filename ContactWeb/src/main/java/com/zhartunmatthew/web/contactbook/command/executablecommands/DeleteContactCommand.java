@@ -17,7 +17,6 @@ public class DeleteContactCommand implements AbstractCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String[] items = request.getParameterValues("contact-check");
         ArrayList<Long> checkedItems = new ArrayList<>();
-
         if(items != null) {
             for(String val : items) {
                 checkedItems.add(Long.parseLong(val));
@@ -26,7 +25,6 @@ public class DeleteContactCommand implements AbstractCommand {
         } else {
             log.info("NO CHECKED ITEMS");
         }
-
         ContactService contactService = new ContactService();
         contactService.deleteContacts(checkedItems);
 

@@ -9,6 +9,8 @@ import com.zhartunmatthew.web.contactbook.dao.daofactory.DAOFactory;
 import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionUtils;
 import com.zhartunmatthew.web.contactbook.entity.*;
+import com.zhartunmatthew.web.contactbook.entity.abstractions.ContactEntity;
+import com.zhartunmatthew.web.contactbook.entity.abstractions.Entity;
 import com.zhartunmatthew.web.contactbook.entity.search.SearchParameters;
 import com.zhartunmatthew.web.contactbook.services.fileservice.AttachmentService;
 import com.zhartunmatthew.web.contactbook.services.fileservice.ImageService;
@@ -96,19 +98,6 @@ public class ContactService {
         }
     }
 
-    public ArrayList<Contact> getAllContacts() {
-        ArrayList<Contact> contacts = null;
-        try (Connection connection = ConnectionUtils.getConnection()) {
-            ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
-            contacts = contactDAO.readAll();
-        } catch (SQLException | DAOException ex) {
-            ex.printStackTrace();
-        }
-
-
-        return contacts;
-    }
-
     public Contact getContactById(Long id) {
         Contact contact = null;
         try (Connection connection = ConnectionUtils.getConnection()) {
@@ -183,7 +172,7 @@ public class ContactService {
     }
 
     private <Type extends ContactEntity> ArrayList<Type> updateEntities(ArrayList<Type> entities,
-                                   ArrayList<Type> entitiesFromDB, AbstractDAO<Long, Type> entityDAO) throws DAOException {
+                                                                        ArrayList<Type> entitiesFromDB, AbstractDAO<Long, Type> entityDAO) throws DAOException {
 
         ArrayList<Type> entitiesForInsert = new ArrayList<>();
         try {

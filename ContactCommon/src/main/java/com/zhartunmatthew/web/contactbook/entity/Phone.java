@@ -1,5 +1,7 @@
 package com.zhartunmatthew.web.contactbook.entity;
 
+import com.zhartunmatthew.web.contactbook.entity.abstractions.ContactEntity;
+
 public class Phone implements ContactEntity {
 
     private Long id;

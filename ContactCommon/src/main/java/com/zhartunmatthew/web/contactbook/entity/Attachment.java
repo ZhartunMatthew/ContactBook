@@ -1,5 +1,7 @@
 package com.zhartunmatthew.web.contactbook.entity;
 
+import com.zhartunmatthew.web.contactbook.entity.abstractions.ContactEntity;
+
 import java.sql.Date;
 
 public class Attachment implements ContactEntity {

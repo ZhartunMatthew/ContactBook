@@ -5,7 +5,6 @@ import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.handler.MainHandler;
 import com.zhartunmatthew.web.contactbook.services.ContactService;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 
 public class AddContactCommand implements AbstractCommand {
 
-    private static Logger log = Logger.getLogger(AddContactCommand.class);
     private static String REDIRECT_URL = "/controller";
 
     @Override
@@ -27,7 +25,6 @@ public class AddContactCommand implements AbstractCommand {
 
         ContactService contactService = new ContactService();
         contactService.insertContact(contact, photoItem, fileItems);
-        Long id = contactService.getLastInsertedContactId();
 
         return REDIRECT_URL;
     }

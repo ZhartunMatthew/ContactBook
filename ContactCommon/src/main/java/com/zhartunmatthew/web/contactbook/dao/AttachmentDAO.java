@@ -14,16 +14,19 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
 
     private static final String SELECT_CONTACT_ATTACHMENTS =
             "SELECT id_file AS id, " +
-                    "contact_id, " +
-                    "file_name, " +
-                    "comment, " +
-                    "upload_date " +
-                    "FROM contactbook.attachments " +
-                    "WHERE contact_id = ?";
+            "contact_id, " +
+            "file_name, " +
+            "comment, " +
+            "upload_date " +
+            "FROM contactbook.attachments " +
+            "WHERE contact_id = ?";
+
+    private static final String SELECT_ATTACHMENT_BY_ID =
+            "SELECT id_file AS id, contact_id, file_name, comment, upload_date " +
+            "FROM contactbook.attachments WHERE id_file = ? LIMIT 1";
 
     private static final String INSERT_ATTACHMENT_QUERY =
-            "INSERT INTO attachments (contact_id, file_name, upload_date, comment) " +
-                    "VALUES (?, ?, ?, ?);";
+            "INSERT INTO attachments (contact_id, file_name, upload_date, comment) VALUES (?, ?, ?, ?);";
 
     private static final String DELETE_CONTACT_ATTACHMENTS =
             "DELETE FROM attachments WHERE contact_id = ?";
@@ -80,7 +83,17 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
 
     @Override
     public Attachment read(Long id) throws DAOException {
-        return null;
+        Attachment attachment = null;
+        try(PreparedStatement statement = connection.prepareStatement(SELECT_ATTACHMENT_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()) {
+                attachment = (Attachment) EntityFactory.createEntityFromResultSet(resultSet, Attachment.class);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return attachment;
     }
 
     @Override

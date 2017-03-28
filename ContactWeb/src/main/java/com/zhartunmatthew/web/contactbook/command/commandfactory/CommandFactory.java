@@ -5,6 +5,7 @@ import com.zhartunmatthew.web.contactbook.command.executablecommands.AddContactC
 import com.zhartunmatthew.web.contactbook.command.executablecommands.DeleteContactCommand;
 import com.zhartunmatthew.web.contactbook.command.executablecommands.UpdateContactCommand;
 import com.zhartunmatthew.web.contactbook.command.executablecommands.search.SearchContactsCommand;
+import com.zhartunmatthew.web.contactbook.command.getcommand.DownloadAttachmentCommand;
 import com.zhartunmatthew.web.contactbook.command.getcommand.GetImageCommand;
 import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactCommand;
 import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactListCommand;
@@ -62,6 +63,11 @@ public class CommandFactory {
         if(Objects.equals("get_image", command)) {
             abstractCommand = new GetImageCommand();
             log.debug("Returned command 'GetImage'");
+        }
+
+        if(Objects.equals("download_attachment", command)) {
+            abstractCommand = new DownloadAttachmentCommand();
+            log.debug("Returned command 'DownloadAttachment'");
         }
 
         if(abstractCommand == null) {

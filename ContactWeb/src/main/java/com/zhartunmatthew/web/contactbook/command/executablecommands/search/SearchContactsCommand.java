@@ -4,7 +4,6 @@ import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractComman
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.search.SearchParameters;
 import com.zhartunmatthew.web.contactbook.services.ContactService;
-import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 
 public class SearchContactsCommand implements AbstractCommand {
 
-    private static Logger log = Logger.getLogger(SearchContactsCommand.class);
     private final static String COMMAND_URL = "contact_list.jsp";
 
     @Override

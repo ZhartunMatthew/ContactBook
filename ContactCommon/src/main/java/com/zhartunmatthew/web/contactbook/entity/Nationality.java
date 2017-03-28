@@ -1,5 +1,7 @@
 package com.zhartunmatthew.web.contactbook.entity;
 
+import com.zhartunmatthew.web.contactbook.entity.abstractions.Entity;
+
 public class Nationality implements Entity {
 
     private Long id = null;

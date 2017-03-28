@@ -1,5 +1,7 @@
 package com.zhartunmatthew.web.contactbook.entity;
 
+import com.zhartunmatthew.web.contactbook.entity.abstractions.Entity;
+
 import java.sql.Date;
 import java.util.ArrayList;
 

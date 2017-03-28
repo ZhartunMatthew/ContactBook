@@ -170,6 +170,9 @@
                             <div class="column column-x" id="contact-attachment-comment-${attachment.id}">
                                 <c:out value="${attachment.comment}"/>
                             </div>
+                            <a href="/controller?command=download_attachment&id=${attachment.id}">
+                                <div class="nav-button download"></div>
+                            </a>
                         </label>
                     </div>
                 </c:forEach>

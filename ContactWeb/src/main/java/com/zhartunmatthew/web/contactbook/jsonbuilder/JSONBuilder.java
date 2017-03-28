@@ -41,7 +41,7 @@ public class JSONBuilder {
                 phones.add(phone);
             });
         } catch (ParseException | ClassCastException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return phones;
     }
@@ -71,7 +71,7 @@ public class JSONBuilder {
             });
 
         } catch (ParseException | ClassCastException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return attachments;
     }

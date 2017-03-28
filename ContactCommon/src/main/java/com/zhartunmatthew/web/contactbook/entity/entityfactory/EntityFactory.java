@@ -2,7 +2,7 @@ package com.zhartunmatthew.web.contactbook.entity.entityfactory;
 
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
-import com.zhartunmatthew.web.contactbook.entity.Entity;
+import com.zhartunmatthew.web.contactbook.entity.abstractions.Entity;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 
 import java.sql.ResultSet;

@@ -1,5 +1,7 @@
 package com.zhartunmatthew.web.contactbook.entity;
 
+import com.zhartunmatthew.web.contactbook.entity.abstractions.Entity;
+
 public class Country implements Entity {
     private Long id = null;
     private String name = null;

@@ -1,10 +1,16 @@
 package com.zhartunmatthew.web.contactbook.services.fileservice;
 
+import com.zhartunmatthew.web.contactbook.dao.AttachmentDAO;
+import com.zhartunmatthew.web.contactbook.dao.daofactory.DAOFactory;
+import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
+import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionUtils;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ResourceBundle;
@@ -18,7 +24,7 @@ public class AttachmentService {
     public static void writeAttachments(ArrayList<Attachment> attachments, ArrayList<FileItem> fileItems) {
         Iterator<Attachment> oneAttachment = attachments.iterator();
         Iterator<FileItem> oneFleItem = fileItems.iterator();
-        while(oneAttachment.hasNext()) {
+        while(oneAttachment.hasNext() && oneFleItem.hasNext()) {
             writeFile(oneAttachment.next(), oneFleItem.next());
         }
     }
@@ -39,7 +45,6 @@ public class AttachmentService {
         }
     }
 
-
     public static void removeAttachmentFromDisk(Long contactId, Long fileId) {
         String directoryPath = resBundle.getString("files-directory") + "contact_" + contactId + File.separator;
         File file = new File(directoryPath + "file_" + fileId);
@@ -58,5 +63,25 @@ public class AttachmentService {
             }
         }
         directory.delete();
+    }
+
+    public static Attachment getAttachmentById(Long id) {
+        Attachment attachment = null;
+        try(Connection connection = ConnectionUtils.getConnection()) {
+            try {
+                AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.createDAO(AttachmentDAO.class, connection);
+                attachment = attachmentDAO.read(id);
+            } catch (DAOException ex) {
+                ex.printStackTrace();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return attachment;
+    }
+
+    public static String getFullAttachmentPath(Attachment attachment) {
+        return resBundle.getString("files-directory") + "contact_"
+                + attachment.getContactID() + File.separator + "file_" + attachment.getId();
     }
 }
