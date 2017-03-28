@@ -8,10 +8,7 @@ import com.zhartunmatthew.web.contactbook.dao.PhoneDAO;
 import com.zhartunmatthew.web.contactbook.dao.daofactory.DAOFactory;
 import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionUtils;
-import com.zhartunmatthew.web.contactbook.entity.Attachment;
-import com.zhartunmatthew.web.contactbook.entity.Contact;
-import com.zhartunmatthew.web.contactbook.entity.Entity;
-import com.zhartunmatthew.web.contactbook.entity.Phone;
+import com.zhartunmatthew.web.contactbook.entity.*;
 import com.zhartunmatthew.web.contactbook.entity.search.SearchParameters;
 import com.zhartunmatthew.web.contactbook.services.fileservice.AttachmentService;
 import com.zhartunmatthew.web.contactbook.services.fileservice.ImageService;
@@ -84,8 +81,9 @@ public class ContactService {
                     phoneDAO.deleteByContactId(id);
                     contactDAO.deleteContactAddress(id);
                     contactDAO.delete(id);
-
                     connection.commit();
+
+                    AttachmentService.removeAllContactAttachments(id);
                 } catch (DAOException ex) {
                     connection.rollback();
                     ex.printStackTrace();
@@ -184,9 +182,9 @@ public class ContactService {
         }
     }
 
-    private <Type extends Entity> ArrayList<Type> updateEntities(ArrayList<Type> entities,
-                                                      ArrayList<Type> entitiesFromDB,
-                                                      AbstractDAO<Long, Type> entityDAO) throws DAOException {
+    private <Type extends ContactEntity> ArrayList<Type> updateEntities(ArrayList<Type> entities,
+                                   ArrayList<Type> entitiesFromDB, AbstractDAO<Long, Type> entityDAO) throws DAOException {
+
         ArrayList<Type> entitiesForInsert = new ArrayList<>();
         try {
             for (Type entity : entities) {
@@ -212,6 +210,10 @@ public class ContactService {
             for (Type entity : entitiesFromDB) {
                 logger.info("DELETE: " + entity);
                 entityDAO.delete(entity.getId());
+
+                if(entity.getClass() == Attachment.class) {
+                    AttachmentService.removeAttachmentFromDisk(entity.getContactID(), entity.getId());
+                }
             }
         } catch (Exception ex) {
             ex.printStackTrace();

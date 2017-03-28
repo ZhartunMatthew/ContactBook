@@ -2,8 +2,7 @@ package com.zhartunmatthew.web.contactbook.entity;
 
 import java.sql.Date;
 
-public class Attachment implements Entity {
-
+public class Attachment implements ContactEntity {
     private Long id;
     private Long contactID;
     private String fileName;

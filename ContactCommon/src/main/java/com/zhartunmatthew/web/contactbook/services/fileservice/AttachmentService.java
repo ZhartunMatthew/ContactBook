@@ -40,11 +40,23 @@ public class AttachmentService {
     }
 
 
-    public static void removeAttachmentFromDisk(Long contactId, File path) {
-
+    public static void removeAttachmentFromDisk(Long contactId, Long fileId) {
+        String directoryPath = resBundle.getString("files-directory") + "contact_" + contactId + File.separator;
+        File file = new File(directoryPath + "file_" + fileId);
+        if(file.exists()) {
+            file.delete();
+        }
     }
 
     public static void removeAllContactAttachments(Long contactId) {
-
+        String directoryPath = resBundle.getString("files-directory") + "contact_" + contactId;
+        File directory = new File(directoryPath);
+        if (directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            for (File file : files) {
+                file.delete();
+            }
+        }
+        directory.delete();
     }
 }
