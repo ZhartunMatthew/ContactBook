@@ -190,9 +190,9 @@
                     <input type="file" id="photo-file-input" value="Выберите фото" accept="image/jpeg,image/png">
                 </label>
                 <div class="popup-buttons">
-                    <div id="save-photo-button" class="popup-button">Сохранить</div>
-                    <div id="cancel-photo-button" class="popup-button">Отменить</div>
-                    <div id="delete-photo-button" class="popup-button">Удалить</div>
+                    <div id="save-photo-button" class="popup-button photo-popup-button">Сохранить</div>
+                    <div id="cancel-photo-button" class="popup-button photo-popup-button">Отменить</div>
+                    <div id="delete-photo-button" class="popup-button photo-popup-button">Удалить</div>
                 </div>
             </div>
         </div>

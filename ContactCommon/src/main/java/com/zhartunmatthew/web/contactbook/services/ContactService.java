@@ -38,10 +38,8 @@ public class ContactService {
                 contactDAO.insert(contact);
                 lastId = contactDAO.getLastInsertedId();
                 contactDAO.insertContactAddress(contact, lastId);
-                String photoPath = ImageService.writePhoto(lastId, contactPhoto);
+                String photoPath = ImageService.writePhoto(lastId, contactPhoto, contact.getPhotoPath());
                 contactDAO.updateContactPhoto(lastId, photoPath);
-
-                AttachmentService.writeAttachments(lastId, files);
 
                 PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.createDAO(PhoneDAO.class, connection);
                 ArrayList<Phone> phones = contact.getPhones();
@@ -60,6 +58,8 @@ public class ContactService {
                         attachmentDAO.insert(attachment);
                     }
                 }
+
+                AttachmentService.writeAttachments(attachments, files);
                 connection.commit();
             } catch (DAOException ex) {
                 connection.rollback();
@@ -163,12 +163,15 @@ public class ContactService {
 
             connection.setAutoCommit(false);
             try {
-                String photoPath = ImageService.writePhoto(contact.getId(), contactPhoto);
-                AttachmentService.writeAttachments(contact.getId(), files);
+                String photoPath = ImageService.writePhoto(contact.getId(), contactPhoto, contact.getPhotoPath());
                 contactDAO.update(contact.getId(), contact);
                 contactDAO.updateContactPhoto(contact.getId(), photoPath);
                 updateEntities(contact.getPhones(), phoneDAO.readByContactId(contact.getId()), phoneDAO);
-                updateEntities(contact.getAttachments(), attachmentDAO.readByContactId(contact.getId()), attachmentDAO);
+                ArrayList<Attachment> attachmentsForUploading =
+                        updateEntities(contact.getAttachments(),
+                                attachmentDAO.readByContactId(contact.getId()), attachmentDAO);
+
+                AttachmentService.writeAttachments(attachmentsForUploading, files);
                 connection.commit();
             } catch (DAOException ex) {
                 connection.rollback();
@@ -181,14 +184,16 @@ public class ContactService {
         }
     }
 
-    private <Type extends Entity> void updateEntities(ArrayList<Type> entities,
+    private <Type extends Entity> ArrayList<Type> updateEntities(ArrayList<Type> entities,
                                                       ArrayList<Type> entitiesFromDB,
                                                       AbstractDAO<Long, Type> entityDAO) throws DAOException {
+        ArrayList<Type> entitiesForInsert = new ArrayList<>();
         try {
             for (Type entity : entities) {
                 if(entity.getId() == null) {
                     logger.info("INSERT: " + entity);
                     entityDAO.insert(entity);
+                    entitiesForInsert.add(entity);
                 } else {
                     if(!entitiesFromDB.contains(entity)) {
                         logger.info("UPDATE: " + entity);
@@ -211,6 +216,7 @@ public class ContactService {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        return entitiesForInsert;
     }
 
     public Long getLastInsertedContactId() {

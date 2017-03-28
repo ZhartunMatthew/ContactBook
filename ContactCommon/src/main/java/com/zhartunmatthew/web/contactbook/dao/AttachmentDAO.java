@@ -62,14 +62,18 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
 
     @Override
     public void insert(Attachment val) throws DAOException {
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_ATTACHMENT_QUERY)) {
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_ATTACHMENT_QUERY,
+                PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, val.getContactID());
             statement.setString(2, val.getFilePath());
             statement.setString(3, val.getFileName());
             statement.setDate(4, val.getUploadDate());
             statement.setString(5, val.getComment());
             statement.executeUpdate();
-
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if(resultSet.next()) {
+                val.setId(resultSet.getLong(1));
+            }
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();

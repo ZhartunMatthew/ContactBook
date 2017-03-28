@@ -56,3 +56,8 @@
 .popup-button:hover {
     background-color: antiquewhite;
 }
+
+
+.photo-popup-button {
+    width: 110px;
+}

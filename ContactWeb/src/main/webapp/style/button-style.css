@@ -9,6 +9,7 @@
     margin: 0 5px;
     display: inline-block;
     background: url('/sprite/buttons-sprite.jpg');
+    cursor: pointer;
 }
 
 .add {

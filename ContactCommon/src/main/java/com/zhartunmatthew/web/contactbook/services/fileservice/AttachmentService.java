@@ -1,10 +1,12 @@
 package com.zhartunmatthew.web.contactbook.services.fileservice;
 
+import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 
 public class AttachmentService {
@@ -13,28 +15,36 @@ public class AttachmentService {
     private final static String PROPERTIES_PATH = "directories";
     private static ResourceBundle resBundle = ResourceBundle.getBundle(PROPERTIES_PATH);
 
-    public static void writeAttachments(Long id, ArrayList<FileItem> attachments) {
-        for(FileItem fileItem : attachments) {
-            writeFile(id, fileItem);
+    public static void writeAttachments(ArrayList<Attachment> attachments, ArrayList<FileItem> fileItems) {
+        Iterator<Attachment> oneAttachment = attachments.iterator();
+        Iterator<FileItem> oneFleItem = fileItems.iterator();
+        while(oneAttachment.hasNext()) {
+            writeFile(oneAttachment.next(), oneFleItem.next());
         }
     }
 
-    private static void writeFile(Long contactId, FileItem fileItem) {
-        String filePath = resBundle.getString("files-directory") + "contact_" + contactId + File.separator;
+    private static void writeFile(Attachment attachment, FileItem fileItem) {
+        String filePath = resBundle.getString("files-directory") + "contact_" + attachment.getContactID() + File.separator;
         File directory = new File(filePath);
         if(!directory.exists()) {
             if(directory.mkdir()) {
                 log.error("Can't create directory for attachments");
             }
         }
-
-        File file = new File(filePath + fileItem.getName());
+        File file = new File(filePath + "file_" + attachment.getId() + "." + getFileExtension(attachment.getFilePath()));
         try {
             fileItem.write(file);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    private static String getFileExtension(String fileName) {
+        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+            return fileName.substring(fileName.lastIndexOf(".") + 1);
+        } else {
+            return "";
+        }
     }
 
     public static void removeAttachmentFromDisk(Long contactId, File path) {
