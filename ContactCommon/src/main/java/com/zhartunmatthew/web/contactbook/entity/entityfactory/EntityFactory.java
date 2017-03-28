@@ -66,7 +66,6 @@ public class EntityFactory {
         Attachment attachment = new Attachment();
         attachment.setId(resultSet.getLong("id"));
         attachment.setContactID(resultSet.getLong("contact_id"));
-        attachment.setFilePath(resultSet.getString("file_path"));
         attachment.setFileName(resultSet.getString("file_name"));
         attachment.setComment(resultSet.getString("comment"));
         attachment.setUploadDate(resultSet.getDate("upload_date"));

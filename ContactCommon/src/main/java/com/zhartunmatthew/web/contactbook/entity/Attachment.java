@@ -6,7 +6,6 @@ public class Attachment implements Entity {
 
     private Long id;
     private Long contactID;
-    private String filePath;
     private String fileName;
     private String comment;
     private Date uploadDate;
@@ -25,14 +24,6 @@ public class Attachment implements Entity {
 
     public void setContactID(Long contactID) {
         this.contactID = contactID;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
     }
 
     public String getFileName() {
@@ -64,7 +55,7 @@ public class Attachment implements Entity {
         return "Attachment{" +
                 "id=" + id +
                 ", contactID=" + contactID +
-                ", filePath='" + filePath + '\'' +
+                ", fileName='" + fileName + '\'' +
                 ", comment='" + comment + '\'' +
                 ", uploadDate=" + uploadDate +
                 '}';
@@ -78,7 +69,7 @@ public class Attachment implements Entity {
         Attachment that = (Attachment) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (filePath != null ? !filePath.equals(that.filePath) : that.filePath != null) return false;
+        if (fileName != null ? !fileName.equals(that.fileName) : that.fileName != null) return false;
         if (comment != null ? !comment.equals(that.comment) : that.comment != null) return false;
         return uploadDate != null ? uploadDate.equals(that.uploadDate) : that.uploadDate == null;
 
@@ -86,7 +77,7 @@ public class Attachment implements Entity {
 
     @Override
     public int hashCode() {
-        int result = filePath != null ? filePath.hashCode() : 0;
+        int result = fileName != null ? fileName.hashCode() : 0;
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
         return result;
     }

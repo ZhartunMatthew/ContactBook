@@ -371,6 +371,7 @@ editAttachmentButton.onclick = function () {
         isNewAttachmentEdit = false;
         editedAttachmentId = number;
         document.getElementById('attachment-path').style.display = 'none';
+
         openModal(popupWindowAttachments);
     }
 
@@ -380,12 +381,13 @@ editAttachmentButton.onclick = function () {
             document.getElementById('new-contact-attachment-comment-' + newNumber).innerHTML.trim();
 
         document.getElementById('attachment-name').value =
-            document.getElementById('new-contact-attachment-fileK-name-' + newNumber).innerHTML.trim();
+            document.getElementById('new-contact-attachment-file-name-' + newNumber).innerHTML.trim();
 
         isNewAttachmentEdit = true;
         editedAttachmentId = newNumber;
         document.getElementById('attachment-path').style.display = 'none';
-        openModal(popupWindowAttachments);
+
+        alert(document.getElementById('attachment-path').value);
     }
 };
 
@@ -408,6 +410,7 @@ submitAttachmentButton.onclick = function () {
         editAttachment(editedAttachmentId, isNewAttachmentEdit);
     }
     closeModal(popupWindowAttachments);
+    alert(document.getElementById('attachment-path').value);
 };
 
 function getCurrentDate() {
@@ -448,11 +451,6 @@ function createNewAttachment() {
     input.value = attachment.id;
     columnWithCheckBox.appendChild(input);
 
-    var columnWithFilePath = document.createElement('div');
-    columnWithFilePath.className = 'hidden';
-    columnWithFilePath.id = 'new-contact-attachment-file-path-' + attachment.id;
-    columnWithFilePath.appendChild(document.createTextNode(attachment.filePath));
-
     var columnWithFileName = document.createElement('div');
     columnWithFileName.className = 'column column-3';
     columnWithFileName.id = 'new-contact-attachment-file-name-' + attachment.id;
@@ -470,7 +468,6 @@ function createNewAttachment() {
 
     label.appendChild(columnWithCheckBox);
     label.appendChild(columnWithFileName);
-    label.appendChild(columnWithFilePath);
     label.appendChild(columnWithDateUpload);
     label.appendChild(columnWithAttachmentComment);
 
@@ -527,7 +524,6 @@ function prepareAttachmentForSubmit() {
         var tempAttachment = new Attachment();
         tempAttachment.id = oldId;
 
-        tempAttachment.filePath = document.getElementById('contact-attachment-file-path-' + oldId).innerHTML.trim();
         tempAttachment.fileName = document.getElementById('contact-attachment-file-name-' + oldId).innerHTML.trim();
         tempAttachment.dateUpload = document.getElementById('contact-attachment-upload-date-' + oldId).innerHTML.trim();
         tempAttachment.comment = document.getElementById('contact-attachment-comment-' + oldId).innerHTML.trim();
@@ -542,7 +538,6 @@ function prepareAttachmentForSubmit() {
 
         var newTempAttachment = new Attachment();
 
-        newTempAttachment.filePath = document.getElementById('new-contact-attachment-file-path-' + newId).innerHTML.trim();
         newTempAttachment.fileName = document.getElementById('new-contact-attachment-file-name-' + newId).innerHTML.trim();
         newTempAttachment.dateUpload = document.getElementById('new-contact-attachment-upload-date-' + newId).innerHTML.trim();
         newTempAttachment.comment = document.getElementById('new-contact-attachment-comment-' + newId).innerHTML.trim();

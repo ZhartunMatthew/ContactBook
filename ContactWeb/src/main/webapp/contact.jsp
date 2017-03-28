@@ -164,9 +164,6 @@
                             <div class="column column-3" id="contact-attachment-file-name-${attachment.id}">
                                 <c:out value="${attachment.fileName}"/>
                             </div>
-                            <div class="hidden" id="contact-attachment-file-path-${attachment.id}">
-                                <c:out value="${attachment.filePath}"/>
-                            </div>
                             <div class="column column-3" id="contact-attachment-upload-date-${attachment.id}">
                                 <c:out value="${attachment.uploadDate}"/>
                             </div>

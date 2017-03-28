@@ -114,7 +114,6 @@ CREATE TABLE IF NOT EXISTS `contactbook`.`attachments` (
   `id_file` INT NOT NULL AUTO_INCREMENT,
   `contact_id` INT NOT NULL,
   `file_name` VARCHAR(100) NULL,
-  `file_path` VARCHAR(200) NULL,
   `comment` VARCHAR(200) NULL,
   `upload_date` DATETIME NULL,
   PRIMARY KEY (`id_file`),

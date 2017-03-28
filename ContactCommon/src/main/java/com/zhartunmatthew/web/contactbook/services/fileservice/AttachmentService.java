@@ -31,7 +31,7 @@ public class AttachmentService {
                 log.error("Can't create directory for attachments");
             }
         }
-        File file = new File(filePath + "file_" + attachment.getId() + "." + getFileExtension(attachment.getFilePath()));
+        File file = new File(filePath + "file_" + attachment.getId());
         try {
             fileItem.write(file);
         } catch (Exception e) {
@@ -39,13 +39,6 @@ public class AttachmentService {
         }
     }
 
-    private static String getFileExtension(String fileName) {
-        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
-            return fileName.substring(fileName.lastIndexOf(".") + 1);
-        } else {
-            return "";
-        }
-    }
 
     public static void removeAttachmentFromDisk(Long contactId, File path) {
 
