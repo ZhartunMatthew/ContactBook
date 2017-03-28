@@ -337,6 +337,7 @@ var isNewAttachmentEdit = false;
 
 var lastCreatedAttachmentId = 0;
 var editedAttachmentId = 0;
+var fileExtension;
 
 addAttachmentButton.onclick = function () {
     isNewAttachment = true;
@@ -344,7 +345,7 @@ addAttachmentButton.onclick = function () {
     document.getElementById('attachment-path').value = '';
     document.getElementById('attachment-comment').value = '';
     document.getElementById('attachment-name').value = '';
-    document.getElementById('attachment-path').style.display = 'block';
+    document.getElementById('path-to-file').style.display = 'block';
 
     openModal(popupWindowAttachments);
 };
@@ -366,11 +367,14 @@ editAttachmentButton.onclick = function () {
             document.getElementById('contact-attachment-comment-' + number).innerHTML.trim();
 
         document.getElementById('attachment-name').value =
-            document.getElementById('contact-attachment-file-name-' + number).innerHTML.trim();
+            document.getElementById('contact-attachment-file-name-' + number).innerHTML.trim().split('\.')[0];
+
+        fileExtension =
+            document.getElementById('contact-attachment-file-name-' + number).innerHTML.trim().split('\.')[1];
 
         isNewAttachmentEdit = false;
         editedAttachmentId = number;
-        document.getElementById('attachment-path').style.display = 'none';
+        document.getElementById('path-to-file').style.display = 'none';
 
         openModal(popupWindowAttachments);
     }
@@ -381,13 +385,16 @@ editAttachmentButton.onclick = function () {
             document.getElementById('new-contact-attachment-comment-' + newNumber).innerHTML.trim();
 
         document.getElementById('attachment-name').value =
-            document.getElementById('new-contact-attachment-file-name-' + newNumber).innerHTML.trim();
+            document.getElementById('new-contact-attachment-file-name-' + newNumber).innerHTML.trim().split('\.')[0];
+
+        fileExtension =
+            document.getElementById('new-contact-attachment-file-name-' + newNumber).innerHTML.trim().split('\.')[1];
 
         isNewAttachmentEdit = true;
         editedAttachmentId = newNumber;
-        document.getElementById('attachment-path').style.display = 'none';
+        document.getElementById('path-to-file').style.display = 'none';
 
-        alert(document.getElementById('attachment-path').value);
+        openModal(popupWindowAttachments);
     }
 };
 
@@ -400,6 +407,7 @@ deleteAttachmentButton.onclick = function () {
 };
 
 cancelAttachmentButton.onclick = function () {
+    fileExtension = '';
     closeModal(popupWindowAttachments);
 };
 
@@ -410,7 +418,7 @@ submitAttachmentButton.onclick = function () {
         editAttachment(editedAttachmentId, isNewAttachmentEdit);
     }
     closeModal(popupWindowAttachments);
-    alert(document.getElementById('attachment-path').value);
+
 };
 
 function getCurrentDate() {
@@ -431,9 +439,11 @@ function createNewAttachment() {
     attachment.dateUpload = getCurrentDate();
     var filePath = document.getElementById('attachment-path').value;
     filePath = filePath.split('\\');
-    attachment.filePath = filePath[filePath.length-1];
+
+    var localFileExtension = filePath[filePath.length-1].split('\.')[1];
+
     attachment.comment = document.getElementById('attachment-comment').value.trim();
-    attachment.fileName = document.getElementById('attachment-name').value.trim();
+    attachment.fileName = document.getElementById('attachment-name').value.trim() + '.' + localFileExtension;
 
     var oneRow = document.createElement('div');
     oneRow.className = 'one-row new-contact-attachment';
@@ -500,7 +510,7 @@ function editAttachment(attachmentID, isNewAttachmentEdit) {
     var attachment = new Attachment();
 
     attachment.id = attachmentID;
-    attachment.fileName = document.getElementById('attachment-name').value.trim();
+    attachment.fileName = document.getElementById('attachment-name').value.trim() + '.' + fileExtension;
     attachment.comment = document.getElementById('attachment-comment').value.trim();
 
     if(isNewAttachmentEdit) {
