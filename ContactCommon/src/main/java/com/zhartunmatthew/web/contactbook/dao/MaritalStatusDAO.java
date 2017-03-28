@@ -3,10 +3,12 @@ package com.zhartunmatthew.web.contactbook.dao;
 import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.entity.MaritalStatus;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class MaritalStatusDAO extends AbstractDAO <Long, MaritalStatus> {
+public class MaritalStatusDAO extends AbstractDAO<Long, MaritalStatus> {
 
     private static String SELECT_ALL = "SELECT id_marital_status, marital_status_name FROM marital_status";
 
@@ -18,7 +20,7 @@ public class MaritalStatusDAO extends AbstractDAO <Long, MaritalStatus> {
     public ArrayList<MaritalStatus> readAll() throws DAOException {
         ArrayList<MaritalStatus> maritalStatuses = new ArrayList<>();
         ResultSet resultSet;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL)) {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 MaritalStatus maritalStatus = new MaritalStatus();
@@ -27,7 +29,7 @@ public class MaritalStatusDAO extends AbstractDAO <Long, MaritalStatus> {
                 maritalStatuses.add(maritalStatus);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return maritalStatuses;
     }

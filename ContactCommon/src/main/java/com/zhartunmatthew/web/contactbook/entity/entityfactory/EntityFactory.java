@@ -2,13 +2,17 @@ package com.zhartunmatthew.web.contactbook.entity.entityfactory;
 
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
-import com.zhartunmatthew.web.contactbook.entity.abstractions.Entity;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
+import com.zhartunmatthew.web.contactbook.entity.abstractions.Entity;
+import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class EntityFactory {
+
+    private static Logger log = Logger.getLogger(EntityFactory.class);
+
     public static Entity createEntityFromResultSet(ResultSet resultSet, Class type) {
         Entity entity = null;
         try {
@@ -22,7 +26,7 @@ public class EntityFactory {
                 entity = createAttachment(resultSet);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return entity;
     }

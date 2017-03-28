@@ -5,10 +5,11 @@ import com.zhartunmatthew.web.contactbook.dao.AbstractDAO;
 import com.zhartunmatthew.web.contactbook.dao.AttachmentDAO;
 import com.zhartunmatthew.web.contactbook.dao.ContactDAO;
 import com.zhartunmatthew.web.contactbook.dao.PhoneDAO;
-import com.zhartunmatthew.web.contactbook.dao.daofactory.DAOFactory;
 import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionUtils;
-import com.zhartunmatthew.web.contactbook.entity.*;
+import com.zhartunmatthew.web.contactbook.entity.Attachment;
+import com.zhartunmatthew.web.contactbook.entity.Contact;
+import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.abstractions.ContactEntity;
 import com.zhartunmatthew.web.contactbook.entity.abstractions.Entity;
 import com.zhartunmatthew.web.contactbook.entity.search.SearchParameters;
@@ -24,14 +25,15 @@ import java.util.Iterator;
 
 public class ContactService {
 
-    private static Logger logger = Logger.getLogger(ContactService.class);
+    private static Logger log = Logger.getLogger(ContactService.class);
 
-    public ContactService() {}
+    public ContactService() {
+    }
 
     public void insertContact(Contact contact, FileItem contactPhoto, ArrayList<FileItem> files) {
         Long lastId;
         try (Connection connection = ConnectionUtils.getConnection()) {
-            ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
+            ContactDAO contactDAO = new ContactDAO(connection);
             connection.setAutoCommit(false);
             try {
                 contactDAO.insert(contact);
@@ -40,7 +42,7 @@ public class ContactService {
                 String photoPath = ImageService.writePhoto(lastId, contactPhoto, contact.getPhotoPath());
                 contactDAO.updateContactPhoto(lastId, photoPath);
 
-                PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.createDAO(PhoneDAO.class, connection);
+                PhoneDAO phoneDAO = new PhoneDAO(connection);
                 ArrayList<Phone> phones = contact.getPhones();
                 if (phones != null) {
                     for (Phone phone : phones) {
@@ -49,7 +51,7 @@ public class ContactService {
                     }
                 }
 
-                AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.createDAO(AttachmentDAO.class, connection);
+                AttachmentDAO attachmentDAO = new AttachmentDAO(connection);
                 ArrayList<Attachment> attachments = contact.getAttachments();
                 if (attachments != null) {
                     for (Attachment attachment : attachments) {
@@ -62,7 +64,7 @@ public class ContactService {
                 connection.commit();
             } catch (DAOException ex) {
                 connection.rollback();
-                ex.printStackTrace();
+                log.error(ex.getMessage() + ex.getCause());
             } finally {
                 connection.setAutoCommit(true);
             }
@@ -73,10 +75,10 @@ public class ContactService {
 
     public void deleteContacts(ArrayList<Long> items) {
         try (Connection connection = ConnectionUtils.getConnection()) {
-            AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.createDAO(AttachmentDAO.class, connection);
-            PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.createDAO(PhoneDAO.class, connection);
-            ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
-            for(Long id : items) {
+            AttachmentDAO attachmentDAO = new AttachmentDAO(connection);
+            PhoneDAO phoneDAO = new PhoneDAO(connection);
+            ContactDAO contactDAO = new ContactDAO(connection);
+            for (Long id : items) {
                 connection.setAutoCommit(false);
                 try {
                     attachmentDAO.deleteByContactId(id);
@@ -88,7 +90,7 @@ public class ContactService {
                     AttachmentService.removeAllContactAttachments(id);
                 } catch (DAOException ex) {
                     connection.rollback();
-                    ex.printStackTrace();
+                    log.error(ex.getMessage() + ex.getCause());
                 } finally {
                     connection.setAutoCommit(true);
                 }
@@ -101,53 +103,52 @@ public class ContactService {
     public Contact getContactById(Long id) {
         Contact contact = null;
         try (Connection connection = ConnectionUtils.getConnection()) {
-            ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
+            ContactDAO contactDAO = new ContactDAO(connection);
             contact = contactDAO.read(id);
         } catch (SQLException | DAOException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return contact;
     }
 
     public Long getContactCount() {
         Long count = 0L;
-        try(Connection connection = ConnectionUtils.getConnection()) {
-            ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
+        try (Connection connection = ConnectionUtils.getConnection()) {
+            ContactDAO contactDAO = new ContactDAO(connection);
             count = contactDAO.getContactCount();
         } catch (SQLException | DAOException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return count;
     }
 
     public ArrayList<Contact> getCertainCount(int from, int limit) {
         ArrayList<Contact> contacts = null;
-        try (Connection connection = ConnectionUtils.getConnection()){
-            ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
+        try (Connection connection = ConnectionUtils.getConnection()) {
+            ContactDAO contactDAO = new ContactDAO(connection);
             contacts = contactDAO.readCertainCount(from, limit);
         } catch (SQLException | DAOException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return contacts;
     }
 
     public ArrayList<Contact> findAllByParameters(SearchParameters parameters) {
         ArrayList<Contact> contacts = null;
-        try (Connection connection = ConnectionUtils.getConnection()){
-            ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
+        try (Connection connection = ConnectionUtils.getConnection()) {
+            ContactDAO contactDAO = new ContactDAO(connection);
             contacts = contactDAO.searchUserByParameters(parameters);
         } catch (SQLException | DAOException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return contacts;
     }
 
     public void updateContact(Contact contact, FileItem contactPhoto, ArrayList<FileItem> files) {
-        try (Connection connection = ConnectionUtils.getConnection()){
-            ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
-            AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.createDAO(AttachmentDAO.class, connection);
-            PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.createDAO(PhoneDAO.class, connection);
-
+        try (Connection connection = ConnectionUtils.getConnection()) {
+            ContactDAO contactDAO = new ContactDAO(connection);
+            AttachmentDAO attachmentDAO = new AttachmentDAO(connection);
+            PhoneDAO phoneDAO = new PhoneDAO(connection);
             connection.setAutoCommit(false);
             try {
                 String photoPath = ImageService.writePhoto(contact.getId(), contactPhoto, contact.getPhotoPath());
@@ -157,39 +158,39 @@ public class ContactService {
                 ArrayList<Attachment> attachmentsForUploading =
                         updateEntities(contact.getAttachments(),
                                 attachmentDAO.readByContactId(contact.getId()), attachmentDAO);
-
                 AttachmentService.writeAttachments(attachmentsForUploading, files);
                 connection.commit();
             } catch (DAOException ex) {
                 connection.rollback();
-                ex.printStackTrace();
+                log.error(ex.getMessage() + ex.getCause());
             } finally {
                 connection.setAutoCommit(true);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
     }
 
     private <Type extends ContactEntity> ArrayList<Type> updateEntities(ArrayList<Type> entities,
-                                                                        ArrayList<Type> entitiesFromDB, AbstractDAO<Long, Type> entityDAO) throws DAOException {
+                                                                        ArrayList<Type> entitiesFromDB,
+                                                                        AbstractDAO<Long, Type> entityDAO) throws DAOException {
 
         ArrayList<Type> entitiesForInsert = new ArrayList<>();
         try {
             for (Type entity : entities) {
-                if(entity.getId() == null) {
-                    logger.info("INSERT: " + entity);
+                if (entity.getId() == null) {
+                    log.info("INSERT: " + entity);
                     entityDAO.insert(entity);
                     entitiesForInsert.add(entity);
                 } else {
-                    if(!entitiesFromDB.contains(entity)) {
-                        logger.info("UPDATE: " + entity);
+                    if (!entitiesFromDB.contains(entity)) {
+                        log.info("UPDATE: " + entity);
                         entityDAO.update(entity.getId(), entity);
                     }
                     Iterator<? extends Entity> entityIterator = entitiesFromDB.iterator();
-                    while(entityIterator.hasNext()) {
+                    while (entityIterator.hasNext()) {
                         Entity tempEntity = entityIterator.next();
-                        if(tempEntity.getId().equals(entity.getId())) {
+                        if (tempEntity.getId().equals(entity.getId())) {
                             entityIterator.remove();
                             break;
                         }
@@ -197,10 +198,10 @@ public class ContactService {
                 }
             }
             for (Type entity : entitiesFromDB) {
-                logger.info("DELETE: " + entity);
+                log.info("DELETE: " + entity);
                 entityDAO.delete(entity.getId());
 
-                if(entity.getClass() == Attachment.class) {
+                if (entity.getClass() == Attachment.class) {
                     AttachmentService.removeAttachmentFromDisk(entity.getContactID(), entity.getId());
                 }
             }
@@ -212,11 +213,11 @@ public class ContactService {
 
     public Long getLastInsertedContactId() {
         Long id = null;
-        try(Connection connection = ConnectionUtils.getConnection()) {
-            ContactDAO contactDAO = (ContactDAO) DAOFactory.createDAO(ContactDAO.class, connection);
+        try (Connection connection = ConnectionUtils.getConnection()) {
+            ContactDAO contactDAO = new ContactDAO(connection);
             id = contactDAO.getLastInsertedId();
         } catch (SQLException | DAOException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return id;
     }

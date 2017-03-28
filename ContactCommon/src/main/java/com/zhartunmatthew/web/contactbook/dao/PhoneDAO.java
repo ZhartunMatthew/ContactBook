@@ -17,18 +17,18 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
 
     private static final String SELECT_CONTACT_PHONES =
             "SELECT phone_id AS id, " +
-            "contact_id, " +
-            "type AS phone_type, " +
-            "country_code, " +
-            "operator_code, " +
-            "phone_number AS number, " +
-            "comment " +
-            "FROM contactbook.phones " +
-            "WHERE phones.contact_id = ?";
+                    "contact_id, " +
+                    "type AS phone_type, " +
+                    "country_code, " +
+                    "operator_code, " +
+                    "phone_number AS number, " +
+                    "comment " +
+                    "FROM contactbook.phones " +
+                    "WHERE phones.contact_id = ?";
 
     private static final String INSERT_CONTACT_PHONES =
             "INSERT INTO phones (contact_id, country_code, operator_code, phone_number, comment, type)" +
-            "VALUES (?, ?, ?, ?, ?, ?);";
+                    "VALUES (?, ?, ?, ?, ?, ?);";
 
     private static final String DELETE_CONTACT_PHONE =
             "DELETE FROM phones WHERE contact_id = ?";
@@ -45,15 +45,15 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
     public ArrayList<Phone> readByContactId(Long contactId) throws DAOException {
         ArrayList<Phone> phones = new ArrayList<>();
         ResultSet phoneResultSet;
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_CONTACT_PHONES)){
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_CONTACT_PHONES)) {
             statement.setLong(1, contactId);
             phoneResultSet = statement.executeQuery();
-            while(phoneResultSet.next()) {
+            while (phoneResultSet.next()) {
                 Phone phone = (Phone) EntityFactory.createEntityFromResultSet(phoneResultSet, Phone.class);
                 phones.add(phone);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return phones;
     }
@@ -65,7 +65,7 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
 
     @Override
     public void insert(Phone val) throws DAOException {
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_CONTACT_PHONES)){
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_CONTACT_PHONES)) {
             statement.setLong(1, val.getContactID());
             statement.setString(2, val.getCountryCode());
             statement.setString(3, val.getOperatorCode());
@@ -75,10 +75,9 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
 
             statement.executeUpdate();
             statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            log.error(ex.getMessage() + ex.getCause());
         }
-
     }
 
     @Override
@@ -88,7 +87,7 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
 
     @Override
     public void update(Long id, Phone val) throws DAOException {
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_PHONE)){
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_PHONE)) {
             statement.setString(1, val.getCountryCode());
             statement.setString(2, val.getOperatorCode());
             statement.setString(3, val.getNumber());
@@ -96,27 +95,27 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
             statement.setString(5, val.getComment());
             statement.setLong(6, id);
             statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            log.error(ex.getMessage() + ex.getCause());
         }
     }
 
     @Override
     public void delete(Long id) throws DAOException {
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_PHONE)){
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_PHONE)) {
             statement.setLong(1, id);
             statement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            log.error(ex.getMessage() + ex.getCause());
         }
     }
 
     public void deleteByContactId(Long id) throws DAOException {
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_CONTACT_PHONE)){
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_CONTACT_PHONE)) {
             statement.setLong(1, id);
             statement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            log.error(ex.getMessage() + ex.getCause());
         }
     }
 }

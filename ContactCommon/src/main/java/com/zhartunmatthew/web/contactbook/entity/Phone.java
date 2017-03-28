@@ -88,11 +88,21 @@ public class Phone implements ContactEntity {
 
         Phone phone = (Phone) o;
 
-        if (type != phone.type) return false;
-        if (id != null ? !id.equals(phone.id) : phone.id != null) return false;
-        if (countryCode != null ? !countryCode.equals(phone.countryCode) : phone.countryCode != null) return false;
-        if (operatorCode != null ? !operatorCode.equals(phone.operatorCode) : phone.operatorCode != null) return false;
-        if (number != null ? !number.equals(phone.number) : phone.number != null) return false;
+        if (type != phone.type) {
+            return false;
+        }
+        if (id != null ? !id.equals(phone.id) : phone.id != null) {
+            return false;
+        }
+        if (countryCode != null ? !countryCode.equals(phone.countryCode) : phone.countryCode != null) {
+            return false;
+        }
+        if (operatorCode != null ? !operatorCode.equals(phone.operatorCode) : phone.operatorCode != null) {
+            return false;
+        }
+        if (number != null ? !number.equals(phone.number) : phone.number != null) {
+            return false;
+        }
         return comment != null ? comment.equals(phone.comment) : phone.comment == null;
 
     }

@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class CountryDAO  extends AbstractDAO<Long, Country> {
+public class CountryDAO extends AbstractDAO<Long, Country> {
 
     private static String SELECT_ALL = "SELECT countries.id_country, countries.country_name FROM countries";
 
@@ -20,7 +20,7 @@ public class CountryDAO  extends AbstractDAO<Long, Country> {
     public ArrayList<Country> readAll() throws DAOException {
         ArrayList<Country> countries = new ArrayList<>();
         ResultSet resultSet;
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL)){
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL)) {
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Country country = new Country();
@@ -29,7 +29,7 @@ public class CountryDAO  extends AbstractDAO<Long, Country> {
                 countries.add(country);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return countries;
     }

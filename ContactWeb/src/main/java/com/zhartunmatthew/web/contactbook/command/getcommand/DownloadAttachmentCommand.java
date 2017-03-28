@@ -37,8 +37,6 @@ public class DownloadAttachmentCommand implements AbstractCommand {
             while (fileInputStream.read(content) != -1) {
                 outputStream.write(content);
             }
-
-            outputStream.close();
         } catch (IOException ex) {
             log.error(ex.getMessage() + ex.getCause());
         } finally {

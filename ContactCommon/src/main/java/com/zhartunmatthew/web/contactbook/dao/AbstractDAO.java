@@ -16,8 +16,12 @@ public abstract class AbstractDAO<PrKey, Type> {
     }
 
     public abstract ArrayList<Type> readAll() throws DAOException;
+
     public abstract void insert(Type val) throws DAOException;
+
     public abstract Type read(PrKey key) throws DAOException;
+
     public abstract void update(PrKey key, Type val) throws DAOException;
+
     public abstract void delete(PrKey key) throws DAOException;
 }

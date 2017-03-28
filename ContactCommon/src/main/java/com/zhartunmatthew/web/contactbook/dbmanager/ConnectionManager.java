@@ -20,13 +20,13 @@ public class ConnectionManager {
     private ConnectionManager() {
         try {
             dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/contactbook");
-        } catch (NamingException e) {
-            e.printStackTrace();
+        } catch (NamingException ex) {
+            log.error(ex.getMessage() + ex.getCause());
         }
     }
 
     public static synchronized ConnectionManager getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new ConnectionManager();
         }
         return instance;
@@ -44,15 +44,15 @@ public class ConnectionManager {
 
     public void deregisterDrivers() {
         Enumeration<Driver> driverEnumeration = DriverManager.getDrivers();
-        while(driverEnumeration.hasMoreElements()) {
+        while (driverEnumeration.hasMoreElements()) {
             Driver driver = driverEnumeration.nextElement();
             ClassLoader driverClassLoader = driver.getClass().getClassLoader();
             ClassLoader thisClassLoader = this.getClass().getClassLoader();
-            if(driverClassLoader != null && thisClassLoader != null) {
+            if (driverClassLoader != null && thisClassLoader != null) {
                 try {
                     DriverManager.deregisterDriver(driver);
                 } catch (SQLException ex) {
-                    ex.printStackTrace();
+                    log.error(ex.getMessage() + ex.getCause());
                 }
             }
         }

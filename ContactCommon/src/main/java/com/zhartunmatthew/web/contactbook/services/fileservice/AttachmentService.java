@@ -1,7 +1,6 @@
 package com.zhartunmatthew.web.contactbook.services.fileservice;
 
 import com.zhartunmatthew.web.contactbook.dao.AttachmentDAO;
-import com.zhartunmatthew.web.contactbook.dao.daofactory.DAOFactory;
 import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionUtils;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
@@ -24,7 +23,7 @@ public class AttachmentService {
     public static void writeAttachments(ArrayList<Attachment> attachments, ArrayList<FileItem> fileItems) {
         Iterator<Attachment> oneAttachment = attachments.iterator();
         Iterator<FileItem> oneFleItem = fileItems.iterator();
-        while(oneAttachment.hasNext() && oneFleItem.hasNext()) {
+        while (oneAttachment.hasNext() && oneFleItem.hasNext()) {
             writeFile(oneAttachment.next(), oneFleItem.next());
         }
     }
@@ -32,23 +31,23 @@ public class AttachmentService {
     private static void writeFile(Attachment attachment, FileItem fileItem) {
         String filePath = resBundle.getString("files-directory") + "contact_" + attachment.getContactID() + File.separator;
         File directory = new File(filePath);
-        if(!directory.exists()) {
-            if(directory.mkdir()) {
+        if (!directory.exists()) {
+            if (directory.mkdir()) {
                 log.error("Can't create directory for attachments");
             }
         }
         File file = new File(filePath + "file_" + attachment.getId());
         try {
             fileItem.write(file);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            log.error(ex.getMessage() + ex.getCause());
         }
     }
 
     public static void removeAttachmentFromDisk(Long contactId, Long fileId) {
         String directoryPath = resBundle.getString("files-directory") + "contact_" + contactId + File.separator;
         File file = new File(directoryPath + "file_" + fileId);
-        if(file.exists()) {
+        if (file.exists()) {
             file.delete();
         }
     }
@@ -67,15 +66,15 @@ public class AttachmentService {
 
     public static Attachment getAttachmentById(Long id) {
         Attachment attachment = null;
-        try(Connection connection = ConnectionUtils.getConnection()) {
+        try (Connection connection = ConnectionUtils.getConnection()) {
             try {
-                AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.createDAO(AttachmentDAO.class, connection);
+                AttachmentDAO attachmentDAO = new AttachmentDAO(connection);
                 attachment = attachmentDAO.read(id);
             } catch (DAOException ex) {
-                ex.printStackTrace();
+                log.error(ex.getMessage() + ex.getCause());
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return attachment;
     }

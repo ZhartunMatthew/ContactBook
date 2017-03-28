@@ -22,7 +22,7 @@ public class NationalityDAO extends AbstractDAO<Long, Nationality> {
         ArrayList<Nationality> nationalities = new ArrayList<>();
 
         ResultSet resultSet;
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL) ){
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL)) {
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Nationality nationality = new Nationality();
@@ -31,7 +31,7 @@ public class NationalityDAO extends AbstractDAO<Long, Nationality> {
                 nationalities.add(nationality);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return nationalities;
     }

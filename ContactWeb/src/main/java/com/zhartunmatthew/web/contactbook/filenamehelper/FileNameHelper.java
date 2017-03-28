@@ -2,7 +2,7 @@ package com.zhartunmatthew.web.contactbook.filenamehelper;
 
 public class FileNameHelper {
         private static String cyr2lat(char ch){
-            switch (ch){
+            switch (ch) {
                 case 'а': return "a";
                 case 'б': return "b";
                 case 'в': return "v";

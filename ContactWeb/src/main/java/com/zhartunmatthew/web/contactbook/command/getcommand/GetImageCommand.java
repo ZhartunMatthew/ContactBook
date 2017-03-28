@@ -22,6 +22,7 @@ public class GetImageCommand implements AbstractCommand {
         if(imageFile != null) {
             image = new File(imageFile);
         }
+
         try {
             content = Files.readAllBytes(image.toPath());
             response.getOutputStream().write(content);

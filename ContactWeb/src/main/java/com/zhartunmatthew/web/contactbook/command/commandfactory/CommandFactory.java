@@ -13,63 +13,30 @@ import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactSe
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CommandFactory {
 
     private static final String PARAM_NAME = "command";
     private static Logger log = Logger.getLogger(CommandFactory.class);
+    private static Map<String, AbstractCommand> commandMap = new HashMap<>();
+
+    static {
+        commandMap.put("show_contact_list", new ShowContactListCommand());
+        commandMap.put("show_contact", new ShowContactCommand());
+        commandMap.put("show_contact_search", new ShowContactSearchCommand());
+        commandMap.put("search_contacts", new SearchContactsCommand());
+        commandMap.put("update_contact", new UpdateContactCommand());
+        commandMap.put("add_contact", new AddContactCommand());
+        commandMap.put("delete_contact", new DeleteContactCommand());
+        commandMap.put("get_image", new GetImageCommand());
+        commandMap.put("download_attachment", new DownloadAttachmentCommand());
+    }
 
     public static AbstractCommand createCommand(HttpServletRequest request) {
-        log.debug("Command factory");
         String command = request.getParameter(PARAM_NAME);
-        AbstractCommand abstractCommand = null;
-
-        if(Objects.equals("show_contact_list", command)) {
-            abstractCommand = new ShowContactListCommand();
-            log.debug("Returned command 'ShowContactList'");
-        }
-
-        if(Objects.equals("show_contact", command)) {
-            abstractCommand = new ShowContactCommand();
-            log.debug("Returned command 'ShowContact'");
-        }
-
-        if(Objects.equals("show_contact_search", command)) {
-            abstractCommand = new ShowContactSearchCommand();
-            log.debug("Returned command 'ShowContactSearch'");
-        }
-
-        if(Objects.equals("search_contacts", command)) {
-            abstractCommand = new SearchContactsCommand();
-            log.debug("Returned command 'ContactSearch'");
-        }
-
-        if(Objects.equals("update_contact", command)) {
-            abstractCommand = new UpdateContactCommand();
-            log.debug("Returned command 'UpdateContact'");
-        }
-
-        if(Objects.equals("add_contact", command)) {
-            abstractCommand = new AddContactCommand();
-            log.debug("Returned command 'AddContact'");
-        }
-
-        if(Objects.equals("delete_contact", command)) {
-            abstractCommand = new DeleteContactCommand();
-            log.debug("Returned command 'DeleteContact'");
-        }
-
-        if(Objects.equals("get_image", command)) {
-            abstractCommand = new GetImageCommand();
-            log.debug("Returned command 'GetImage'");
-        }
-
-        if(Objects.equals("download_attachment", command)) {
-            abstractCommand = new DownloadAttachmentCommand();
-            log.debug("Returned command 'DownloadAttachment'");
-        }
-
+        AbstractCommand abstractCommand = commandMap.get(command);
         if(abstractCommand == null) {
             abstractCommand = new ShowContactListCommand();
             log.debug("Returned default command 'ShowContactList'");

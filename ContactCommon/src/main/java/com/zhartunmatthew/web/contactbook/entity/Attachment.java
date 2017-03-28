@@ -64,16 +64,26 @@ public class Attachment implements ContactEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Attachment that = (Attachment) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (fileName != null ? !fileName.equals(that.fileName) : that.fileName != null) return false;
-        if (comment != null ? !comment.equals(that.comment) : that.comment != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) {
+            return false;
+        }
+        if (fileName != null ? !fileName.equals(that.fileName) : that.fileName != null) {
+            return false;
+        }
+        if (comment != null ? !comment.equals(that.comment) : that.comment != null) {
+            return false;
+        }
         return uploadDate != null ? uploadDate.equals(that.uploadDate) : that.uploadDate == null;
-
     }
 
     @Override

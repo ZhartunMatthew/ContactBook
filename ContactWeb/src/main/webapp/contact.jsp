@@ -190,9 +190,9 @@
                     <input type="file" id="photo-file-input" value="Выберите фото" accept="image/jpeg,image/png">
                 </label>
                 <div class="popup-buttons">
-                    <div id="save-photo-button" class="popup-button photo-popup-button">Сохранить</div>
-                    <div id="cancel-photo-button" class="popup-button photo-popup-button">Отменить</div>
-                    <div id="delete-photo-button" class="popup-button photo-popup-button">Удалить</div>
+                    <div id="save-photo-button" class="popup-button photo-popup-button accept">Применить</div>
+                    <div id="cancel-photo-button" class="popup-button photo-popup-button cancel">Отменить</div>
+                    <div id="delete-photo-button" class="popup-button photo-popup-button remove">Удалить</div>
                 </div>
             </div>
         </div>
@@ -220,8 +220,8 @@
                     <input type="text" id="phone-comment">
                 </label>
                 <div class="popup-buttons">
-                    <div id="popup-submit-phone-button" class="popup-button"> Применить </div>
-                    <div id="popup-cancel-phone-button" class="popup-button"> Отмена </div>
+                    <div id="popup-submit-phone-button" class="popup-button accept"> Применить </div>
+                    <div id="popup-cancel-phone-button" class="popup-button cancel"> Отмена </div>
                 </div>
             </div>
         </div>
@@ -242,8 +242,8 @@
                     <input type="text" class="modal-attachment-comment" id="attachment-comment">
                 </label>
                 <div class="popup-buttons">
-                    <div id="popup-submit-attachment-button" class="popup-button"> Применить </div>
-                    <div id="popup-cancel-attachment-button" class="popup-button"> Отмена </div>
+                    <div id="popup-submit-attachment-button" class="popup-button accept"> Применить </div>
+                    <div id="popup-cancel-attachment-button" class="popup-button cancel"> Отмена </div>
                 </div>
             </div>
         </div>

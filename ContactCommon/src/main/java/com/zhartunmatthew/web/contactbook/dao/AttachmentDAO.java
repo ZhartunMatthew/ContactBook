@@ -14,16 +14,16 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
 
     private static final String SELECT_CONTACT_ATTACHMENTS =
             "SELECT id_file AS id, " +
-            "contact_id, " +
-            "file_name, " +
-            "comment, " +
-            "upload_date " +
-            "FROM contactbook.attachments " +
-            "WHERE contact_id = ?";
+                    "contact_id, " +
+                    "file_name, " +
+                    "comment, " +
+                    "upload_date " +
+                    "FROM contactbook.attachments " +
+                    "WHERE contact_id = ?";
 
     private static final String SELECT_ATTACHMENT_BY_ID =
             "SELECT id_file AS id, contact_id, file_name, comment, upload_date " +
-            "FROM contactbook.attachments WHERE id_file = ? LIMIT 1";
+                    "FROM contactbook.attachments WHERE id_file = ? LIMIT 1";
 
     private static final String INSERT_ATTACHMENT_QUERY =
             "INSERT INTO attachments (contact_id, file_name, upload_date, comment) VALUES (?, ?, ?, ?);";
@@ -44,15 +44,15 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
     public ArrayList<Attachment> readByContactId(Long contactId) throws DAOException {
         ArrayList<Attachment> attachments = new ArrayList<>();
         ResultSet attachmentResultSet;
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_CONTACT_ATTACHMENTS)){
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_CONTACT_ATTACHMENTS)) {
             statement.setLong(1, contactId);
             attachmentResultSet = statement.executeQuery();
-            while(attachmentResultSet.next()) {
+            while (attachmentResultSet.next()) {
                 Attachment attachment = (Attachment) EntityFactory.createEntityFromResultSet(attachmentResultSet, Attachment.class);
                 attachments.add(attachment);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return attachments;
     }
@@ -72,58 +72,58 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
             statement.setString(4, val.getComment());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 val.setId(resultSet.getLong(1));
             }
             statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            log.error(ex.getMessage() + ex.getCause());
         }
     }
 
     @Override
     public Attachment read(Long id) throws DAOException {
         Attachment attachment = null;
-        try(PreparedStatement statement = connection.prepareStatement(SELECT_ATTACHMENT_BY_ID)) {
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_ATTACHMENT_BY_ID)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 attachment = (Attachment) EntityFactory.createEntityFromResultSet(resultSet, Attachment.class);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return attachment;
     }
 
     @Override
     public void update(Long id, Attachment val) throws DAOException {
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_ATTACHMENT)){
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_ATTACHMENT)) {
             statement.setString(1, val.getFileName());
             statement.setString(2, val.getComment());
             statement.setLong(3, val.getId());
             statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            log.error(ex.getMessage() + ex.getCause());
         }
     }
 
     @Override
     public void delete(Long id) throws DAOException {
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_ATTACHMENT)){
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_ATTACHMENT)) {
             statement.setLong(1, id);
             statement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            log.error(ex.getMessage() + ex.getCause());
         }
     }
 
     public void deleteByContactId(Long id) throws DAOException {
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_CONTACT_ATTACHMENTS)){
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_CONTACT_ATTACHMENTS)) {
             statement.setLong(1, id);
             statement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            log.error(ex.getMessage() + ex.getCause());
         }
     }
 }

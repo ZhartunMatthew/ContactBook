@@ -38,6 +38,7 @@
 
 .download {
     float: right;
+    margin-right: 10px;
     background: url('/sprite/download.png');
 }
 
