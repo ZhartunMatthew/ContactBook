@@ -159,7 +159,7 @@ INSERT INTO `contactbook`.`marital_status` (`id_marital_status`, `marital_status
 INSERT INTO `contactbook`.`marital_status` (`id_marital_status`, `marital_status_name`) VALUES ('2', 'Женат/Замужем');
 INSERT INTO `contactbook`.`marital_status` (`id_marital_status`, `marital_status_name`) VALUES ('3', 'Гражданский брак');
 
-INSERT INTO `contactbook`.`nationality` (`id_nationality`, `nationality_name`) VALUES ('1', 'беларус');
+INSERT INTO `contactbook`.`nationality` (`id_nationality`, `nationality_name`) VALUES ('1', 'белорус');
 INSERT INTO `contactbook`.`nationality` (`id_nationality`, `nationality_name`) VALUES ('2', 'русский');
 INSERT INTO `contactbook`.`nationality` (`id_nationality`, `nationality_name`) VALUES ('3', 'украинец');
 INSERT INTO `contactbook`.`nationality` (`id_nationality`, `nationality_name`) VALUES ('4', 'поляк');

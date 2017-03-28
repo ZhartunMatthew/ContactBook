@@ -3,10 +3,10 @@
 <c:if test="${not empty contact}">
     <c:set var="titleName" value="${contact.lastName} ${contact.firstName}"/>
     <c:set var="actionOnSubmit" value="/controller?command=update_contact&id=${contact.id}"/>
-    <c:if test="${not empty contact.photoPath}">
-        <c:set var="photoPath" value="/controller?command=get_image&name=${contact.photoPath}"/>
+    <c:if test="${not empty contactPhoto}">
+        <c:set var="photoPath" value="/controller?command=get_image&name=${contactPhoto}"/>
     </c:if>
-    <c:if test="${empty contact.photoPath}">
+    <c:if test="${empty contactPhoto}">
         <c:set var="photoPath" value="/image/default.png"/>
     </c:if>
     <c:set var="contactID" value="${contact.id}"/>

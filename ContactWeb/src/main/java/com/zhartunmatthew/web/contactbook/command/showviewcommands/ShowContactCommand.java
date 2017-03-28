@@ -11,8 +11,10 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 public class ShowContactCommand implements AbstractCommand {
 
@@ -27,6 +29,11 @@ public class ShowContactCommand implements AbstractCommand {
             ContactService contactService = new ContactService();
             Contact contact = contactService.getContactById(Long.parseLong(id));
             request.setAttribute("contact", contact);
+            String path = ResourceBundle.getBundle("directories").getString("files-directory") +
+                    "contact_" + contact.getId() + File.separator;
+            if(contact.getPhotoPath() != null && !contact.getPhotoPath().isEmpty()) {
+                request.setAttribute("contactPhoto", path + contact.getPhotoPath());
+            }
         }
 
         UtilService utilService = new UtilService();

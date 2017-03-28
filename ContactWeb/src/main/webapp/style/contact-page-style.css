@@ -34,10 +34,14 @@ form.contact div.main-info label select {
     width: 238px;
 }
 
+.contact-photo-area {
+    max-width: 500px;
+    height: 200px;
+    margin-bottom: 40px;
+}
+
 .contact-photo-image {
-    max-width: 200px;
-    max-height: 300px;
-    margin-bottom: 20px;
+    max-height: 100%;
 }
 
 .hidden {

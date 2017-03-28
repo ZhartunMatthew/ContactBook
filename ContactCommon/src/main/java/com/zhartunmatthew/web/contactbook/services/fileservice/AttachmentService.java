@@ -15,11 +15,11 @@ public class AttachmentService {
 
     public static void writeAttachments(Long id, ArrayList<FileItem> attachments) {
         for(FileItem fileItem : attachments) {
-            writeFile(fileItem, id);
+            writeFile(id, fileItem);
         }
     }
 
-    private static void writeFile(FileItem fileItem, Long contactId) {
+    private static void writeFile(Long contactId, FileItem fileItem) {
         String filePath = resBundle.getString("files-directory") + "contact_" + contactId + File.separator;
         File directory = new File(filePath);
         if(!directory.exists()) {
@@ -34,6 +34,14 @@ public class AttachmentService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    public static void removeAttachmentFromDisk(Long contactId, File path) {
+
+    }
+
+    public static void removeAllContactAttachments(Long contactId) {
 
     }
 }

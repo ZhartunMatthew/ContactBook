@@ -67,8 +67,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             "INSERT INTO addresses (contact_id, city, street, house_number, flat, postcode)" +
             " VALUES (?, ?, ?, ?, ?, ?);";
 
-    private static final String INSERT_CONTACT_PHOTO =
-            "INSERT INTO contacts (photo_path) VALUES (?) WHERE id = ?;";
+    private static final String UPDATE_CONTACT_PHOTO = "UPDATE contacts SET photo_path = ? WHERE id = ?;";
 
     private static final String DELETE_CONTACT = "DELETE FROM contacts WHERE id = ?";
 
@@ -326,7 +325,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
     }
 
     public void updateContactPhoto(Long id, String photoPath) {
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_CONTACT_ADDRESS)) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_CONTACT_PHOTO)) {
             statement.setString(1, photoPath);
             statement.setLong(2, id);
             statement.executeUpdate();

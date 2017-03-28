@@ -1,5 +1,6 @@
 package com.zhartunmatthew.web.contactbook.services.fileservice;
 
+import com.zhartunmatthew.web.contactbook.entity.Contact;
 import org.apache.commons.fileupload.FileItem;
 
 import java.io.File;
@@ -13,8 +14,13 @@ public class ImageService {
     public static String writePhoto(Long id, FileItem photoItem) {
         String photoPath = null;
         if (photoItem != null && !photoItem.getName().isEmpty()) {
-            photoPath = resBundle.getString("images-directory") + "image_" + id;
-            File photoFile = new File(photoPath);
+            String directoryPath = resBundle.getString("files-directory") + "contact_" + id + File.separator;
+            File directory = new File(directoryPath);
+            if(!directory.exists()) {
+                directory.mkdir();
+            }
+            photoPath = "image" + directory.hashCode();
+            File photoFile = new File(directoryPath + photoPath);
             try {
                 photoItem.write(photoFile);
             } catch (Exception e) {
@@ -22,5 +28,9 @@ public class ImageService {
             }
         }
         return photoPath;
+    }
+
+    public static void removePhotoFromDisk(Contact contact) {
+
     }
 }
