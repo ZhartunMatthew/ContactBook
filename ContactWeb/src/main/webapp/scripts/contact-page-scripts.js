@@ -428,7 +428,7 @@ function getCurrentDate() {
     month = month < 10 ? '0' + month : month;
     var day = date.getDate();
 
-    return  year + '-' + month + '-' + day;
+    return day + '.' + month + '.' + year;
 }
 
 function createNewAttachment() {

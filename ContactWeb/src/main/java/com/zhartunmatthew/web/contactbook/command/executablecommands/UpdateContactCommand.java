@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class UpdateContactCommand implements AbstractCommand {
     private static Logger log = Logger.getLogger(UpdateContactCommand.class);
-    private final static String COMMAND_URL = "/controller?command=show_contact&contact_id=";
+    private final static String COMMAND_URL = "controller?command=show_contact&contact_id=";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

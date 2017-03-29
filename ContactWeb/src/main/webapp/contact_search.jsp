@@ -5,7 +5,7 @@
         <title> Поиск контактов </title>
     </head>
     <body>
-        <form method="post" action="/controller?command=search_contacts">
+        <form method="post" action="controller?command=search_contacts">
             <h3> Введите данные о контакте </h3>
             <label> Фамилия
                 <input type="text" name="last-name">
@@ -65,7 +65,7 @@
             <h3>Адрес</h3>
             <label> Страна
                 <select name="country">
-                    <option selected} value="0"> Не выбрано </option>
+                    <option selected value="0"> Не выбрано </option>
                     <c:forEach var="country" items="${countries}">
                         <option ${contact.country == country.id ? 'selected' : ''} value="${country.id}">
                                 ${country.name}

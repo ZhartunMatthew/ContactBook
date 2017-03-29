@@ -3,6 +3,7 @@ package com.zhartunmatthew.web.contactbook.entity;
 import com.zhartunmatthew.web.contactbook.entity.abstractions.ContactEntity;
 
 import java.sql.Date;
+import java.util.Calendar;
 
 public class Attachment implements ContactEntity {
     private Long id;
@@ -49,6 +50,23 @@ public class Attachment implements ContactEntity {
 
     public void setUploadDate(Date uploadDate) {
         this.uploadDate = uploadDate;
+    }
+
+    public String getDateString() {
+        if(uploadDate != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(uploadDate);
+            int iDay = calendar.get(Calendar.DAY_OF_MONTH);
+            int iMonth = calendar.get(Calendar.MONTH) + 1;
+            int iYear = calendar.get(Calendar.YEAR);
+            String day = iDay < 10 ? "0" + Integer.toString(iDay) : Integer.toString(iDay);
+            String month = iMonth < 10 ? "0" + Integer.toString(iMonth) : Integer.toString(iMonth);
+            String year = Integer.toString(iYear);
+
+            return day + "." + month + "." + year;
+        } else {
+            return "";
+        }
     }
 
     @Override

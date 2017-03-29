@@ -2,19 +2,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <c:if test="${not empty contact}">
     <c:set var="titleName" value="${contact.lastName} ${contact.firstName}"/>
-    <c:set var="actionOnSubmit" value="/controller?command=update_contact&id=${contact.id}"/>
+    <c:set var="actionOnSubmit" value="controller?command=update_contact&id=${contact.id}"/>
     <c:if test="${not empty contactPhoto}">
-        <c:set var="photoPath" value="/controller?command=get_image&name=${contactPhoto}"/>
+        <c:set var="photoPath" value="controller?command=get_image&name=${contactPhoto}"/>
     </c:if>
     <c:if test="${empty contactPhoto}">
-        <c:set var="photoPath" value="/image/default.png"/>
+        <c:set var="photoPath" value="image/default.png"/>
     </c:if>
     <c:set var="contactID" value="${contact.id}"/>
 </c:if>
 <c:if test="${empty contact}">
     <c:set var="titleName" value="Создание контакта"/>
-    <c:set var="actionOnSubmit" value="/controller?command=add_contact"/>
-    <c:set var="photoPath" value="/image/default.png"/>
+    <c:set var="actionOnSubmit" value="controller?command=add_contact"/>
+    <c:set var="photoPath" value="image/default.png"/>
     <c:set var="contactID" value="${null}"/>
 </c:if>
 <html>
@@ -26,7 +26,7 @@
             <input type="hidden" name="id" value="${contactID}">
             <div class="nav-buttons">
                 <a class="nav-button save" id="submit-contact-button"></a>
-                <a class="nav-button home" href="/controller?command=show_contact_list&page=1"></a>
+                <a class="nav-button home" href="controller?command=show_contact_list&page=1"></a>
             </div>
             <div class="main-info">
                 <h3>Основная информация</h3>
@@ -176,12 +176,12 @@
                                 <c:out value="${attachment.fileName}"/>
                             </div>
                             <div class="column column-3" id="contact-attachment-upload-date-${attachment.id}">
-                                <c:out value="${attachment.uploadDate}"/>
+                                <c:out value="${attachment.getDateString()}"/>
                             </div>
                             <div class="column column-x" id="contact-attachment-comment-${attachment.id}">
                                 <c:out value="${attachment.comment}"/>
                             </div>
-                            <a href="/controller?command=download_attachment&id=${attachment.id}">
+                            <a href="controller?command=download_attachment&id=${attachment.id}">
                                 <div class="nav-button download"></div>
                             </a>
                         </label>
@@ -263,6 +263,6 @@
         <link rel="stylesheet" type="text/css" href="style/contact-page-style.css">
         <link rel="stylesheet" type="text/css" href="style/common-style.css">
         <link rel="stylesheet" type="text/css" href="style/button-style.css">
-        <script src="/scripts/contact-page-scripts.js"></script>
+        <script src="scripts/contact-page-scripts.js"></script>
     </body>
 </html>

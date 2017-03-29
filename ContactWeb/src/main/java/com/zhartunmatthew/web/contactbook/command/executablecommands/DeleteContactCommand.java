@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class DeleteContactCommand implements AbstractCommand {
 
     private static Logger log = Logger.getLogger(DeleteContactCommand.class);
-    private static String REDIRECT_URL = "/controller";
+    private static String REDIRECT_URL = "controller";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
