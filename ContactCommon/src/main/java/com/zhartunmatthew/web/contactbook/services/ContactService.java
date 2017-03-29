@@ -12,7 +12,7 @@ import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.abstractions.ContactEntity;
 import com.zhartunmatthew.web.contactbook.entity.abstractions.Entity;
-import com.zhartunmatthew.web.contactbook.entity.search.SearchParameters;
+import com.zhartunmatthew.web.contactbook.dto.search.SearchParameters;
 import com.zhartunmatthew.web.contactbook.services.fileservice.AttachmentService;
 import com.zhartunmatthew.web.contactbook.services.fileservice.ImageService;
 import org.apache.commons.fileupload.FileItem;

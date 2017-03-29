@@ -16,8 +16,23 @@
             <label> Отчество
                 <input type="text" name="patronymic">
             </label>
-            <label> Дата рождения
-
+            <label> Поиск по дате
+                <select name="date-type">
+                    <option selected value="0"> Точная дата </option>
+                    <option value="1"> Младше </option>
+                    <option value="2"> Старше </option>
+                </select>
+            </label>
+            <label> Ввведите дату
+                <div class="date-filed">
+                    <input class="date date-year" type="text" name="birth-date-year" placeholder="Год">
+                </div>
+                <div class="date-filed">
+                    <input class="date date-day" type="text" name="birth-date-month" placeholder="Мес.">
+                </div>
+                <div class="date-filed">
+                    <input class="date date-month" type="text" name="birth-date-day" placeholder="День">
+                </div>
             </label>
             <label> Пол
                 <select name="sex">

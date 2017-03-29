@@ -3,19 +3,40 @@ form {
 }
 
 form label {
-    margin: 5px 0;
+    margin: 10px 0;
     display: block;
 }
 
 form label input {
+    padding: 2px;
     display: block;
-    width: 150px;
+    width: 166px;
     float: right;
 }
 
-
 form label select {
+    padding: 2px;
     display: block;
-    width: 150px;
+    width: 166px;
     float: right;
+}
+
+.date-filed {
+    display: inline-block;
+    float: right;
+}
+
+.date {
+    width: 56px;
+    display: block;
+}
+
+.date-day,
+.date-month{
+    margin-right: 5px;
+}
+
+.date-day,
+.date-month {
+    width: 50px;
 }

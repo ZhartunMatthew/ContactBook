@@ -96,7 +96,7 @@
                                     </a>
                                 </div>
                                 <div class="column column-3">
-                                    <c:out value="${contact.birthDate}"/>
+                                    <c:out value="${contact.getDateString()}"/>
                                 </div>
                                 <div class="column column-4">
                                     <c:out value=" г. ${contact.city}

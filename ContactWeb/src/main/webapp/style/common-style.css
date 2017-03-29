@@ -28,15 +28,18 @@
 }
 
 .popup-content label {
+    margin: 1px 0;
     line-height: 25px;
     display: block;
 }
 
 .popup-content label input {
+    padding: 1px;
     float: right;
 }
 
 .popup-content label select {
+    padding: 1px;
     width: 110px;
     margin-right: 35px;
     float: right;

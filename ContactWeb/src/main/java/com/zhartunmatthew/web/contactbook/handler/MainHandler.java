@@ -56,7 +56,6 @@ public class MainHandler {
                     }
                 }
             });
-
             request.setAttribute("files", files);
             request.setAttribute("contact", contact);
         } catch (FileUploadException ex) {

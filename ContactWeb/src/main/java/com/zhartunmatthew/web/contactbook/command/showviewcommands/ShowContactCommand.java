@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -29,6 +30,13 @@ public class ShowContactCommand implements AbstractCommand {
             ContactService contactService = new ContactService();
             Contact contact = contactService.getContactById(Long.parseLong(id));
             request.setAttribute("contact", contact);
+            if(contact.getBirthDate() != null) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(contact.getBirthDate());
+                request.setAttribute("day", calendar.get(Calendar.DAY_OF_MONTH));
+                request.setAttribute("month", calendar.get(Calendar.MONTH) + 1);
+                request.setAttribute("year", calendar.get(Calendar.YEAR));
+            }
             String path = ResourceBundle.getBundle("directories").getString("files-directory") +
                     "contact_" + contact.getId() + File.separator;
             if(contact.getPhotoPath() != null && !contact.getPhotoPath().isEmpty()) {

@@ -1,11 +1,12 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
 import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
+import com.zhartunmatthew.web.contactbook.dto.search.DateSearchType;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.entityfactory.EntityFactory;
-import com.zhartunmatthew.web.contactbook.entity.search.SearchParameters;
+import com.zhartunmatthew.web.contactbook.dto.search.SearchParameters;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -17,54 +18,54 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
     private static final String SELECT_ALL_CONTACTS =
             "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
-                    "birth_date, sex, marital_status.id_marital_status AS marital_status, " +
-                    "nationality.id_nationality AS nationality, " +
-                    "countries.id_country AS country, addresses.city AS city, " +
-                    "addresses.street AS street, addresses.house_number AS house, " +
-                    "addresses.flat AS flat, addresses.postcode AS postcode, " +
-                    "website, email, photo_path, job " +
-                    "FROM contacts " +
-                    "LEFT JOIN nationality ON nationality.id_nationality = contacts.nationality_id " +
-                    "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
-                    "LEFT JOIN countries ON countries.id_country = contacts.country_id " +
-                    "LEFT JOIN addresses ON addresses.contact_id = contacts.id ORDER BY last_name;";
+            "birth_date, sex, marital_status.id_marital_status AS marital_status, " +
+            "nationality.id_nationality AS nationality, " +
+            "countries.id_country AS country, addresses.city AS city, " +
+            "addresses.street AS street, addresses.house_number AS house, " +
+            "addresses.flat AS flat, addresses.postcode AS postcode, " +
+            "website, email, photo_path, job " +
+            "FROM contacts " +
+            "LEFT JOIN nationality ON nationality.id_nationality = contacts.nationality_id " +
+            "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
+            "LEFT JOIN countries ON countries.id_country = contacts.country_id " +
+            "LEFT JOIN addresses ON addresses.contact_id = contacts.id ORDER BY last_name;";
 
     private static final String SELECT_CONTACT_BY_ID =
             "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
-                    "birth_date, sex, marital_status.id_marital_status AS marital_status, " +
-                    "nationality.id_nationality AS nationality, " +
-                    "countries.id_country AS country, addresses.city AS city, " +
-                    "addresses.street AS street, addresses.house_number AS house, " +
-                    "addresses.flat AS flat, addresses.postcode AS postcode, " +
-                    "website, email, photo_path, job " +
-                    "FROM contacts " +
-                    "LEFT JOIN nationality ON nationality.id_nationality = contacts.nationality_id " +
-                    "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
-                    "LEFT JOIN countries ON countries.id_country = contacts.country_id " +
-                    "LEFT JOIN addresses ON addresses.contact_id = contacts.id WHERE id = ? LIMIT 1;";
+            "birth_date, sex, marital_status.id_marital_status AS marital_status, " +
+            "nationality.id_nationality AS nationality, " +
+            "countries.id_country AS country, addresses.city AS city, " +
+            "addresses.street AS street, addresses.house_number AS house, " +
+            "addresses.flat AS flat, addresses.postcode AS postcode, " +
+            "website, email, photo_path, job " +
+            "FROM contacts " +
+            "LEFT JOIN nationality ON nationality.id_nationality = contacts.nationality_id " +
+            "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
+            "LEFT JOIN countries ON countries.id_country = contacts.country_id " +
+            "LEFT JOIN addresses ON addresses.contact_id = contacts.id WHERE id = ? LIMIT 1;";
 
     private static final String SELECT_CERTAIN_COUNT =
             "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
-                    "birth_date, sex, marital_status.id_marital_status AS marital_status, " +
-                    "nationality.id_nationality AS nationality, " +
-                    "countries.id_country AS country, addresses.city AS city, " +
-                    "addresses.street AS street, addresses.house_number AS house, " +
-                    "addresses.flat AS flat, addresses.postcode AS postcode, " +
-                    "website, email, photo_path, job " +
-                    "FROM contacts " +
-                    "LEFT JOIN nationality ON nationality.id_nationality = contacts.nationality_id " +
-                    "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
-                    "LEFT JOIN countries ON countries.id_country = contacts.country_id " +
-                    "LEFT JOIN addresses ON addresses.contact_id = contacts.id ORDER BY last_name LIMIT ? OFFSET ?;";
+            "birth_date, sex, marital_status.id_marital_status AS marital_status, " +
+            "nationality.id_nationality AS nationality, " +
+            "countries.id_country AS country, addresses.city AS city, " +
+            "addresses.street AS street, addresses.house_number AS house, " +
+            "addresses.flat AS flat, addresses.postcode AS postcode, " +
+            "website, email, photo_path, job " +
+            "FROM contacts " +
+            "LEFT JOIN nationality ON nationality.id_nationality = contacts.nationality_id " +
+            "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
+            "LEFT JOIN countries ON countries.id_country = contacts.country_id " +
+            "LEFT JOIN addresses ON addresses.contact_id = contacts.id ORDER BY last_name LIMIT ? OFFSET ?;";
 
     private static final String INSERT_CONTACT_QUERY =
             "INSERT INTO contacts (first_name, last_name, patronymic, birth_date, " +
-                    "sex, marital_status_id, nationality_id, country_id, website, email, " +
-                    "photo_path, job) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            "sex, marital_status_id, nationality_id, country_id, website, email, " +
+            "photo_path, job) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
     private static final String INSERT_CONTACT_ADDRESS_QUERY =
             "INSERT INTO addresses (contact_id, city, street, house_number, flat, postcode)" +
-                    " VALUES (?, ?, ?, ?, ?, ?);";
+            " VALUES (?, ?, ?, ?, ?, ?);";
 
     private static final String UPDATE_CONTACT_PHOTO = "UPDATE contacts SET photo_path = ? WHERE id = ?;";
 
@@ -78,25 +79,25 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
     private static final String PARAMS_QUERY =
             "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
-                    "birth_date, sex, marital_status.id_marital_status AS marital_status, " +
-                    "nationality.id_nationality AS nationality, " +
-                    "countries.id_country AS country, addresses.city AS city, " +
-                    "addresses.street AS street, addresses.house_number AS house, " +
-                    "addresses.flat AS flat, addresses.postcode AS postcode, " +
-                    "website, email, photo_path, job " +
-                    "FROM contacts " +
-                    "LEFT JOIN nationality ON nationality.id_nationality = contacts.nationality_id " +
-                    "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
-                    "LEFT JOIN countries ON countries.id_country = contacts.country_id " +
-                    "LEFT JOIN addresses ON addresses.contact_id = contacts.id WHERE TRUE";
+            "birth_date, sex, marital_status.id_marital_status AS marital_status, " +
+            "nationality.id_nationality AS nationality, " +
+            "countries.id_country AS country, addresses.city AS city, " +
+            "addresses.street AS street, addresses.house_number AS house, " +
+            "addresses.flat AS flat, addresses.postcode AS postcode, " +
+            "website, email, photo_path, job " +
+            "FROM contacts " +
+            "LEFT JOIN nationality ON nationality.id_nationality = contacts.nationality_id " +
+            "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
+            "LEFT JOIN countries ON countries.id_country = contacts.country_id " +
+            "LEFT JOIN addresses ON addresses.contact_id = contacts.id WHERE TRUE";
 
     private static final String UPDATE_CONTACT =
             "UPDATE contacts SET " +
-                    "first_name = ?, last_name = ?, patronymic = ?, birth_date = ?, sex = ?, marital_status_id = ?, " +
-                    "nationality_id = ?, website = ?, email = ?, photo_path = ?, job = ?, country_id = ? WHERE id = ?";
+            "first_name = ?, last_name = ?, patronymic = ?, birth_date = ?, sex = ?, marital_status_id = ?, " +
+            "nationality_id = ?, website = ?, email = ?, photo_path = ?, job = ?, country_id = ? WHERE id = ?";
 
     private static final String UPDATE_CONTACT_ADDRESS =
-            "UPDATE addresses SET city = ?, street = ?, house_number = ?, flat = ? WHERE contact_id = ?";
+            "UPDATE addresses SET city = ?, street = ?, house_number = ?, flat = ?, postcode = ? WHERE contact_id = ?";
 
     public ContactDAO(Connection connection) {
         super(connection);
@@ -316,7 +317,8 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             statement.setString(2, val.getStreet());
             statement.setString(3, val.getHouseNumber());
             statement.setString(4, val.getFlat());
-            statement.setLong(5, val.getId());
+            statement.setString(5, val.getPostCode());
+            statement.setLong(6, val.getId());
             statement.executeUpdate();
         } catch (SQLException ex) {
             log.error(ex.getMessage() + ex.getCause());
@@ -382,7 +384,6 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
     }
 
     private String buildQuery(SearchParameters parameters, String query) {
-
         if (parameters.getFirstName() != null && !parameters.getFirstName().isEmpty()) {
             query += " AND first_name LIKE '" + parameters.getFirstName() + "'";
         }
@@ -407,12 +408,30 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         if (parameters.getCity() != null && !parameters.getCity().isEmpty()) {
             query += " AND city LIKE '" + parameters.getCity() + "'";
         }
+        if (parameters.getStreet() != null && !parameters.getStreet().isEmpty()) {
+            query += " AND street LIKE '" + parameters.getStreet() + "'";
+        }
         if (parameters.getHouse() != 0) {
             query += " AND house_number LIKE '" + parameters.getHouse() + "'";
         }
         if (parameters.getFlat() != 0) {
-            query += " AND flat LIKE '" + parameters.getFlat() + "';";
+            query += " AND flat LIKE '" + parameters.getFlat() + "'";
         }
+        if(parameters.getDate() != null) {
+            String sign = "=";
+            if(parameters.getDateSearchType() == DateSearchType.SAME) {
+                sign = "=";
+            }
+            if(parameters.getDateSearchType() == DateSearchType.OLDER) {
+                sign = "<=";
+            }
+            if(parameters.getDateSearchType() == DateSearchType.YOUNGER) {
+                sign = ">=";
+            }
+            query += " AND birth_date " + sign + "'" + parameters.getDate() + "'";
+        }
+
+        query += " ORDER BY last_name;";
 
         return query;
     }

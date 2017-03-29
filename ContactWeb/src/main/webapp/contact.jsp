@@ -45,7 +45,15 @@
                     <input type="text" name="patronymic" value="${contact.patronymic}">
                 </label>
                 <label> Дата рождения
-                    <input type="text" name="birth-date" value="${contact.birthDate}">
+                    <div class="date-filed">
+                        <input class="date date-year" type="text" name="birth-date-year" placeholder="Год" value="${year}">
+                    </div>
+                    <div class="date-filed">
+                        <input class="date date-day" type="text" name="birth-date-month" placeholder="Мес." value="${month}">
+                    </div>
+                    <div class="date-filed">
+                        <input class="date date-month" type="text" name="birth-date-day" placeholder="День" value="${day}">
+                    </div>
                 </label>
                 <label> Пол
                     <select name="sex">
@@ -85,6 +93,9 @@
                 </label>
 
                 <h3>Адрес</h3>
+                <label> Индекс
+                    <input name="postcode" type="text" value="${contact.postCode}">
+                </label>
                 <label> Страна
                     <select name="country">
                         <option ${empty contact.country ? 'selected' : ''} value="0"> Не выбрано </option>

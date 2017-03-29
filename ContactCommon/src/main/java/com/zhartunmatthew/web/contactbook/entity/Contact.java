@@ -4,6 +4,7 @@ import com.zhartunmatthew.web.contactbook.entity.abstractions.Entity;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Contact implements Entity {
     private Long id;
@@ -186,6 +187,19 @@ public class Contact implements Entity {
 
     public void setAttachments(ArrayList<Attachment> attachments) {
         this.attachments = attachments;
+    }
+
+    public String getDateString() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(birthDate);
+        int iDay = calendar.get(Calendar.DAY_OF_MONTH);
+        int iMonth = calendar.get(Calendar.MONTH) + 1;
+        int iYear = calendar.get(Calendar.YEAR);
+        String day = iDay < 10 ? "0" + Integer.toString(iDay) : Integer.toString(iDay);
+        String month = iMonth < 10 ? "0" + Integer.toString(iMonth) : Integer.toString(iMonth);
+        String year = Integer.toString(iYear);
+
+        return day + "." + month + "." + year;
     }
 
     @Override

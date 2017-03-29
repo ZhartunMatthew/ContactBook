@@ -4,7 +4,7 @@
 }
 
 form.contact label {
-    margin: 5px 0;
+    margin: 10px 0;
     display: block;
 }
 
@@ -13,19 +13,22 @@ form.contact .one-row label {
 }
 
 form.contact div.main-info label input {
+    padding: 2px;
     display: block;
-    width: 150px;
+    width: 166px;
     float: right;
 }
 
 form.contact div.one-row label input {
+    padding: 2px;
     margin-left: 15px;
     display: block;
 }
 
 form.contact div.main-info label select {
+    padding: 2px;
     display: block;
-    width: 150px;
+    width: 166px;
     float: right;
 }
 
@@ -47,4 +50,25 @@ form.contact div.main-info label select {
 
 .hidden {
     display: none;
+}
+
+
+.date-filed {
+    display: inline-block;
+    float: right;
+}
+
+form.contact div.main-info label input.date {
+    width: 56px;
+    display: block;
+}
+
+form.contact div.main-info label input.date-day,
+form.contact div.main-info label input.date-month{
+    margin-right: 5px;
+}
+
+form.contact div.main-info label input.date-day,
+form.contact div.main-info label input.date-month {
+    width: 50px;
 }

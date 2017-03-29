@@ -1,4 +1,6 @@
-package com.zhartunmatthew.web.contactbook.entity.search;
+package com.zhartunmatthew.web.contactbook.dto.search;
+
+import java.sql.Date;
 
 public class SearchParameters {
     private String firstName;
@@ -12,6 +14,8 @@ public class SearchParameters {
     private String street;
     private int house;
     private int flat;
+    private Date date;
+    private DateSearchType dateSearchType;
 
     public String getFirstName() {
         return firstName;
@@ -100,4 +104,22 @@ public class SearchParameters {
     public void setStreet(String street) {
         this.street = street;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public DateSearchType getDateSearchType() {
+        return dateSearchType;
+    }
+
+    public void setDateSearchType(DateSearchType dateSearchType) {
+        this.dateSearchType = dateSearchType;
+    }
+
+
 }

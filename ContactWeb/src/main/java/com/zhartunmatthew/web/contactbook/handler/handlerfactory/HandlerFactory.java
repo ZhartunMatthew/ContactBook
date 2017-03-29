@@ -13,7 +13,9 @@ public class HandlerFactory {
         handlerMap.put("first-name", new FirstNameHandler());
         handlerMap.put("last-name", new LastNameHandler());
         handlerMap.put("patronymic", new PatronymicHandler());
-        handlerMap.put("birth-date", new BirthDateHandler());
+        handlerMap.put("birth-date-day", new DayOfBirthHandler());
+        handlerMap.put("birth-date-month", new MonthOfBirthHandler());
+        handlerMap.put("birth-date-year", new YearOfBirthHandler());
         handlerMap.put("photo-path", new ImageFileNameHandler());
         handlerMap.put("marital-status", new MaritalStatusHandler());
         handlerMap.put("sex", new SexHandler());
