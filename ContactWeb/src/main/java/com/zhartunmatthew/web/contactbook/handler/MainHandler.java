@@ -34,7 +34,6 @@ public class MainHandler {
             Contact contact = new Contact();
             items.forEach(item -> {
                 if(item.isFormField()) {
-                    log.info("Form: " + item.getFieldName());
                     AbstractHandler handler = HandlerFactory.getFieldHandler(item.getFieldName());
                     if(handler != null) {
                         try {
@@ -43,7 +42,7 @@ public class MainHandler {
                             ex.printStackTrace();
                         }
                     } else {
-                        log.info("Form: " + item.getFieldName() + "is null");
+                        log.info("Form: " + item.getFieldName() + " is null");
                     }
                 } else {
                     String fileName = item.getFieldName();

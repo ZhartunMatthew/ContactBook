@@ -23,6 +23,7 @@ public class UpdateContactCommand implements AbstractCommand {
         Contact contact = (Contact) request.getAttribute("contact");
         FileItem photoItem = (FileItem) request.getAttribute("photo-item");
         ArrayList<FileItem> fileItems = (ArrayList<FileItem>) request.getAttribute("files");
+
         ContactService contactService = new ContactService();
         contactService.updateContact(contact, photoItem, fileItems);
 

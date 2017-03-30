@@ -397,13 +397,13 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             query += " AND sex = '" + parameters.getSex() + "'";
         }
         if (parameters.getMaritalStatus() != 0) {
-            query += " AND marital_status LIKE '" + parameters.getMaritalStatus() + "'";
+            query += " AND marital_status.id_marital_status LIKE '" + parameters.getMaritalStatus() + "'";
         }
         if (parameters.getNationality() != 0) {
-            query += " AND nationality LIKE '" + parameters.getNationality() + "'";
+            query += " AND nationality.id_nationality LIKE '" + parameters.getNationality() + "'";
         }
         if (parameters.getCountry() != 0) {
-            query += " AND state LIKE '" + parameters.getCountry() + "'";
+            query += " AND countries.id_country LIKE '" + parameters.getCountry() + "'";
         }
         if (parameters.getCity() != null && !parameters.getCity().isEmpty()) {
             query += " AND city LIKE '" + parameters.getCity() + "'";

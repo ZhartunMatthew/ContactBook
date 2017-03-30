@@ -25,7 +25,7 @@ public class ImageService {
             if (!directory.exists()) {
                 directory.mkdir();
             }
-            photoPath = "image" + directoryPath.hashCode();
+            photoPath = "image";
             File photoFile = new File(directoryPath + photoPath);
             try {
                 photoItem.write(photoFile);
@@ -41,7 +41,7 @@ public class ImageService {
 
     private static void removePhotoFromDisk(Long id) {
         String directoryPath = resBundle.getString("files-directory") + "contact_" + id + File.separator;
-        String photoPath = "image" + directoryPath.hashCode();
+        String photoPath = "image";
         File file = new File(directoryPath + photoPath);
         if (file.exists()) {
             file.delete();

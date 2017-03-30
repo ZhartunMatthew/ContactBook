@@ -5,7 +5,7 @@
         <title> Поиск контактов </title>
     </head>
     <body>
-        <form method="post" action="controller?command=search_contacts">
+        <form id="contact-search-form" method="post" action="controller?command=search_contacts">
             <h3> Введите данные о контакте </h3>
             <label> Фамилия
                 <input type="text" name="last-name">
@@ -86,8 +86,13 @@
                 <input name="flat" type="text" value="${contact.flat}">
             </label>
             </div>
-            <input type="submit" value="SUBMIT">
+            <div class="search-buttons">
+                <a class="search-button" id="start-search"> Поиск </a>
+                <a class="search-button" id="cancel-search"> Очистить </a>
+                <a class="search-button" href="controller?command=show_contact_list&page=1" class="nav-button" id="return-home"> Домой </a>
+            </div>
         </form>
         <link rel="stylesheet" type="text/css" href="style/search-page.css">
+        <script src="scripts/contact-search-script.js"></script>
     </body>
 </html>
