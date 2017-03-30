@@ -3,6 +3,7 @@ package com.zhartunmatthew.web.contactbook.command.commandfactory;
 import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
 import com.zhartunmatthew.web.contactbook.command.executablecommands.AddContactCommand;
 import com.zhartunmatthew.web.contactbook.command.executablecommands.DeleteContactCommand;
+import com.zhartunmatthew.web.contactbook.command.executablecommands.SendEmailCommand;
 import com.zhartunmatthew.web.contactbook.command.executablecommands.UpdateContactCommand;
 import com.zhartunmatthew.web.contactbook.command.executablecommands.search.SearchContactsCommand;
 import com.zhartunmatthew.web.contactbook.command.getcommand.DownloadAttachmentCommand;
@@ -10,6 +11,7 @@ import com.zhartunmatthew.web.contactbook.command.getcommand.GetImageCommand;
 import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactCommand;
 import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactListCommand;
 import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactSearchCommand;
+import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowEmailPageCommand;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +34,8 @@ public class CommandFactory {
         commandMap.put("delete_contact", new DeleteContactCommand());
         commandMap.put("get_image", new GetImageCommand());
         commandMap.put("download_attachment", new DownloadAttachmentCommand());
+        commandMap.put("show_email_page", new ShowEmailPageCommand());
+        commandMap.put("send_email", new SendEmailCommand());
     }
 
     public static AbstractCommand createCommand(HttpServletRequest request) {

@@ -12,8 +12,8 @@ public class SearchParameters {
     private int country;
     private String city;
     private String street;
-    private int house;
-    private int flat;
+    private String house;
+    private String flat;
     private Date date;
     private DateSearchType dateSearchType;
 
@@ -81,19 +81,19 @@ public class SearchParameters {
         this.city = city;
     }
 
-    public int getHouse() {
+    public String getHouse() {
         return house;
     }
 
-    public void setHouse(int house) {
+    public void setHouse(String house) {
         this.house = house;
     }
 
-    public int getFlat() {
+    public String getFlat() {
         return flat;
     }
 
-    public void setFlat(int flat) {
+    public void setFlat(String flat) {
         this.flat = flat;
     }
 

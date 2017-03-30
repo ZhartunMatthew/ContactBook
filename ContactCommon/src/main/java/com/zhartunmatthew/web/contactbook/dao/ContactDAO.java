@@ -411,10 +411,10 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         if (parameters.getStreet() != null && !parameters.getStreet().isEmpty()) {
             query += " AND street LIKE '" + parameters.getStreet() + "'";
         }
-        if (parameters.getHouse() != 0) {
+        if (parameters.getHouse() != null && !parameters.getHouse().isEmpty()) {
             query += " AND house_number LIKE '" + parameters.getHouse() + "'";
         }
-        if (parameters.getFlat() != 0) {
+        if (parameters.getFlat() != null && !parameters.getFlat().isEmpty()) {
             query += " AND flat LIKE '" + parameters.getFlat() + "'";
         }
         if(parameters.getDate() != null) {

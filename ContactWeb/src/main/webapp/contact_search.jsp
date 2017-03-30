@@ -85,13 +85,13 @@
             <label> Квартира
                 <input name="flat" type="text" value="${contact.flat}">
             </label>
-            </div>
             <div class="search-buttons">
                 <a class="search-button" id="start-search"> Поиск </a>
                 <a class="search-button" id="cancel-search"> Очистить </a>
-                <a class="search-button" href="controller?command=show_contact_list&page=1" class="nav-button" id="return-home"> Домой </a>
+                <a class="search-button" href="controller?command=show_contact_list&page=1" id="return-home"> Домой </a>
             </div>
         </form>
+        <link rel="stylesheet" type="text/css" href="style/form-style.css">
         <link rel="stylesheet" type="text/css" href="style/search-page.css">
         <script src="scripts/contact-search-script.js"></script>
     </body>

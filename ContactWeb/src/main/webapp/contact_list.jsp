@@ -10,7 +10,7 @@
             <a class="nav-button add" href="controller?command=show_contact"> </a>
             <a id="delete-contact-button" class="nav-button delete"></a>
             <a class="nav-button search" href="controller?command=show_contact_search"></a>
-            <a class="nav-button send-mail" href="controller?command=send_mail"></a>
+            <a id="show-email-page-button" class="nav-button send-mail"></a>
         </div>
         <c:if test="${not empty pagination && pagination.pageCount > 1 }">
             <div class="pagination">

@@ -38,12 +38,8 @@ public class SearchContactsCommand implements AbstractCommand {
 
         searchParameters.setCity(request.getParameter("city"));
         searchParameters.setStreet(request.getParameter("street"));
-
-        String house = request.getParameter("house-number");
-        searchParameters.setHouse(house == null || house.isEmpty() ? 0 : Integer.parseInt(house));
-
-        String flat = request.getParameter("flat");
-        searchParameters.setFlat(flat == null || flat.isEmpty() ? 0 : Integer.parseInt(flat));
+        searchParameters.setHouse(request.getParameter("house-number"));
+        searchParameters.setFlat(request.getParameter("flat"));
 
         String dateDay = request.getParameter("birth-date-day");
         String dateMonth = request.getParameter("birth-date-month");
