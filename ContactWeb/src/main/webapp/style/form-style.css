@@ -1,6 +1,7 @@
 form {
     width: 40%;
     margin: auto;
+    min-width: 370px;
 }
 
 form label {

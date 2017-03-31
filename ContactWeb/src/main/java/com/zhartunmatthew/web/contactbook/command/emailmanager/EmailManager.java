@@ -1,15 +1,15 @@
-package com.zhartunmatthew.web.contactbook.command.emailsender;
+package com.zhartunmatthew.web.contactbook.command.emailmanager;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-public class EmailSender {
-    private String senderEmail = "contactbook.mlg@gmail.com";
-    private String senderPassword = "";
+public class EmailManager {
+    private static String senderEmail = "contactbook.mlg@gmail.com";
+    private static String senderPassword = "";
 
-    public void sendMail(String email, String subject, String text) {
+    public static void sendMail(String email, String subject, String text) {
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.socketFactory.port", "465");

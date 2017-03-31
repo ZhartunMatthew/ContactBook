@@ -1,7 +1,7 @@
 package com.zhartunmatthew.web.contactbook.command.executablecommands;
 
 import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
-import com.zhartunmatthew.web.contactbook.command.emailsender.EmailSender;
+import com.zhartunmatthew.web.contactbook.command.emailmanager.EmailManager;
 import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactCommand;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.services.ContactService;
@@ -50,9 +50,8 @@ public class SendEmailCommand implements AbstractCommand {
     }
 
     private static void sendEmails(ArrayList<Contact> recipients, String subject, String message) {
-        EmailSender emailSender = new EmailSender();
         for(Contact tempRecipient : recipients) {
-            emailSender.sendMail(tempRecipient.getEmail(), subject, message);
+            EmailManager.sendMail(tempRecipient.getEmail(), subject, message);
         }
     }
 }

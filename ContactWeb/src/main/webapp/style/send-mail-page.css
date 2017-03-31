@@ -1,9 +1,27 @@
+.recipients-block {
+    width: 370px;
+}
+
+.email-subject-block {
+    margin-bottom: 50px;
+}
+
+.email-text-block {
+    margin-bottom: 10px;
+}
+
 .send-mail-buttons {
-    width: auto;
+    display: block;
+    margin: auto;
+}
+
+.recipient-email {
+    width: 200px;
 }
 
 .send-mail-button  {
-    width: 28%;
+    width: 44%;
+    max-width: 200px;
     margin-top: 10px;
     padding: 5px 2%;
     text-align: center;
@@ -15,6 +33,25 @@
     color: black;
 }
 
+.button-block {
+    width: 360px;
+    margin: auto;
+}
+
 .send-mail-button:hover {
     background-color: antiquewhite;
+}
+
+.subject-input {
+    margin: 5px 0;
+    padding: 5px 2%;
+    display: block;
+    width: 100%;
+}
+
+.email-input {
+    margin: 5px 0;
+    padding: 5px 2%;
+    display: block;
+    width: 100%;
 }
