@@ -1,7 +1,7 @@
 package com.zhartunmatthew.web.contactbook.command.showviewcommands;
 
 import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
-import com.zhartunmatthew.web.contactbook.command.executablecommands.DeleteContactCommand;
+import com.zhartunmatthew.web.contactbook.emailmanager.EmailTemplateManager;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.services.ContactService;
 import org.apache.commons.lang3.StringUtils;
@@ -12,14 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 public class ShowEmailPageCommand implements AbstractCommand {
-    private static Logger log = Logger.getLogger(DeleteContactCommand.class);
-    private static String COMMAND_URL = "send_email.jsp";
+    private Logger log = Logger.getLogger(ShowEmailPageCommand.class);
+    private String COMMAND_URL = "send_email.jsp";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         ContactService contactService = new ContactService();
         String[] items = request.getParameterValues("contact-check");
         ArrayList<Contact> recipients = new ArrayList<>();
+        EmailTemplateManager templateManager = new EmailTemplateManager();
         if(items != null) {
             for(String val : items) {
                 Long id = Long.parseLong(val);
@@ -29,12 +30,12 @@ public class ShowEmailPageCommand implements AbstractCommand {
                         recipients.add(contact);
                     }
                 }
-                log.info("Checked: " + Integer.parseInt(val));
             }
         } else {
             log.info("NO CHECKED ITEMS");
         }
         request.setAttribute("recipients", recipients);
+        request.setAttribute("templates", templateManager.getAllTemplates());
 
         return COMMAND_URL;
     }

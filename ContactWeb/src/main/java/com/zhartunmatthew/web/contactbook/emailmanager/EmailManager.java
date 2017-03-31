@@ -1,13 +1,16 @@
-package com.zhartunmatthew.web.contactbook.command.emailmanager;
+package com.zhartunmatthew.web.contactbook.emailmanager;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 public class EmailManager {
-    private static String senderEmail = "contactbook.mlg@gmail.com";
-    private static String senderPassword = "";
+    private static String senderEmail =
+            ResourceBundle.getBundle("emailconfig").getObject("sender_name").toString();
+    private static String senderPassword =
+            ResourceBundle.getBundle("emailconfig").getObject("sender_password").toString();
 
     public static void sendMail(String email, String subject, String text) {
         Properties properties = new Properties();
@@ -22,9 +25,6 @@ public class EmailManager {
                 return new PasswordAuthentication(senderEmail, senderPassword);
             }
         });
-
-        System.out.println("SUBJECT: " + subject);
-        System.out.println("TEST: " + text);
 
         Message message = new MimeMessage(session);
         try {

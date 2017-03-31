@@ -1,0 +1,3 @@
+template_1(username) ::= <<Добрый день, <username>! С Днем рождения и всего наилучшего!>>
+template_2(username) ::= <<Всего хорошего в новом году, <username>!>>
+template_3(username) ::= <<Счастливого Рождества, <username>!>>

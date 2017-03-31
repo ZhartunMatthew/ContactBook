@@ -186,7 +186,7 @@ function createNewPhone() {
     label.htmlFor = 'new-phone-check-' + phone.id;
 
     var columnWithCheckBox = document.createElement('div');
-    columnWithCheckBox.className = 'column column-2';
+    columnWithCheckBox.className = 'column column-1';
     var input = document.createElement('input');
     input.type = 'checkbox';
     input.name = 'new-phone-check';
@@ -195,17 +195,17 @@ function createNewPhone() {
     columnWithCheckBox.appendChild(input);
 
     var columnWithPhoneNumber = document.createElement('div');
-    columnWithPhoneNumber.className = 'column column-3';
+    columnWithPhoneNumber.className = 'column column-4';
     columnWithPhoneNumber.id = 'new-contact-phone-number-' + phone.id;
     columnWithPhoneNumber.appendChild(document.createTextNode('+' + phone.countryCode + ' (' + phone.operatorCode + ') ' + phone.number));
 
     var columnWithPhoneType = document.createElement('div');
-    columnWithPhoneType.className = 'column column-3';
+    columnWithPhoneType.className = 'column column-4';
     columnWithPhoneType.id = 'new-contact-phone-type-' + phone.id;
     columnWithPhoneType.appendChild(document.createTextNode(valToType(phone.type)));
 
     var columnWithPhoneComment = document.createElement('div');
-    columnWithPhoneComment.className = 'column column-x';
+    columnWithPhoneComment.className = 'column column-5';
     columnWithPhoneComment.id = 'new-contact-phone-comment-' + phone.id;
     columnWithPhoneComment.appendChild(document.createTextNode(phone.comment));
 
@@ -453,7 +453,7 @@ function createNewAttachment() {
     label.htmlFor = 'new-attachment-check-' + attachment.id;
 
     var columnWithCheckBox = document.createElement('div');
-    columnWithCheckBox.className = 'column column-2';
+    columnWithCheckBox.className = 'column column-1';
     var input = document.createElement('input');
     input.type = 'checkbox';
     input.name = 'new-attachment-check';
@@ -462,17 +462,17 @@ function createNewAttachment() {
     columnWithCheckBox.appendChild(input);
 
     var columnWithFileName = document.createElement('div');
-    columnWithFileName.className = 'column column-3';
+    columnWithFileName.className = 'column column-4';
     columnWithFileName.id = 'new-contact-attachment-file-name-' + attachment.id;
     columnWithFileName.appendChild(document.createTextNode(attachment.fileName));
 
     var columnWithDateUpload = document.createElement('div');
-    columnWithDateUpload.className = 'column column-3';
+    columnWithDateUpload.className = 'column column-4';
     columnWithDateUpload.id = 'new-contact-attachment-upload-date-' + attachment.id;
     columnWithDateUpload.appendChild(document.createTextNode(attachment.dateUpload));
 
     var columnWithAttachmentComment = document.createElement('div');
-    columnWithAttachmentComment.className = 'column column-x';
+    columnWithAttachmentComment.className = 'column column-5';
     columnWithAttachmentComment.id = 'new-contact-attachment-comment-' + attachment.id;
     columnWithAttachmentComment.appendChild(document.createTextNode(attachment.comment));
 

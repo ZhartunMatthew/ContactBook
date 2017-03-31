@@ -127,25 +127,25 @@
             </div>
             <h3>Контактные телефоны</h3>
             <div class="first-row">
-                <div class="column column-2"> Выбрать </div>
-                <div class="column column-3"> Номер телефона </div>
-                <div class="column column-3"> Описание номера </div>
-                <div class="column column-x"> Комментарий </div>
+                <div class="column column-1"> # </div>
+                <div class="column column-4"> Номер телефона </div>
+                <div class="column column-4"> Описание номера </div>
+                <div class="column column-5"> Комментарий </div>
             </div>
             <div id="contact-phones">
                 <c:forEach var="phone" items="${contact.phones}">
                     <div class="one-row contact-phone" id="contact-phone-${phone.id}">
                         <label for="phone-check-${phone.id}">
-                            <div class="column column-2">
+                            <div class="column column-1">
                                 <input type="checkbox" name="phone-check" id="phone-check-${phone.id}" value="${phone.id}">
                             </div>
-                            <div class="column column-3" id="contact-phone-number-${phone.id}">
+                            <div class="column column-4" id="contact-phone-number-${phone.id}">
                                 <c:out value="+${phone.countryCode} (${phone.operatorCode}) ${phone.number}"/>
                             </div>
-                            <div class="column column-3" id="contact-phone-type-${phone.id}">
+                            <div class="column column-4" id="contact-phone-type-${phone.id}">
                                 ${phone.type == 1 ? 'Домашний' : 'Мобильный'}
                             </div>
-                            <div class="column column-x" id="contact-phone-comment-${phone.id}">
+                            <div class="column column-5" id="contact-phone-comment-${phone.id}">
                                 ${phone.comment}
                             </div>
                         </label>
@@ -160,25 +160,25 @@
             </div>
             <h3>Прикрепленные файлы</h3>
             <div class="first-row">
-                <div class="column column-2"> Выбрать </div>
-                <div class="column column-3"> Имя файла </div>
-                <div class="column column-3"> Дата загрузки </div>
-                <div class="column column-x"> Комментарий </div>
+                <div class="column column-1"> # </div>
+                <div class="column column-4"> Имя файла </div>
+                <div class="column column-4"> Дата загрузки </div>
+                <div class="column column-5"> Комментарий </div>
             </div>
             <div id="contact-attachments">
                 <c:forEach var="attachment" items="${contact.attachments}">
                     <div class="one-row contact-attachment" id="contact-attachment-${attachment.id}">
                         <label for="attachment-check-${attachment.id}">
-                            <div class="column column-2">
+                            <div class="column column-1">
                                 <input type="checkbox" name="attachment-check" id="attachment-check-${attachment.id}" value="${attachment.id}">
                             </div>
-                            <div class="column column-3" id="contact-attachment-file-name-${attachment.id}">
+                            <div class="column column-4" id="contact-attachment-file-name-${attachment.id}">
                                 <c:out value="${attachment.fileName}"/>
                             </div>
-                            <div class="column column-3" id="contact-attachment-upload-date-${attachment.id}">
+                            <div class="column column-4" id="contact-attachment-upload-date-${attachment.id}">
                                 <c:out value="${attachment.getDateString()}"/>
                             </div>
-                            <div class="column column-x" id="contact-attachment-comment-${attachment.id}">
+                            <div class="column column-5" id="contact-attachment-comment-${attachment.id}">
                                 <c:out value="${attachment.comment}"/>
                             </div>
                             <a href="controller?command=download_attachment&id=${attachment.id}">

@@ -41,6 +41,11 @@
             <artifactId>javax.mail</artifactId>
             <version>1.5.6</version>
         </dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>stringtemplate</artifactId>
+            <version>4.0.2</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>web</finalName>

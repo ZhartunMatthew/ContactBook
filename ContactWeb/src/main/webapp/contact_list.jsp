@@ -77,9 +77,9 @@
         <div class="first-row">
             <div class="column column-1"> # </div>
             <div class="column column-3"> Фамилия, имя </div>
-            <div class="column column-3"> Дата рождения </div>
-            <div class="column column-4"> Адрес проживания </div>
-            <div class="column column-x"> Место работы </div>
+            <div class="column column-2"> Дата рождения </div>
+            <div class="column column-5"> Адрес проживания </div>
+            <div class="column column-4"> Место работы </div>
         </div>
         <form id="contact-list-form" method="post">
             <div id="contact-list">
@@ -95,10 +95,10 @@
                                         <c:out value=" ${contact.lastName} ${contact.firstName}"/>
                                     </a>
                                 </div>
-                                <div class="column column-3">
+                                <div class="column column-2">
                                     <c:out value="${contact.getDateString()}"/>
                                 </div>
-                                <div class="column column-4">
+                                <div class="column column-5">
                                     <c:if test="${not null and not empty contact.city}"> г. </c:if>
                                     <c:out value="${contact.city}" />
 
@@ -112,7 +112,7 @@
                                     <c:out value="${contact.flat}" />
 
                                 </div>
-                                <div class="column column-x">
+                                <div class="column column-4">
                                     <c:out value="${contact.job}"/>
                                 </div>
                             </div>

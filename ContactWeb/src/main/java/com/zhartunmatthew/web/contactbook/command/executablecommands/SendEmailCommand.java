@@ -1,8 +1,9 @@
 package com.zhartunmatthew.web.contactbook.command.executablecommands;
 
 import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
-import com.zhartunmatthew.web.contactbook.command.emailmanager.EmailManager;
+import com.zhartunmatthew.web.contactbook.emailmanager.EmailManager;
 import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactCommand;
+import com.zhartunmatthew.web.contactbook.emailmanager.EmailTemplateManager;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.services.ContactService;
 import org.apache.commons.lang3.StringUtils;
@@ -14,16 +15,16 @@ import java.util.ArrayList;
 
 public class SendEmailCommand implements AbstractCommand {
 
-    private static Logger log = Logger.getLogger(ShowContactCommand.class);
-    private static String REDIRECT_URL = "controller";
+    private Logger log = Logger.getLogger(ShowContactCommand.class);
+    private String REDIRECT_URL = "controller";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String emailText = request.getParameter("email-text");
         String emailSubject = request.getParameter("email-subject");
         ArrayList<Contact> recipients = getAllRecipients(request);
-        sendEmails(recipients, emailSubject, emailText);
-
+        int emailTemplate = Integer.parseInt(request.getParameter("selected-template-index"));
+        sendEmails(recipients, emailTemplate, emailSubject, emailText);
         return REDIRECT_URL;
     }
 
@@ -32,7 +33,7 @@ public class SendEmailCommand implements AbstractCommand {
         return true;
     }
 
-    private static ArrayList<Contact> getAllRecipients(HttpServletRequest request) {
+    private ArrayList<Contact> getAllRecipients(HttpServletRequest request) {
         ArrayList<Contact> recipients = new ArrayList<>();
         try {
             ContactService contactService = new ContactService();
@@ -49,9 +50,15 @@ public class SendEmailCommand implements AbstractCommand {
         return recipients;
     }
 
-    private static void sendEmails(ArrayList<Contact> recipients, String subject, String message) {
+    private void sendEmails(ArrayList<Contact> recipients, int emailTemplate, String subject, String message) {
+        EmailTemplateManager templateManager = new EmailTemplateManager();
         for(Contact tempRecipient : recipients) {
-            EmailManager.sendMail(tempRecipient.getEmail(), subject, message);
+            if(emailTemplate == 0) {
+                EmailManager.sendMail(tempRecipient.getEmail(), subject, message);
+            } else {
+                String templateMessage = templateManager.createEmailFromTemplate(emailTemplate, tempRecipient);
+                EmailManager.sendMail(tempRecipient.getEmail(), subject, templateMessage);
+            }
         }
     }
 }

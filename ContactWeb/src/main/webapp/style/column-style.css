@@ -42,28 +42,31 @@ div .column {
 }
 
 .column-1 {
-    width: 50px;
+    width: 5%;
+    max-width: 55px;
+    padding-left: 0;
+    padding-right: 0;
     text-align: center;
 }
 
 .column-2 {
-    width: 110px;
+    width: 20%;
+    max-width: 160px;
 }
 
 .column-3 {
-    width: 200px;
+    width: 20%;
+    max-width: 200px;
 }
 
 .column-4 {
-    width: 400px;
+    width: 25%;
+    max-width: 300px;
 }
 
 .column-5 {
-    width: 500px;
-}
-
-.column-x {
-    width: auto;
+    width: 30%;
+    max-width: 350px;
 }
 
 a {

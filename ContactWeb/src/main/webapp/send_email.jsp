@@ -23,6 +23,16 @@
                     <input class="subject-input" id="email-subject" name="email-subject" type="text">
                 </label>
             </div>
+            <div class="email-template-block">
+                <label> Шаблон
+                    <select class="email-template-select" id="template-select" name="template-input">
+                        <option value=""> Без шаблона </option>
+                        <c:forEach var="item" items="${templates}" varStatus="loop">
+                            <option value="${item}"> Шаблон №${loop.index + 1} </option>
+                        </c:forEach>
+                    </select>
+                </label>
+            </div>
             <div class="email-text-block">
                 <label> Текст сообщения
                     <textarea class="email-input" id="email-text" name="email-text" rows="7"></textarea>

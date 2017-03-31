@@ -12,7 +12,7 @@
 
 .send-mail-buttons {
     display: block;
-    margin: auto;
+    margin: 0;
 }
 
 .recipient-email {
@@ -35,7 +35,7 @@
 
 .button-block {
     width: 360px;
-    margin: auto;
+    margin: 0;
 }
 
 .send-mail-button:hover {
@@ -50,6 +50,8 @@
 }
 
 .email-input {
+    font-family: Arial;
+    resize: none;
     margin: 5px 0;
     padding: 5px 2%;
     display: block;
