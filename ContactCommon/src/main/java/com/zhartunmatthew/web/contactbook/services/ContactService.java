@@ -7,18 +7,19 @@ import com.zhartunmatthew.web.contactbook.dao.ContactDAO;
 import com.zhartunmatthew.web.contactbook.dao.PhoneDAO;
 import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionUtils;
+import com.zhartunmatthew.web.contactbook.dto.search.SearchParameters;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.abstractions.ContactEntity;
 import com.zhartunmatthew.web.contactbook.entity.abstractions.Entity;
-import com.zhartunmatthew.web.contactbook.dto.search.SearchParameters;
 import com.zhartunmatthew.web.contactbook.services.fileservice.AttachmentService;
 import com.zhartunmatthew.web.contactbook.services.fileservice.ImageService;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -220,5 +221,16 @@ public class ContactService {
             log.error(ex.getMessage() + ex.getCause());
         }
         return id;
+    }
+
+    public ArrayList<Contact> getContactsByBirthDate(Date date) {
+        ArrayList<Contact> contacts = null;
+        try (Connection connection = ConnectionUtils.getConnection()) {
+            ContactDAO contactDAO = new ContactDAO(connection);
+            contacts = contactDAO.readByBirthDate(date);
+        } catch (SQLException ex) {
+            log.error(ex.getMessage() + ex.getCause());
+        }
+        return contacts;
     }
 }

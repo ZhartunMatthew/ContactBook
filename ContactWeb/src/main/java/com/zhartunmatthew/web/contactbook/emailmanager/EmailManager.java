@@ -13,6 +13,10 @@ public class EmailManager {
             ResourceBundle.getBundle("emailconfig").getObject("sender_password").toString();
 
     public static void sendMail(String email, String subject, String text) {
+        System.out.println(">>>>>>>>>>EMAIL: " +  email);
+        System.out.println(">>>>>>>>>>SUBJECT: " +  subject);
+        System.out.println(">>>>>>>>>>TEXT: " +  text);
+
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.socketFactory.port", "465");

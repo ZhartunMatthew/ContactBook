@@ -44,6 +44,20 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             "LEFT JOIN countries ON countries.id_country = contacts.country_id " +
             "LEFT JOIN addresses ON addresses.contact_id = contacts.id WHERE id = ? LIMIT 1;";
 
+    private static final String SELECT_BY_BIRTH_DATE =
+            "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
+            "birth_date, sex, marital_status.id_marital_status AS marital_status, " +
+            "nationality.id_nationality AS nationality, " +
+            "countries.id_country AS country, addresses.city AS city, " +
+            "addresses.street AS street, addresses.house_number AS house, " +
+            "addresses.flat AS flat, addresses.postcode AS postcode, " +
+            "website, email, photo_path, job " +
+            "FROM contacts " +
+            "LEFT JOIN nationality ON nationality.id_nationality = contacts.nationality_id " +
+            "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
+            "LEFT JOIN countries ON countries.id_country = contacts.country_id " +
+            "LEFT JOIN addresses ON addresses.contact_id = contacts.id WHERE birth_date = ?;";
+
     private static final String SELECT_CERTAIN_COUNT =
             "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
             "birth_date, sex, marital_status.id_marital_status AS marital_status, " +
@@ -106,7 +120,6 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
     @Override
     public ArrayList<Contact> readAll() throws DAOException {
         ArrayList<Contact> contacts = new ArrayList<>();
-
         ResultSet contactResultSet;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL_CONTACTS)) {
             contactResultSet = statement.executeQuery();
@@ -147,7 +160,6 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
     public ArrayList<Contact> readCertainCount(long from, long count) throws DAOException {
         ArrayList<Contact> contacts = new ArrayList<>();
-
         ResultSet contactResultSet;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_CERTAIN_COUNT)) {
             statement.setLong(1, count);
@@ -434,5 +446,22 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         query += " ORDER BY last_name;";
 
         return query;
+    }
+
+    public ArrayList<Contact> readByBirthDate(Date date) {
+        ArrayList<Contact> contacts = new ArrayList<>();
+        ResultSet contactResultSet;
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_BY_BIRTH_DATE)) {
+            statement.setDate(1, date);
+            contactResultSet = statement.executeQuery();
+            while (contactResultSet.next()) {
+                Contact tempContact = (Contact)
+                        EntityFactory.createEntityFromResultSet(contactResultSet, Contact.class);
+                contacts.add(tempContact);
+            }
+        } catch (SQLException ex) {
+            log.error(ex.getMessage() + ex.getCause());
+        }
+        return contacts;
     }
 }

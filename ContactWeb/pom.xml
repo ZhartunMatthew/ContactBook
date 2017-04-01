@@ -46,6 +46,12 @@
             <artifactId>stringtemplate</artifactId>
             <version>4.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.21</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
     <build>
         <finalName>web</finalName>
