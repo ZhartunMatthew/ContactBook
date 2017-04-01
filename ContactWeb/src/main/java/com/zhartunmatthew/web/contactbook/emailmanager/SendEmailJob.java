@@ -3,22 +3,19 @@ package com.zhartunmatthew.web.contactbook.emailmanager;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.services.ContactService;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-class SendEmailJob implements Job {
+public class SendEmailJob implements Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         ContactService contactService = new ContactService();
-        Date date = new Date(DateTime.now().getMillis());
-        ArrayList<Contact> birthdayContacts = contactService.getContactsByBirthDate(date);
+        ArrayList<Contact> birthdayContacts = contactService.getContactsByBirthDate();
         if(birthdayContacts == null || birthdayContacts.size() == 0) {
             return;
         }
@@ -30,7 +27,7 @@ class SendEmailJob implements Job {
     }
 
     private String prepareMessage(ArrayList<Contact> birthdayContacts) {
-        String message = ResourceBundle.getBundle("emailconfig").getObject("birthaday_email").toString() + "\n";
+        String message = ResourceBundle.getBundle("emailconfig").getObject("birthday_email").toString() + "\n";
         for(Contact contact : birthdayContacts) {
             message += contact.getFirstName() + " ";
             message += contact.getLastName() + " ";

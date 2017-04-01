@@ -56,7 +56,8 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             "LEFT JOIN nationality ON nationality.id_nationality = contacts.nationality_id " +
             "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
             "LEFT JOIN countries ON countries.id_country = contacts.country_id " +
-            "LEFT JOIN addresses ON addresses.contact_id = contacts.id WHERE birth_date = ?;";
+            "LEFT JOIN addresses ON addresses.contact_id = contacts.id " +
+            "WHERE MONTH(birth_date) = MONTH(CURRENT_DATE()) AND DAY(birth_date) = DAY(CURRENT_DATE());";
 
     private static final String SELECT_CERTAIN_COUNT =
             "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
@@ -448,11 +449,10 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         return query;
     }
 
-    public ArrayList<Contact> readByBirthDate(Date date) {
+    public ArrayList<Contact> readByBirthDate() {
         ArrayList<Contact> contacts = new ArrayList<>();
         ResultSet contactResultSet;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_BY_BIRTH_DATE)) {
-            statement.setDate(1, date);
             contactResultSet = statement.executeQuery();
             while (contactResultSet.next()) {
                 Contact tempContact = (Contact)

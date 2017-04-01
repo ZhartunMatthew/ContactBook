@@ -7,8 +7,8 @@ import java.util.ResourceBundle;
 
 public class EmailScheduler {
 
-    private static Scheduler emailScheduler;
-    public static void init() {
+    private Scheduler emailScheduler;
+    public void init() {
         try {
             ResourceBundle bundle = ResourceBundle.getBundle("emailconfig");
             String emailJobName = bundle.getObject("email_job_name").toString();
@@ -35,7 +35,7 @@ public class EmailScheduler {
         }
     }
 
-    public static void shutdown() {
+    public void shutdown() {
         try {
             emailScheduler.shutdown(false);
         } catch (SchedulerException e) {

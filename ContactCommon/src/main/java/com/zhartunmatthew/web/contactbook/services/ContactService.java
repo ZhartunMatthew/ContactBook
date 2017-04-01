@@ -19,7 +19,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -219,11 +218,11 @@ public class ContactService {
         return id;
     }
 
-    public ArrayList<Contact> getContactsByBirthDate(Date date) {
+    public ArrayList<Contact> getContactsByBirthDate() {
         ArrayList<Contact> contacts = null;
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
-            contacts = contactDAO.readByBirthDate(date);
+            contacts = contactDAO.readByBirthDate();
         } catch (SQLException ex) {
             log.error(ex.getMessage() + ex.getCause());
         }

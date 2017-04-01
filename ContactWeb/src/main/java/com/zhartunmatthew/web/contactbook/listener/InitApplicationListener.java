@@ -7,15 +7,17 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 public class InitApplicationListener implements ServletContextListener {
+    private EmailScheduler emailScheduler = null;
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         ConnectionManager.getInstance();
-        EmailScheduler.init();
+        emailScheduler = new EmailScheduler();
+        emailScheduler.init();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         ConnectionManager.getInstance().deregisterDrivers();
-        EmailScheduler.shutdown();
+        emailScheduler.shutdown();
     }
 }
