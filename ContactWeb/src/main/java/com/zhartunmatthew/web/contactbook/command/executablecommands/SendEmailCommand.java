@@ -52,12 +52,13 @@ public class SendEmailCommand implements AbstractCommand {
 
     private void sendEmails(ArrayList<Contact> recipients, int emailTemplate, String subject, String message) {
         EmailTemplateManager templateManager = new EmailTemplateManager();
+        EmailManager emailManager = new EmailManager();
         for(Contact tempRecipient : recipients) {
             if(emailTemplate == 0) {
-                EmailManager.sendMail(tempRecipient.getEmail(), subject, message);
+                emailManager.sendMail(tempRecipient.getEmail(), subject, message);
             } else {
                 String templateMessage = templateManager.createEmailFromTemplate(emailTemplate, tempRecipient);
-                EmailManager.sendMail(tempRecipient.getEmail(), subject, templateMessage);
+                emailManager.sendMail(tempRecipient.getEmail(), subject, templateMessage);
             }
         }
     }

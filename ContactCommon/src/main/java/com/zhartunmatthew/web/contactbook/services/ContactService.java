@@ -28,8 +28,7 @@ public class ContactService {
 
     private static Logger log = Logger.getLogger(ContactService.class);
 
-    public ContactService() {
-    }
+    public ContactService() {}
 
     public void insertContact(Contact contact, FileItem contactPhoto, ArrayList<FileItem> files) {
         Long lastId;
@@ -42,7 +41,6 @@ public class ContactService {
                 contactDAO.insertContactAddress(contact, lastId);
                 String photoPath = ImageService.writePhoto(lastId, contactPhoto, contact.getPhotoPath());
                 contactDAO.updateContactPhoto(lastId, photoPath);
-
                 PhoneDAO phoneDAO = new PhoneDAO(connection);
                 ArrayList<Phone> phones = contact.getPhones();
                 if (phones != null) {
@@ -173,9 +171,8 @@ public class ContactService {
     }
 
     private <Type extends ContactEntity> ArrayList<Type> updateEntities(ArrayList<Type> entities,
-                                                                        ArrayList<Type> entitiesFromDB,
-                                                                        AbstractDAO<Long, Type> entityDAO) throws DAOException {
-
+                                         ArrayList<Type> entitiesFromDB,
+                                         AbstractDAO<Long, Type> entityDAO) throws DAOException {
         ArrayList<Type> entitiesForInsert = new ArrayList<>();
         try {
             for (Type entity : entities) {
@@ -201,7 +198,6 @@ public class ContactService {
             for (Type entity : entitiesFromDB) {
                 log.info("DELETE: " + entity);
                 entityDAO.delete(entity.getId());
-
                 if (entity.getClass() == Attachment.class) {
                     AttachmentService.removeAttachmentFromDisk(entity.getContactID(), entity.getId());
                 }

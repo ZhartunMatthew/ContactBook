@@ -25,7 +25,8 @@ class SendEmailJob implements Job {
         String recipient = ResourceBundle.getBundle("emailconfig").getObject("admin_email").toString();
         String subject = "Birthdays";
         String message = prepareMessage(birthdayContacts);
-        EmailManager.sendMail(recipient, subject, message);
+        EmailManager emailManager = new EmailManager();
+        emailManager.sendMail(recipient, subject, message);
     }
 
     private String prepareMessage(ArrayList<Contact> birthdayContacts) {
