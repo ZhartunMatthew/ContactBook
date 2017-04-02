@@ -25,7 +25,6 @@ public class Controller extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        log.debug("SERVLET LOG");
         AbstractCommand command = CommandFactory.createCommand(request);
         String commandURL = command.execute(request, response);
         log.debug("Command URL: " + commandURL);

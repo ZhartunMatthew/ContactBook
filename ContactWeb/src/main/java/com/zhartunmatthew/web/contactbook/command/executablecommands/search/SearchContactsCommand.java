@@ -45,11 +45,12 @@ public class SearchContactsCommand implements AbstractCommand {
         String dateDay = request.getParameter("birth-date-day");
         String dateMonth = request.getParameter("birth-date-month");
         String dateYear = request.getParameter("birth-date-year");
-        if(!StringUtils.isEmpty(dateDay) && !StringUtils.isEmpty(dateMonth) && !StringUtils.isEmpty(dateYear)) {
+        if(!StringUtils.isEmpty(dateDay) &&
+                !StringUtils.isEmpty(dateMonth) && !StringUtils.isEmpty(dateYear)) {
             searchParameters.setDate(stringToDate(dateDay, dateMonth, dateYear));
-            searchParameters.setDateSearchType(DateSearchType.getType(Integer.parseInt(request.getParameter("date-type"))));
+            searchParameters.setDateSearchType(
+                    DateSearchType.getType(Integer.parseInt(request.getParameter("date-type"))));
         }
-        System.out.println(">>>>>SEARCH");
         ContactService contactService = new ContactService();
         ArrayList<Contact> contacts = contactService.findAllByParameters(searchParameters);
 

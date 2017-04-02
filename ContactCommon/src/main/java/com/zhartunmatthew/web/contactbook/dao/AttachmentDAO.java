@@ -14,16 +14,16 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
 
     private static final String SELECT_CONTACT_ATTACHMENTS =
             "SELECT id_file AS id, " +
-                    "contact_id, " +
-                    "file_name, " +
-                    "comment, " +
-                    "upload_date " +
-                    "FROM contactbook.attachments " +
-                    "WHERE contact_id = ?";
+            "contact_id, " +
+            "file_name, " +
+            "comment, " +
+            "upload_date " +
+            "FROM contactbook.attachments " +
+            "WHERE contact_id = ?";
 
     private static final String SELECT_ATTACHMENT_BY_ID =
             "SELECT id_file AS id, contact_id, file_name, comment, upload_date " +
-                    "FROM contactbook.attachments WHERE id_file = ? LIMIT 1";
+            "FROM contactbook.attachments WHERE id_file = ? LIMIT 1";
 
     private static final String INSERT_ATTACHMENT_QUERY =
             "INSERT INTO attachments (contact_id, file_name, upload_date, comment) VALUES (?, ?, ?, ?);";
@@ -48,7 +48,8 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
             statement.setLong(1, contactId);
             attachmentResultSet = statement.executeQuery();
             while (attachmentResultSet.next()) {
-                Attachment attachment = (Attachment) EntityFactory.createEntityFromResultSet(attachmentResultSet, Attachment.class);
+                Attachment attachment = (Attachment)
+                        EntityFactory.createEntityFromResultSet(attachmentResultSet, Attachment.class);
                 attachments.add(attachment);
             }
         } catch (SQLException ex) {

@@ -368,7 +368,6 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
     }
 
     public ArrayList<Contact> searchUserByParameters(SearchParameters parameters) throws DAOException, SQLException {
-        System.out.println(">>>>>>>>>QUERY: " + buildQuery(parameters, PARAMS_QUERY));
         PreparedStatement statement = connection.prepareStatement(buildQuery(parameters, PARAMS_QUERY));
 
         ResultSet contactResult = statement.executeQuery();

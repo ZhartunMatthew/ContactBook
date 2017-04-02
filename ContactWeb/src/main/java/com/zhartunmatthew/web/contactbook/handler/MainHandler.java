@@ -42,16 +42,12 @@ public class MainHandler {
                         } catch (UnsupportedEncodingException | WrongInputException ex) {
                             log.error(ex.getMessage() + ex.getCause());
                         }
-                    } else {
-                        log.info("Form: " + item.getFieldName() + " is null");
                     }
                 } else {
                     String fileName = item.getFieldName();
                     if(fileName.startsWith("new-attachment")) {
-                        log.info("FILE: " + item.getName());
                         files.add(item);
                     } else {
-                        log.info("IMAGE ITEM " + item.getName());
                         request.setAttribute("photo-item", item);
                     }
                 }
