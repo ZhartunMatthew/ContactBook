@@ -635,24 +635,24 @@ var prevPath = '';
 function checkAttachmentInputBeforeSave(isRequired) {
     var isInputCorrect = true;
 
-    var size = 10;
-    var mb_size = 1024 * 1024;
+    var MAX_SIZE = 10;
+    var SIZE_MB = 1024 * 1024;
     var attachmentFile = attachmentFileInput.files[0];
     if(isRequired && attachmentFile === null || isRequired && attachmentFile === undefined) {
         isInputCorrect = false;
         addErrorMessage('Файл для присоединения не выбран');
     }
     if(attachmentFile !== null && attachmentFile !== undefined) {
-        if(attachmentFileInput.files[0].size > size * mb_size) {
+        if(attachmentFileInput.files[0].size > MAX_SIZE * SIZE_MB) {
             isInputCorrect = false;
-            addErrorMessage('Файл должен быть меньше ' + size + ' мб');
+            addErrorMessage('Файл должен быть меньше ' + MAX_SIZE + ' мб');
         }
     }
     if(isRequired) {
         if (prevPath !== '') {
             if (prevPath === document.getElementById('attachment-path').value
                 || document.getElementById('attachment-path').value === '') {
-                var isInputCorrect = false;
+                isInputCorrect = false;
                 addErrorMessage('Файл для присоединения не выбран или выбран тот же файл');
             }
         }
@@ -660,7 +660,7 @@ function checkAttachmentInputBeforeSave(isRequired) {
 
     if(!checkAttachmentName(attachmentNameInput, 100, true)) {
         isInputCorrect = false;
-        addErrorMessage('Имя файла не указано или указан некорректно');
+        addErrorMessage('Имя файла не указано или указано некорректно');
     }
     if(!checkTextOnLength(attachmentCommentInput, 200, false)) {
         isInputCorrect = false;
@@ -741,6 +741,10 @@ savePhotoButton.onclick = function() {
         photoImage.src = this.result;
     };
     if(image) {
+        if(!checkPhotoInputBeforeSave()) {
+            openModal(popupWindowError);
+            return;
+        }
         reader.readAsDataURL(image);
         photoFileInput.id = 'uploaded-contact-photo';
         photoFileInput.name = 'upload-photo';
@@ -774,7 +778,22 @@ function preparePhotoForSubmit() {
 }
 
 //------------------------------PHOTO VALIDATION----------------------------------
-//TODO: photo validation
+
+function checkPhotoInputBeforeSave() {
+    var isInputCorrect = true;
+
+    var photo = photoFileInput.files[0];
+    var MAX_SIZE = 2;
+    var SIZE_MB = 1024 * 1024;
+
+    if(photo) {
+        if(photo.size > MAX_SIZE * SIZE_MB) {
+            addErrorMessage('Фото не долно быть больше ' + MAX_SIZE + ' мб');
+            isInputCorrect = false;
+        }
+    }
+    return isInputCorrect;
+}
 
 //------------------------------ACTIONS--------------------------------------------
 
