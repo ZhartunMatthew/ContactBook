@@ -247,10 +247,10 @@
                 </label>
                 <input type="hidden" id="attachment-upload-date">
                 <label> Имя
-                    <input type="text" class="modal-attachment-comment" id="attachment-name">
+                    <input type="text" class="modal-attachment-field" id="attachment-name">
                 </label>
                 <label> Комментарий
-                    <input type="text" class="modal-attachment-comment" id="attachment-comment">
+                    <input type="text" class="modal-attachment-field" id="attachment-comment">
                 </label>
                 <div class="popup-buttons">
                     <div id="popup-submit-attachment-button" class="popup-button accept"> Применить </div>

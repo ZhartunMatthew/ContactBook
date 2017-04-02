@@ -159,6 +159,7 @@ deletePhoneButton.onclick = function () {
 };
 
 cancelPhoneButton.onclick = function () {
+    clearHighlightPhones();
     closeModal(popupWindowPhones);
 };
 
@@ -363,7 +364,12 @@ phoneComment.onkeyup = function () {
     checkInputOnLength(this, 150, false);  
 };
 
-
+function clearHighlightPhones() {
+    highlightInput(countryCode, true);
+    highlightInput(operatorCode, true);
+    highlightInput(theNumber, true);
+    highlightInput(phoneComment, true);
+}
 
 //------------------------ATTACHMENT FUNCTIONS--------------------------
 
@@ -464,13 +470,22 @@ deleteAttachmentButton.onclick = function () {
 
 cancelAttachmentButton.onclick = function () {
     fileExtension = '';
+    clearHighlightAttachments();
     closeModal(popupWindowAttachments);
 };
 
 submitAttachmentButton.onclick = function () {
     if(isNewAttachment) {
+        if(!checkAttachmentInputBeforeSave(true)) {
+            openModal(popupWindowError);
+            return;
+        }
         createNewAttachment();
     } else {
+        if(!checkAttachmentInputBeforeSave(false)) {
+            openModal(popupWindowError);
+            return;
+        }
         editAttachment(editedAttachmentId, isNewAttachmentEdit);
     }
     closeModal(popupWindowAttachments);
@@ -557,6 +572,7 @@ function addAttachmentToInputField(attachmentInput) {
     newAttachmentList.appendChild(newAttachmentFileInput);
 
     var fileInputButton = document.createElement('input');
+    fileInputButton.value = '';
     fileInputButton.type = 'file';
     fileInputButton.id = 'attachment-path';
 
@@ -616,8 +632,83 @@ function prepareAttachmentForSubmit() {
     contactForm.appendChild(addElementsInHiddenInput('new-attachments', JSON.stringify(newAttachments)));
 }
 
+var prevPath = '';
+function checkAttachmentInputBeforeSave(isRequired) {
+    var isInputCorrect = true;
+
+    var size = 10;
+    var mb_size = 1024 * 1024;
+    var attachmentFile = attachmentFileInput.files[0];
+    if(isRequired && attachmentFile === null || attachmentFile === undefined) {
+        isInputCorrect = false;
+        addErrorMessage('Файл для присоединения не выбран');
+    }
+    if(attachmentFile !== null && attachmentFile !== undefined) {
+        if(attachmentFileInput.files[0].size > size * mb_size) {
+            isInputCorrect = false;
+            addErrorMessage('Файл должен быть меньше ' + size + ' мб');
+        }
+    }
+    if(prevPath !== '') {
+        if(prevPath === document.getElementById('attachment-path').value
+            || document.getElementById('attachment-path').value === '') {
+            var isInputCorrect = false;
+            addErrorMessage('Файл для присоединения не выбран или выбран тот же файл');
+        }
+    }
+
+    if(!checkAttachmentName(attachmentNameInput, 100, true)) {
+        isInputCorrect = false;
+        addErrorMessage('Имя файла не указано или указан некорректно');
+    }
+    if(!checkTextOnLength(attachmentCommentInput, 200, false)) {
+        isInputCorrect = false;
+        addErrorMessage('Комментарий файла не указан или указан некорректно');
+    }
+
+    if(isInputCorrect) {
+        prevPath = JSON.parse(JSON.stringify(document.getElementById('attachment-path').value));
+    }
+
+    return isInputCorrect;
+}
+
 //----------------------------------ATTACHMENT VALIDATION---------------------
-//TODO: attachment validation
+
+var attachmentFileInput = document.getElementById('attachment-path');
+
+var attachmentNameInput = document.getElementById('attachment-name');
+attachmentNameInput.onkeyup = function () {
+    checkAttachmentNameInput(this, 100, true);
+};
+
+var attachmentCommentInput = document.getElementById('attachment-comment');
+attachmentCommentInput.onkeyup = function () {
+    checkAttachmentComment(this, 10, false);
+};
+
+function checkAttachmentNameInput(inputElement, maxLength, isRequired) {
+    if(checkAttachmentName(inputElement, maxLength, isRequired)) {
+        highlightInput(inputElement, true);
+    } else {
+        highlightInput(inputElement, false);
+    }
+}
+
+function checkAttachmentName(inputElement, maxLength, isRequired) {
+    var incorrectLetters = '~`!@#$%^&*+=:;<>,./\'{}"';
+    return checkIfContains(inputElement, maxLength, incorrectLetters, isRequired);
+}
+
+function checkAttachmentComment(inputElement, maxLength, isRequired) {
+    checkInputOnLength(inputElement, maxLength, isRequired);
+}
+
+function clearHighlightAttachments() {
+    highlightInput(attachmentNameInput, true);
+    highlightInput(attachmentCommentInput, true);
+}
+
 
 //----------------------------------PHOTO FUNCTIONS---------------------------
 
@@ -851,6 +942,19 @@ function checkOnText(inputElement, maxLength, isRequired) {
     }
 }
 
+function checkIfContains(inputElement, maxLength, letters, isRequired) {
+    var length = inputElement.value.trim().length;
+    if(isRequired && length < 1) {
+        return false;
+    }
+
+    if(isNotContainsLetters(inputElement.value, letters) && length < maxLength) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function checkInputOnLength(inputElement, maxLength, isRequired) {
     if(checkTextOnLength(inputElement, maxLength, isRequired)) {
         highlightInput(inputElement, true);
@@ -876,6 +980,15 @@ function isOnlyLetters(value) {
     var letters = letters_ru + letters_en + '-';
     for (var i = 0; i < value.length; i++) {
         if (letters.indexOf(value.toLowerCase().charAt(i)) == -1) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function isNotContainsLetters(value, letters) {
+    for (var i = 0; i < letters.length; i++) {
+        if (value.indexOf(letters.toLowerCase().charAt(i)) != -1) {
             return false;
         }
     }
