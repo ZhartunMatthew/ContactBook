@@ -368,6 +368,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
     }
 
     public ArrayList<Contact> searchUserByParameters(SearchParameters parameters) throws DAOException, SQLException {
+        System.out.println(">>>>>>>>>QUERY: " + buildQuery(parameters, PARAMS_QUERY));
         PreparedStatement statement = connection.prepareStatement(buildQuery(parameters, PARAMS_QUERY));
 
         ResultSet contactResult = statement.executeQuery();
@@ -418,6 +419,11 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         if (parameters.getCountry() != 0) {
             query += " AND countries.id_country LIKE '" + parameters.getCountry() + "'";
         }
+
+        if(parameters.getPostcode() != null && !parameters.getPostcode().isEmpty()) {
+            query += " AND postcode LIKE '" + parameters.getPostcode() + "'";
+        }
+
         if (parameters.getCity() != null && !parameters.getCity().isEmpty()) {
             query += " AND city LIKE '" + parameters.getCity() + "'";
         }

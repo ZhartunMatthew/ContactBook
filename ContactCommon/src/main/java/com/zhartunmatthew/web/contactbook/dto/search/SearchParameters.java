@@ -10,6 +10,7 @@ public class SearchParameters {
     private int maritalStatus;
     private int nationality;
     private int country;
+    private String postcode;
     private String city;
     private String street;
     private String house;
@@ -121,5 +122,11 @@ public class SearchParameters {
         this.dateSearchType = dateSearchType;
     }
 
+    public String getPostcode() {
+        return postcode;
+    }
 
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
 }

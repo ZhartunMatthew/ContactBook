@@ -36,6 +36,7 @@ public class SearchContactsCommand implements AbstractCommand {
         String country = request.getParameter("country");
         searchParameters.setCountry(country == null ? 0 : Integer.parseInt(country));
 
+        searchParameters.setPostcode(request.getParameter("postcode"));
         searchParameters.setCity(request.getParameter("city"));
         searchParameters.setStreet(request.getParameter("street"));
         searchParameters.setHouse(request.getParameter("house-number"));
@@ -48,7 +49,7 @@ public class SearchContactsCommand implements AbstractCommand {
             searchParameters.setDate(stringToDate(dateDay, dateMonth, dateYear));
             searchParameters.setDateSearchType(DateSearchType.getType(Integer.parseInt(request.getParameter("date-type"))));
         }
-
+        System.out.println(">>>>>SEARCH");
         ContactService contactService = new ContactService();
         ArrayList<Contact> contacts = contactService.findAllByParameters(searchParameters);
 
