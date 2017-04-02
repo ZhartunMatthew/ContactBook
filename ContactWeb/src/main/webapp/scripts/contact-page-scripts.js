@@ -96,7 +96,14 @@ editPhoneButton.onclick = function () {
     var newItems = getCheckedItems('new-phone-check');
 
     if(items.length + newItems.length > 1) {
-        alert('To much checked phones');
+        addErrorMessage('Слишком много телефонов отмечено');
+        openModal(popupWindowError);
+        return;
+    }
+
+    if(items.length + newItems.length < 1) {
+        addErrorMessage('Нет отмеченных телефонов');
+        openModal(popupWindowError);
         return;
     }
 
@@ -153,8 +160,15 @@ editPhoneButton.onclick = function () {
 
 deletePhoneButton.onclick = function () {
     var allPhonesForDelete = getCheckedItems('phone-check');
-    deleteItem(allPhonesForDelete, 'contact-phone-');
     var allNewPhonesForDelete = getCheckedItems('new-phone-check');
+
+    if(allPhonesForDelete.length + allNewPhonesForDelete.length < 1) {
+        addErrorMessage('Нет отмеченных телефонов');
+        openModal(popupWindowError);
+        return;
+    }
+
+    deleteItem(allPhonesForDelete, 'contact-phone-');
     deleteItem(allNewPhonesForDelete, 'new-contact-phone-');
 };
 
@@ -419,7 +433,14 @@ editAttachmentButton.onclick = function () {
     var newItems = getCheckedItems('new-attachment-check');
 
     if(items.length + newItems.length > 1) {
-        alert('To much checked attachments');
+        addErrorMessage('Слишком много отмеченных файлов');
+        openModal(popupWindowError);
+        return;
+    }
+
+    if(items.length + newItems.length < 1) {
+        addErrorMessage('Нет отмеченных файлов');
+        openModal(popupWindowError);
         return;
     }
 
@@ -462,8 +483,15 @@ editAttachmentButton.onclick = function () {
 
 deleteAttachmentButton.onclick = function () {
     var allAttachmentsForDelete = getCheckedItems('attachment-check');
-    deleteItem(allAttachmentsForDelete, 'contact-attachment-');
     var allNewAttachmentsForDelete = getCheckedItems('new-attachment-check');
+
+    if(allAttachmentsForDelete.length + allNewAttachmentsForDelete.length < 1) {
+        addErrorMessage('Нет отмеченных файлов');
+        openModal(popupWindowError);
+        return;
+    }
+
+    deleteItem(allAttachmentsForDelete, 'contact-attachment-');
     deleteItem(allNewAttachmentsForDelete, 'new-contact-attachment-');
     deleteItem(allNewAttachmentsForDelete, 'new-attachment-input-');
 };
