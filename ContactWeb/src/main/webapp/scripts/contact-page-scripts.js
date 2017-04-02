@@ -872,7 +872,7 @@ function checkInputFieldsBeforeSubmit() {
         isInputCorrect = false;
         addErrorMessage('Email введен некорректно');
     }
-    if(!checkTextOnLength(job, 50, false)) {
+    if(!checkTextOnLength(job, 45, false)) {
         isInputCorrect = false;
         addErrorMessage('Работа введена некорректно');
     }
@@ -941,7 +941,7 @@ email.onkeyup = function () {
 
 var job = document.getElementById('job');
 job.onkeyup = function () {
-    checkInputOnLength(this, 50, false);
+    checkInputOnLength(this, 45, false);
 };
 
 var postcode = document.getElementById('postcode');

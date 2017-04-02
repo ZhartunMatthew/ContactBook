@@ -1,6 +1,7 @@
 package com.zhartunmatthew.web.contactbook.handler;
 
 import com.zhartunmatthew.web.contactbook.entity.Contact;
+import com.zhartunmatthew.web.contactbook.handler.exception.WrongInputException;
 import com.zhartunmatthew.web.contactbook.handler.handlerfactory.HandlerFactory;
 import com.zhartunmatthew.web.contactbook.handler.handlers.AbstractHandler;
 import org.apache.commons.fileupload.FileItem;
@@ -38,8 +39,8 @@ public class MainHandler {
                     if(handler != null) {
                         try {
                             handler.handleField(contact, item.getString("UTF-8"));
-                        } catch (UnsupportedEncodingException ex) {
-                            ex.printStackTrace();
+                        } catch (UnsupportedEncodingException | WrongInputException ex) {
+                            log.error(ex.getMessage() + ex.getCause());
                         }
                     } else {
                         log.info("Form: " + item.getFieldName() + " is null");
