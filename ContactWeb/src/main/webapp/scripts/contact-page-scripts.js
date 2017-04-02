@@ -30,14 +30,15 @@ var cancelPhoneButton = document.getElementById('popup-cancel-phone-button');
 var submitContactButton = document.getElementById('submit-contact-button');
 
 submitContactButton.onclick = function () {
-    preparePhonesForSubmit();
-    prepareAttachmentForSubmit();
-    preparePhotoForSubmit();
-
     if(checkInputFieldsBeforeSubmit() === false) {
         openModal(popupWindowError);
         return;
     }
+
+    preparePhonesForSubmit();
+    prepareAttachmentForSubmit();
+    preparePhotoForSubmit();
+
     contactForm.submit();
 };
 
