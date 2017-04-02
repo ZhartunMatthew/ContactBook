@@ -36,23 +36,23 @@
                 </div>
                 <input id="old-contact-photo" type="hidden" name="photo-path" value="${contact.photoPath}">
                 <label> Фамилия
-                    <input type="text" name="last-name" value="${contact.lastName}">
+                    <input id="last-name" type="text" name="last-name" value="${contact.lastName}">
                 </label>
                 <label> Имя
-                    <input type="text" name="first-name" value="${contact.firstName}">
+                    <input id="first-name" type="text" name="first-name" value="${contact.firstName}">
                 </label>
                 <label> Отчество
-                    <input type="text" name="patronymic" value="${contact.patronymic}">
+                    <input id="patronymic" type="text" name="patronymic" value="${contact.patronymic}">
                 </label>
                 <label> Дата рождения
                     <div class="date-filed">
-                        <input class="date date-year" type="text" name="birth-date-year" placeholder="Год" value="${year}">
+                        <input id="year" class="date date-year" type="text" name="birth-date-year" placeholder="Год" value="${year}">
                     </div>
                     <div class="date-filed">
-                        <input class="date date-day" type="text" name="birth-date-month" placeholder="Мес." value="${month}">
+                        <input id="month" class="date date-month" type="text" name="birth-date-month" placeholder="Мес." value="${month}">
                     </div>
                     <div class="date-filed">
-                        <input class="date date-month" type="text" name="birth-date-day" placeholder="День" value="${day}">
+                        <input id="day" class="date date-day" type="text" name="birth-date-day" placeholder="День" value="${day}">
                     </div>
                 </label>
                 <label> Пол
@@ -83,18 +83,18 @@
                     </select>
                 </label>
                 <label> Website
-                    <input name="website" type="text" value="${contact.website}">
+                    <input id="website" name="website" type="text" value="${contact.website}">
                 </label>
                 <label> Email
-                    <input name="email" type="text" value="${contact.email}">
+                    <input id="email" name="email" type="text" value="${contact.email}">
                 </label>
                 <label> Текущее место работы
-                    <input name="job" type="text" value="${contact.job}">
+                    <input id="job" name="job" type="text" value="${contact.job}">
                 </label>
 
                 <h3>Адрес</h3>
                 <label> Индекс
-                    <input name="postcode" type="text" value="${contact.postCode}">
+                    <input id="postcode" name="postcode" type="text" value="${contact.postCode}">
                 </label>
                 <label> Страна
                     <select name="country">
@@ -107,16 +107,16 @@
                     </select>
                 </label>
                 <label> Город
-                    <input name="city" type="text" value="${contact.city}">
+                    <input id="city" name="city" type="text" value="${contact.city}">
                 </label>
                 <label> Улица
-                    <input name="street" type="text" value="${contact.street}">
+                    <input id="street" name="street" type="text" value="${contact.street}">
                 </label>
                 <label> Дом
-                    <input name="house-number" type="text" value="${contact.houseNumber}">
+                    <input id="house" name="house-number" type="text" value="${contact.houseNumber}">
                 </label>
                 <label> Квартира
-                    <input name="flat" type="text" value="${contact.flat}">
+                    <input id="flat" name="flat" type="text" value="${contact.flat}">
                 </label>
             </div>
 
@@ -255,6 +255,18 @@
                 <div class="popup-buttons">
                     <div id="popup-submit-attachment-button" class="popup-button accept"> Применить </div>
                     <div id="popup-cancel-attachment-button" class="popup-button cancel"> Отмена </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="popup-window-error" class="popup-window error-window">
+            <div class="popup-content">
+                <div class="popup-name">
+                    Некорректный ввод
+                </div>
+                <div id="error-message"></div>
+                <div class="popup-buttons">
+                    <div id="popup-window-error-accept" class="popup-button accept"> Принять </div>
                 </div>
             </div>
         </div>

@@ -22,3 +22,5 @@ function createHiddenForTemplateIndex() {
     input.value = templateOptionSelect.selectedIndex;
     sendMailForm.appendChild(input);
 }
+
+//TODO: send mail validation

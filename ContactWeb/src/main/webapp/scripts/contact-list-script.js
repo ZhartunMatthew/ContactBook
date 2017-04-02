@@ -11,3 +11,5 @@ showEmailPageButton.onclick = function () {
     contactListForm.action = '/controller?command=show_email_page';
     contactListForm.submit();
 };
+
+//TODO: checkbox validation

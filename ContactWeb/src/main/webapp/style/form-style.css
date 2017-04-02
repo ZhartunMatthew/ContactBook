@@ -22,3 +22,7 @@ form label select {
     width: 166px;
     float: right;
 }
+
+input:focus {
+    outline-color: #9e9e9e;
+}

@@ -29,6 +29,19 @@ var cancelPhoneButton = document.getElementById('popup-cancel-phone-button');
 
 var submitContactButton = document.getElementById('submit-contact-button');
 
+submitContactButton.onclick = function () {
+    preparePhonesForSubmit();
+    prepareAttachmentForSubmit();
+    preparePhotoForSubmit();
+
+    if(checkInputFieldsBeforeSubmit() === false) {
+        openModal(popupWindowError);
+        return;
+    }
+
+    contactForm.submit();
+};
+
 
 function closeModal(modalWindow) {
     modalWindow.style.display = 'none';
@@ -57,15 +70,6 @@ function deleteItem(items, checkValue) {
         itemForDelete.parentNode.removeChild(itemForDelete);
     }
 }
-
-submitContactButton.onclick = function () {
-    preparePhonesForSubmit();
-    prepareAttachmentForSubmit();
-    preparePhotoForSubmit();
-
-    contactForm.submit();
-};
-
 
 var isNewPhone = false;
 var isNewPhoneEdit = false;
@@ -159,6 +163,12 @@ cancelPhoneButton.onclick = function () {
 };
 
 submitPhoneButton.onclick = function () {
+
+    if(!checkPhoneInputBeforeSave()) {
+        openModal(popupWindowError);
+        return;
+    }
+
     if(isNewPhone) {
         createNewPhone();
     } else {
@@ -308,6 +318,52 @@ function typeToVal(type) {
 function valToType(value) {
     return value == 1 ? 'Домашний' : 'Мобильный';
 }
+//------------------------PHONE VALIDATION-----------------------------
+
+function checkPhoneInputBeforeSave() {
+    var isCorrectInput = true;
+
+    if(!checkOnDigits(countryCode, 10, 9999, true)) {
+        isCorrectInput = false;
+        addErrorMessage("Некорректный ввод кода страны");
+    }
+    if(!checkOnDigits(operatorCode, 10, 9999, true)) {
+        isCorrectInput = false;
+        addErrorMessage("Некорректный ввод кода оператора");
+    }
+    if(!checkOnDigits(theNumber, 10000, 99999999, true)) {
+        isCorrectInput = false;
+        addErrorMessage("Некорректный ввод номера телефона");
+    }
+    if(!checkTextOnLength(phoneComment, 150, false)) {
+        isCorrectInput = false;
+        addErrorMessage("Некорректный ввод кода страны");
+    }
+
+    return isCorrectInput;
+}
+
+var countryCode = document.getElementById('country-code');
+countryCode.onkeyup = function () {
+    checkInputOnDigits(this, 10, 9999, true);
+};
+
+var operatorCode = document.getElementById('operator-code');
+operatorCode.onkeyup = function () {
+    checkInputOnDigits(this, 10, 9999, true);
+};
+
+var theNumber = document.getElementById('phone-number');
+theNumber.onkeyup = function () {
+    checkInputOnDigits(this, 10000, 99999999, true);
+};
+
+var phoneComment = document.getElementById('phone-comment');
+phoneComment.onkeyup = function () {
+    checkInputOnLength(this, 150, false);  
+};
+
+
 
 //------------------------ATTACHMENT FUNCTIONS--------------------------
 
@@ -560,6 +616,9 @@ function prepareAttachmentForSubmit() {
     contactForm.appendChild(addElementsInHiddenInput('new-attachments', JSON.stringify(newAttachments)));
 }
 
+//----------------------------------ATTACHMENT VALIDATION---------------------
+//TODO: attachment validation
+
 //----------------------------------PHOTO FUNCTIONS---------------------------
 
 var photoFileInput = document.getElementById('photo-file-input');
@@ -621,3 +680,303 @@ function preparePhotoForSubmit() {
     }
 }
 
+//------------------------------PHOTO VALIDATION----------------------------------
+//TODO: photo validation
+
+//------------------------------ACTIONS--------------------------------------------
+
+var popupWindowError = document.getElementById('popup-window-error');
+var popupErrorMessage = document.getElementById('error-message');
+var popupErrorButton = document.getElementById('popup-window-error-accept');
+
+popupErrorButton.onclick = function () {
+    closeModal(popupWindowError);
+    popupErrorMessage.innerHTML = null;
+};
+
+function addErrorMessage(message) {
+    var newError = document.createElement('p');
+    newError.innerHTML = message;
+    popupErrorMessage.appendChild(newError);
+}
+
+function checkInputFieldsBeforeSubmit() {
+    var isInputCorrect = true;
+
+    if(!checkOnText(firstName, 30, true)) {
+        isInputCorrect = false;
+        addErrorMessage('Имя имеет недопустимую длину или содержит недопустимые символы');
+    }
+    if(!checkOnText(lastName, 30, true)) {
+        isInputCorrect = false;
+        addErrorMessage('Фамилия имеет недопустимую длину или содержит недопустимые символы');
+    }
+    if(!checkOnText(patronymic, 30, false)) {
+        isInputCorrect = false;
+        addErrorMessage('Отчество имеет недопустимую длину или содержит недопустимые символы');
+    }
+    if(!checkDateInput()) {
+        isInputCorrect = false;
+        addErrorMessage('Дата имеет неверный формат. Дату необходимо ввести верно, либо не вводить');
+    }
+    if(!checkWebsite(website)) {
+        isInputCorrect = false;
+        addErrorMessage('Вебсайт введен некорректно');
+    }
+    if(!checkEmail(email)) {
+        isInputCorrect = false;
+        addErrorMessage('Email введен некорректно');
+    }
+    if(!checkTextOnLength(job, 50, false)) {
+        isInputCorrect = false;
+        addErrorMessage('Работа введена некорректно');
+    }
+    if(!checkTextOnLength(postcode, 8, false)) {
+        isInputCorrect = false;
+        addErrorMessage('Индекс введен некорректно');
+    }
+    if(!checkOnText(city, 30, false)) {
+        isInputCorrect = false;
+        addErrorMessage('Город введен некорректно');
+    }
+    if(!checkTextOnLength(street, 30, false)) {
+        isInputCorrect = false;
+        addErrorMessage('Улица введена некорректно');
+    }
+    if(!checkTextOnLength(house, 8, false)) {
+        isInputCorrect = false;
+        addErrorMessage('Дом введен некорректно');
+    }
+    if(!checkTextOnLength(flat, 8, false)) {
+        isInputCorrect = false;
+        addErrorMessage('Квартира введена некорректно');
+    }
+
+    return isInputCorrect;
+}
+
+var firstName = document.getElementById('first-name');
+firstName.onkeyup = function () {
+    checkInputOnText(this, 30, true);
+};
+
+var lastName = document.getElementById('last-name');
+lastName.onkeyup = function () {
+    checkInputOnText(this, 30, true);
+};
+
+var patronymic = document.getElementById('patronymic');
+patronymic.onkeyup = function () {
+    checkInputOnText(this, 30, false);
+};
+
+var day = document.getElementById('day');
+var month = document.getElementById('month');
+var year = document.getElementById('year');
+
+day.onkeyup = function () {
+    checkDateInput();
+};
+month.onkeyup = function () {
+    checkDateInput();
+};
+year.onkeyup = function () {
+    checkDateInput();
+};
+
+var website = document.getElementById('website');
+website.onkeyup = function () {
+    checkWebsiteInput(this);
+};
+
+var email = document.getElementById('email');
+email.onkeyup = function () {
+    checkEmailInput(this);
+};
+
+var job = document.getElementById('job');
+job.onkeyup = function () {
+    checkInputOnLength(this, 50, false);
+};
+
+var postcode = document.getElementById('postcode');
+postcode.onkeyup = function () {
+    checkInputOnLength(this, 8, false);
+};
+
+var city = document.getElementById('city');
+city.onkeyup = function () {
+    checkInputOnText(this, 30, false);
+};
+
+var street = document.getElementById('street');
+street.onkeyup = function () {
+    checkInputOnLength(this, 30, false);
+};
+
+var house = document.getElementById('house');
+house.onkeyup = function () {
+    checkInputOnLength(this, 8, false);
+};
+
+var flat = document.getElementById('flat');
+flat.onkeyup = function () {
+    checkInputOnLength(this, 8, false);
+};
+
+//------------------------------VALIDATION-----------------------------------------
+
+var letters_ru = "abcdefghijklmnopqrstuvwxyz";
+var letters_en = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+var digits = "0123456789";
+
+function checkInputOnText(inputElement, maxLength, isRequired) {
+    if(checkOnText(inputElement, maxLength, isRequired)) {
+        highlightInput(inputElement, true);
+    } else {
+        highlightInput(inputElement, false);
+    }
+}
+
+function checkOnText(inputElement, maxLength, isRequired) {
+    var length = inputElement.value.trim().length;
+    if(isRequired && length < 1) {
+        return false;
+    }
+
+    if(isOnlyLetters(inputElement.value) && length < maxLength) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkInputOnLength(inputElement, maxLength, isRequired) {
+    if(checkTextOnLength(inputElement, maxLength, isRequired)) {
+        highlightInput(inputElement, true);
+    } else {
+        highlightInput(inputElement, false);
+    }
+}
+
+function checkTextOnLength(inputElement, maxLength, isRequired) {
+    var length = inputElement.value.trim().length;
+    if(isRequired && length < 1) {
+        return false;
+    }
+
+    if(length < maxLength) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isOnlyLetters(value) {
+    var letters = letters_ru + letters_en + '-';
+    for (var i = 0; i < value.length; i++) {
+        if (letters.indexOf(value.toLowerCase().charAt(i)) == -1) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function checkInputOnDigits(inputElement, min, max, isRequired) {
+    if(checkOnDigits(inputElement, min, max, isRequired)) {
+        highlightInput(inputElement, true);
+        return true;
+    } else {
+        highlightInput(inputElement, false);
+        return false;
+    }
+}
+
+function checkOnDigits(inputElement, min, max, isRequired) {
+    var length = inputElement.value.length;
+    if(isRequired && length < 1) {
+        return false;
+    }
+
+    if(!isRequired && length === 0) {
+        return true;
+    }
+
+    if(isOnlyDigits(inputElement.value)) {
+        if(inputElement.value >= min && inputElement.value <= max) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+function isOnlyDigits(value) {
+    for (var i = 0; i < value.length; i++) {
+        if (digits.indexOf(value.toLowerCase().charAt(i)) == -1) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function checkDateInput() {
+    var dayCorrect, monthCorrect, yearCorrect;
+    if(day.value.length > 0 || month.value.length > 0 || year.value.length > 0) {
+        dayCorrect = checkInputOnDigits(day, 1, 31, true);
+        monthCorrect = checkInputOnDigits(month, 1, 12, true);
+        yearCorrect = checkInputOnDigits(year, 1930, new Date().getFullYear(), true);
+        if(!dayCorrect || !monthCorrect || !yearCorrect) {
+            return false
+        } else {
+            return true;
+        }
+    } else {
+        yearCorrect = checkInputOnDigits(day, 1, 31, false);
+        monthCorrect = checkInputOnDigits(month, 1, 12, false);
+        yearCorrect = checkInputOnDigits(year, 1930, new Date().getFullYear(), false);
+        return true;
+    }
+}
+
+function checkEmailInput(inputElement) {
+    if(checkEmail(inputElement)) {
+        highlightInput(inputElement, true);
+    } else {
+        highlightInput(inputElement, false);
+    }
+}
+
+function checkEmail(inputElement) {
+    if(inputElement.value.length === 0) {
+        return true;
+    }
+    var regex = /^[\w]{1}[\w\.]*@[\w]+\.[a-z]{2,4}$/i;
+    return regex.test(inputElement.value);
+}
+
+function checkWebsiteInput(inputElement) {
+    if(checkWebsite(inputElement)) {
+        highlightInput(inputElement, true);
+    } else {
+        highlightInput(inputElement, false);
+    }
+}
+
+function checkWebsite(inputElement) {
+    if(inputElement.value.length === 0) {
+        return true;
+    }
+    var regex = /^[\w]*\.[a-z]{2,4}$/i;
+    return regex.test(inputElement.value);
+}
+
+function highlightInput(inputElement, isCorrect) {
+    if(isCorrect) {
+        inputElement.style.borderColor = 'initial';
+    } else {
+        inputElement.style.borderColor = 'red';
+    }
+}
