@@ -38,7 +38,6 @@ submitContactButton.onclick = function () {
         openModal(popupWindowError);
         return;
     }
-
     contactForm.submit();
 };
 
@@ -639,7 +638,7 @@ function checkAttachmentInputBeforeSave(isRequired) {
     var size = 10;
     var mb_size = 1024 * 1024;
     var attachmentFile = attachmentFileInput.files[0];
-    if(isRequired && attachmentFile === null || attachmentFile === undefined) {
+    if(isRequired && attachmentFile === null || isRequired && attachmentFile === undefined) {
         isInputCorrect = false;
         addErrorMessage('Файл для присоединения не выбран');
     }
@@ -649,11 +648,13 @@ function checkAttachmentInputBeforeSave(isRequired) {
             addErrorMessage('Файл должен быть меньше ' + size + ' мб');
         }
     }
-    if(prevPath !== '') {
-        if(prevPath === document.getElementById('attachment-path').value
-            || document.getElementById('attachment-path').value === '') {
-            var isInputCorrect = false;
-            addErrorMessage('Файл для присоединения не выбран или выбран тот же файл');
+    if(isRequired) {
+        if (prevPath !== '') {
+            if (prevPath === document.getElementById('attachment-path').value
+                || document.getElementById('attachment-path').value === '') {
+                var isInputCorrect = false;
+                addErrorMessage('Файл для присоединения не выбран или выбран тот же файл');
+            }
         }
     }
 
@@ -665,9 +666,10 @@ function checkAttachmentInputBeforeSave(isRequired) {
         isInputCorrect = false;
         addErrorMessage('Комментарий файла не указан или указан некорректно');
     }
-
-    if(isInputCorrect) {
-        prevPath = JSON.parse(JSON.stringify(document.getElementById('attachment-path').value));
+    if(isRequired) {
+        if (isInputCorrect) {
+            prevPath = JSON.parse(JSON.stringify(document.getElementById('attachment-path').value));
+        }
     }
 
     return isInputCorrect;
