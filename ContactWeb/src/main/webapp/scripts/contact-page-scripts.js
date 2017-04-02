@@ -510,11 +510,16 @@ function createNewAttachment() {
     attachment.dateUpload = getCurrentDate();
     var filePath = document.getElementById('attachment-path').value;
     filePath = filePath.split('\\');
-
-    var localFileExtension = filePath[filePath.length-1].split('\.')[1];
+    filePath = filePath[filePath.length-1].split('\.');
+    var localFileExtension;
+    if(filePath.length > 1 ) {
+        localFileExtension = '.' + filePath[filePath.length - 1];
+    } else {
+        localFileExtension = '';
+    }
 
     attachment.comment = document.getElementById('attachment-comment').value.trim();
-    attachment.fileName = document.getElementById('attachment-name').value.trim() + '.' + localFileExtension;
+    attachment.fileName = document.getElementById('attachment-name').value.trim() + localFileExtension;
 
     var oneRow = document.createElement('div');
     oneRow.className = 'one-row new-contact-attachment';
