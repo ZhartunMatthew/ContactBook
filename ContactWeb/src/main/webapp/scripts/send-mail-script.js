@@ -4,6 +4,14 @@ var templateOptionSelect = document.getElementById('template-select');
 var emailTextArea = document.getElementById('email-text');
 var emailSubjectArea = document.getElementById('email-subject');
 
+function closeModal(modalWindow) {
+    modalWindow.style.display = 'none';
+}
+
+function openModal(modalWindow) {
+    modalWindow.style.display = 'block';
+}
+
 sendMailButton.onclick = function () {
 
     if(!isAnyRecipientExists()) {
@@ -37,28 +45,7 @@ function createHiddenForTemplateIndex() {
     sendMailForm.appendChild(input);
 }
 
-function isAnyRecipientExists() {
-    return document.getElementsByClassName('recipient-email').length > 0;
-
-}
-
-function closeModal(modalWindow) {
-    modalWindow.style.display = 'none';
-}
-
-function openModal(modalWindow) {
-    modalWindow.style.display = 'block';
-}
-
-emailTextArea.onkeyup = function () {
-    if(templateOptionSelect.selectedIndex == 0) {
-        checkInputOnLength(this, 200, true);
-    }
-};
-
-emailSubjectArea.onkeyup = function () {
-    checkInputOnLength(this, 60, true);
-};
+//---------------------VALIDATION---------------------------
 
 var popupWindowError = document.getElementById('popup-window-error');
 var popupErrorMessage = document.getElementById('error-message');
@@ -75,6 +62,16 @@ function addErrorMessage(message) {
     popupErrorMessage.appendChild(newError);
 }
 
+emailTextArea.onkeyup = function () {
+    if(templateOptionSelect.selectedIndex == 0) {
+        checkInputOnLength(this, 200, true);
+    }
+};
+
+emailSubjectArea.onkeyup = function () {
+    checkInputOnLength(this, 60, true);
+};
+
 function checkInputFieldsBeforeSubmit() {
     var isCorrectInput = true;
 
@@ -89,6 +86,11 @@ function checkInputFieldsBeforeSubmit() {
     }
 
     return isCorrectInput;
+}
+
+function isAnyRecipientExists() {
+    return document.getElementsByClassName('recipient-email').length > 0;
+
 }
 
 function checkInputOnLength(inputElement, maxLength, isRequired) {
