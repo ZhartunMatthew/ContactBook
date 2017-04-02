@@ -338,11 +338,11 @@ function valToType(value) {
 function checkPhoneInputBeforeSave() {
     var isCorrectInput = true;
 
-    if(!checkOnDigits(countryCode, 10, 9999, true)) {
+    if(!checkOnDigits(countryCode, 1, 9999, true)) {
         isCorrectInput = false;
         addErrorMessage("Некорректный ввод кода страны");
     }
-    if(!checkOnDigits(operatorCode, 10, 9999, true)) {
+    if(!checkOnDigits(operatorCode, 1, 9999, true)) {
         isCorrectInput = false;
         addErrorMessage("Некорректный ввод кода оператора");
     }
@@ -360,12 +360,12 @@ function checkPhoneInputBeforeSave() {
 
 var countryCode = document.getElementById('country-code');
 countryCode.onkeyup = function () {
-    checkInputOnDigits(this, 10, 9999, true);
+    checkInputOnDigits(this, 1, 9999, true);
 };
 
 var operatorCode = document.getElementById('operator-code');
 operatorCode.onkeyup = function () {
-    checkInputOnDigits(this, 10, 9999, true);
+    checkInputOnDigits(this, 1, 9999, true);
 };
 
 var theNumber = document.getElementById('phone-number');
@@ -744,7 +744,6 @@ function clearHighlightAttachments() {
     highlightInput(attachmentNameInput, true);
     highlightInput(attachmentCommentInput, true);
 }
-
 
 //----------------------------------PHOTO FUNCTIONS---------------------------
 
