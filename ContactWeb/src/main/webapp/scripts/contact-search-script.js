@@ -155,7 +155,6 @@ function isAnyFieldEntered() {
     if(flat.value.trim().length > 0) {
         return true;
     }
-
     return false;
 }
 

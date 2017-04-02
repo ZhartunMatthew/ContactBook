@@ -46,8 +46,20 @@
             </div>
         </div>
     </form>
+    <div id="popup-window-error" class="popup-window error-window">
+        <div class="popup-content">
+            <div class="popup-name">
+                Некорректный ввод
+            </div>
+            <div id="error-message"></div>
+            <div class="popup-buttons">
+                <div id="popup-window-error-accept" class="popup-button accept"> Принять </div>
+            </div>
+        </div>
+    </div>
     <link rel="stylesheet" type="text/css" href="style/form-style.css">
     <link rel="stylesheet" type="text/css" href="style/send-mail-page.css">
+    <link rel="stylesheet" type="text/css" href="style/popup-style.css">
     <script src="scripts/send-mail-script.js"></script>
 </body>
 </html>
