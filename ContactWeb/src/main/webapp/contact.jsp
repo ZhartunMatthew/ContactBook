@@ -2,9 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <c:if test="${not empty contact}">
     <c:set var="titleName" value="${contact.lastName} ${contact.firstName}"/>
-    <c:set var="actionOnSubmit" value="controller?command=update_contact&id=${contact.id}"/>
+    <c:set var="actionOnSubmit" value="${pageContext.request.contextPath}/controller?command=update_contact&id=${contact.id}"/>
     <c:if test="${not empty contactPhoto}">
-        <c:set var="photoPath" value="controller?command=get_image&name=${contactPhoto}"/>
+        <c:set var="photoPath" value="${pageContext.request.contextPath}/controller?command=get_image&name=${contactPhoto}"/>
     </c:if>
     <c:if test="${empty contactPhoto}">
         <c:set var="photoPath" value="image/default.png"/>
@@ -13,7 +13,7 @@
 </c:if>
 <c:if test="${empty contact}">
     <c:set var="titleName" value="Создание контакта"/>
-    <c:set var="actionOnSubmit" value="controller?command=add_contact"/>
+    <c:set var="actionOnSubmit" value="${pageContext.request.contextPath}/controller?command=add_contact"/>
     <c:set var="photoPath" value="image/default.png"/>
     <c:set var="contactID" value="${null}"/>
 </c:if>
@@ -30,10 +30,10 @@
             <input type="hidden" name="id" value="${contactID}">
             <div class="nav-buttons">
                 <a class="nav-button save" id="submit-contact-button"></a>
-                <a class="nav-button home" href="controller"></a>
+                <a class="nav-button home" href="${pageContext.request.contextPath}/controller"></a>
             </div>
             <div class="main-info">
-                <h3>Основная информация</h3>
+                <h2>Основная информация</h2>
                 <div id="contact-photo" class="contact-photo-area">
                     <img src="${photoPath}" id="contact-photo-image" class="contact-photo-image">
                     <input type="file" class="hidden" id="uploaded-contact-photo">
@@ -185,7 +185,7 @@
                             <div class="column column-5" id="contact-attachment-comment-${attachment.id}">
                                 <c:out value="${attachment.comment}"/>
                             </div>
-                            <a href="controller?command=download_attachment&id=${attachment.id}">
+                            <a href="${pageContext.request.contextPath}/controller?command=download_attachment&id=${attachment.id}">
                                 <div class="nav-button download"></div>
                             </a>
                         </label>

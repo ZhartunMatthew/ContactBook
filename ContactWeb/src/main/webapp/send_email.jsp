@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="style/popup-style.css">
 </head>
 <body>
-    <form id="send-mail-form" method="post" action="controller?command=send_email">
+    <form id="send-mail-form" method="post" action="${pageContext.request.contextPath}/controller?command=send_email">
         <h2> Отправка email </h2>
         <h3> Получатели </h3>
         <div class="recipients-block">
@@ -54,7 +54,7 @@
         <div class="send-mail-buttons">
             <div class="button-block">
                 <a class="send-mail-button" id="send-mail-button"> Отправить </a>
-                <a class="send-mail-button" href="controller" id="return-home"> Домой </a>
+                <a class="send-mail-button" href="${pageContext.request.contextPath}/controller" id="return-home"> Домой </a>
             </div>
         </div>
     </form>
