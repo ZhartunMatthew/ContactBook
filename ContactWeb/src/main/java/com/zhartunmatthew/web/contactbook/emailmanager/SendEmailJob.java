@@ -16,12 +16,14 @@ public class SendEmailJob implements Job {
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         ContactService contactService = new ContactService();
         ArrayList<Contact> birthdayContacts = contactService.getContactsByBirthDate();
-        if(birthdayContacts == null || birthdayContacts.size() == 0) {
-            return;
-        }
         String recipient = ResourceBundle.getBundle("emailconfig").getObject("admin_email").toString();
         String subject = "Birthdays";
-        String message = prepareMessage(birthdayContacts);
+        String message;
+        if(birthdayContacts == null || birthdayContacts.size() == 0) {
+            message = "Сегодня без именинников :(";
+        } else {
+            message = prepareMessage(birthdayContacts);
+        }
         EmailManager emailManager = new EmailManager();
         emailManager.sendMail(recipient, subject, message);
     }

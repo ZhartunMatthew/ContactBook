@@ -7,7 +7,6 @@ import com.zhartunmatthew.web.contactbook.entity.MaritalStatus;
 import com.zhartunmatthew.web.contactbook.entity.Nationality;
 import com.zhartunmatthew.web.contactbook.services.ContactService;
 import com.zhartunmatthew.web.contactbook.services.UtilService;
-import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,16 +18,21 @@ import java.util.ResourceBundle;
 
 public class ShowContactCommand implements AbstractCommand {
 
-    private Logger log = Logger.getLogger(ShowContactCommand.class);
     private final static String COMMAND_URL = "contact.jsp";
+    private final static String REDIRECTED_URL = "controller";
+    private boolean isRedirected;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        isRedirected = false;
         String id = request.getParameter("contact_id");
-
         if(!Objects.isNull(id)) {
             ContactService contactService = new ContactService();
             Contact contact = contactService.getContactById(Long.parseLong(id));
+            if(contact.getId() == null) {
+                isRedirected = true;
+                return REDIRECTED_URL;
+            }
             request.setAttribute("contact", contact);
             if(contact.getBirthDate() != null) {
                 Calendar calendar = Calendar.getInstance();
@@ -58,6 +62,6 @@ public class ShowContactCommand implements AbstractCommand {
 
     @Override
     public boolean isRedirectedCommand() {
-        return false;
+        return isRedirected;
     }
 }

@@ -106,6 +106,10 @@ function checkInputFieldsBeforeSubmit() {
         isInputCorrect = false;
         addErrorMessage('Квартира введена некорректно');
     }
+    if(!checkCountOfDays(month.value) && isInputCorrect) {
+        isInputCorrect = false;
+        addErrorMessage('В этом месяце нет такого дня');
+    }
 
     return isInputCorrect;
 }
@@ -315,7 +319,7 @@ function checkDateInput() {
     if(day.value.length > 0 || month.value.length > 0 || year.value.length > 0) {
         dayCorrect = checkInputOnDigits(day, 1, 31, true);
         monthCorrect = checkInputOnDigits(month, 1, 12, true);
-        yearCorrect = checkInputOnDigits(year, 1930, new Date().getFullYear(), true);
+        yearCorrect = checkInputOnDigits(year, 1917, new Date().getFullYear(), true);
         if(!dayCorrect || !monthCorrect || !yearCorrect) {
             return false
         } else {
@@ -324,7 +328,22 @@ function checkDateInput() {
     } else {
         yearCorrect = checkInputOnDigits(day, 1, 31, false);
         monthCorrect = checkInputOnDigits(month, 1, 12, false);
-        yearCorrect = checkInputOnDigits(year, 1930, new Date().getFullYear(), false);
+        yearCorrect = checkInputOnDigits(year, 1917, new Date().getFullYear(), false);
+        return true;
+    }
+}
+
+function checkCountOfDays(x) {
+    if(day.value.length > 0 && month.value.length > 0 && year.value.length > 0) {
+        var realDaysCount = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        if(year.value % 4 == 0 && year.value % 100 != 0) {
+            realDaysCount[1] = 29;
+        }
+        if(year.value == 2000) {
+            realDaysCount[1] = 28;
+        }
+        return day.value <= realDaysCount[x - 1];
+    } else {
         return true;
     }
 }

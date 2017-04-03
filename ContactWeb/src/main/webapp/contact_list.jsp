@@ -9,7 +9,7 @@
 </head>
     <body>
         <div class="nav-buttons">
-            <a class="nav-button home" href="controller?command=show_contact_list&page=1"> </a>
+            <a class="nav-button home" href="controller"> </a>
             <a class="nav-button add" href="controller?command=show_contact"> </a>
             <a id="delete-contact-button" class="nav-button delete"></a>
             <a class="nav-button search" href="controller?command=show_contact_search"></a>

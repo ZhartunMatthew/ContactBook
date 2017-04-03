@@ -45,7 +45,7 @@
         <div class="send-mail-buttons">
             <div class="button-block">
                 <a class="send-mail-button" id="send-mail-button"> Отправить </a>
-                <a class="send-mail-button" href="controller?command=show_contact_list&page=1" id="return-home"> Домой </a>
+                <a class="send-mail-button" href="controller" id="return-home"> Домой </a>
             </div>
         </div>
     </form>

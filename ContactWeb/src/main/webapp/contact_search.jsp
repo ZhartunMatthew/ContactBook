@@ -94,7 +94,7 @@
             <div class="search-buttons">
                 <a class="search-button" id="start-search"> Поиск </a>
                 <a class="search-button" id="clear-search"> Очистить </a>
-                <a class="search-button" href="controller?command=show_contact_list&page=1" id="return-home"> Домой </a>
+                <a class="search-button" href="controller" id="return-home"> Домой </a>
             </div>
         </form>
         <div id="popup-window-error" class="popup-window error-window">
