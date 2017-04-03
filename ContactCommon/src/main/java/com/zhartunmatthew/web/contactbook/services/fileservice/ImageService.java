@@ -23,7 +23,9 @@ public class ImageService {
             String directoryPath = resBundle.getString("files-directory") + "contact_" + id + File.separator;
             File directory = new File(directoryPath);
             if (!directory.exists()) {
-                directory.mkdir();
+                if(!directory.mkdir()) {
+                    log.error("Can't create directory for contact image");
+                }
             }
             photoPath = "image";
             File photoFile = new File(directoryPath + photoPath);

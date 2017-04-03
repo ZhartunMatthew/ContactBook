@@ -32,7 +32,7 @@ public class AttachmentService {
         String filePath = resBundle.getString("files-directory") + "contact_" + attachment.getContactID() + File.separator;
         File directory = new File(filePath);
         if (!directory.exists()) {
-            if (directory.mkdir()) {
+            if (!directory.mkdir()) {
                 log.error("Can't create directory for attachments");
             }
         }
