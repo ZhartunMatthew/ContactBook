@@ -3,6 +3,9 @@
 <html>
 <head>
     <title> Список контактов </title>
+    <link rel="stylesheet" type="text/css" href="style/column-style.css">
+    <link rel="stylesheet" type="text/css" href="style/button-style.css">
+    <link rel="stylesheet" type="text/css" href="style/popup-style.css">
 </head>
     <body>
         <div class="nav-buttons">
@@ -120,6 +123,7 @@
                     </div>
                 </c:forEach>
             </div>
+            <input type="hidden" id="path-context" value="${pageContext.request.contextPath}">
         </form>
         <div id="popup-window-error" class="popup-window error-window">
             <div class="popup-content">
@@ -132,9 +136,6 @@
                 </div>
             </div>
         </div>
-        <link rel="stylesheet" type="text/css" href="style/column-style.css">
-        <link rel="stylesheet" type="text/css" href="style/button-style.css">
-        <link rel="stylesheet" type="text/css" href="style/popup-style.css">
         <script src="scripts/contact-list-script.js"></script>
     </body>
 </html>

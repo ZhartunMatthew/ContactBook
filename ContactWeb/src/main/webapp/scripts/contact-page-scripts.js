@@ -1113,8 +1113,12 @@ function checkDateInput() {
 }
 
 function checkCountOfDays(x) {
-    var realDaysCount = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    return day.value <= realDaysCount[x-1];
+    if(day.value.length > 0 && month.value.length > 0 && year.value.length > 0) {
+        var realDaysCount = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        return day.value <= realDaysCount[x - 1];
+    } else {
+        return true;
+    }
 }
 
 function checkEmailInput(inputElement) {

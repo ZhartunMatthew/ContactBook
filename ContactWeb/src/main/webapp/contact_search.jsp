@@ -3,6 +3,9 @@
 <html>
     <head>
         <title> Поиск контактов </title>
+        <link rel="stylesheet" type="text/css" href="style/form-style.css">
+        <link rel="stylesheet" type="text/css" href="style/search-page.css">
+        <link rel="stylesheet" type="text/css" href="style/popup-style.css">
     </head>
     <body>
         <form id="contact-search-form" method="post" action="controller?command=search_contacts">
@@ -105,9 +108,6 @@
                 </div>
             </div>
         </div>
-        <link rel="stylesheet" type="text/css" href="style/form-style.css">
-        <link rel="stylesheet" type="text/css" href="style/search-page.css">
-        <link rel="stylesheet" type="text/css" href="style/popup-style.css">
         <script src="scripts/contact-search-script.js"></script>
     </body>
 </html>

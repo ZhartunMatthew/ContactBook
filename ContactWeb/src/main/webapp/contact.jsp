@@ -20,6 +20,10 @@
 <html>
     <head>
         <title> <c:out value="${titleName}"/> </title>
+        <link rel="stylesheet" type="text/css" href="style/column-style.css">
+        <link rel="stylesheet" type="text/css" href="style/contact-page-style.css">
+        <link rel="stylesheet" type="text/css" href="style/popup-style.css">
+        <link rel="stylesheet" type="text/css" href="style/button-style.css">
     </head>
     <body>
         <form id="contact-form" class="contact" method="post" action="${actionOnSubmit}" enctype="multipart/form-data">
@@ -270,11 +274,6 @@
                 </div>
             </div>
         </div>
-
-        <link rel="stylesheet" type="text/css" href="style/column-style.css">
-        <link rel="stylesheet" type="text/css" href="style/contact-page-style.css">
-        <link rel="stylesheet" type="text/css" href="style/popup-style.css">
-        <link rel="stylesheet" type="text/css" href="style/button-style.css">
         <script src="scripts/contact-page-scripts.js"></script>
     </body>
 </html>

@@ -5,6 +5,7 @@ var showEmailPageButton = document.getElementById('show-email-page-button');
 var popupWindowError = document.getElementById('popup-window-error');
 var popupErrorMessage = document.getElementById('error-message');
 var popupErrorButton = document.getElementById('popup-window-error-accept');
+var contextPath = document.getElementById('path-context').value;
 
 function closeModal(modalWindow) {
     modalWindow.style.display = 'none';
@@ -32,7 +33,7 @@ deleteContactButton.onclick = function () {
         openModal(popupWindowError);
         return;
     }
-    contactListForm.action = '/controller?command=delete_contact';
+    contactListForm.action = contextPath + '/controller?command=delete_contact';
     contactListForm.submit();
 };
 
@@ -43,7 +44,7 @@ showEmailPageButton.onclick = function () {
         openModal(popupWindowError);
         return;
     }
-    contactListForm.action = '/controller?command=show_email_page';
+    contactListForm.action = contextPath + '/controller?command=show_email_page';
     contactListForm.submit();
 };
 

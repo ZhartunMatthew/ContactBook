@@ -3,6 +3,9 @@
 <html>
 <head>
     <title> Отправка сообщений </title>
+    <link rel="stylesheet" type="text/css" href="style/form-style.css">
+    <link rel="stylesheet" type="text/css" href="style/send-mail-page.css">
+    <link rel="stylesheet" type="text/css" href="style/popup-style.css">
 </head>
 <body>
     <form id="send-mail-form" method="post" action="controller?command=send_email">
@@ -57,9 +60,6 @@
             </div>
         </div>
     </div>
-    <link rel="stylesheet" type="text/css" href="style/form-style.css">
-    <link rel="stylesheet" type="text/css" href="style/send-mail-page.css">
-    <link rel="stylesheet" type="text/css" href="style/popup-style.css">
     <script src="scripts/send-mail-script.js"></script>
 </body>
 </html>
