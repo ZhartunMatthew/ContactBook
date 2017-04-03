@@ -896,6 +896,10 @@ function checkInputFieldsBeforeSubmit() {
         isInputCorrect = false;
         addErrorMessage('Квартира введена некорректно');
     }
+    if(!checkCountOfDays(month.value) && isInputCorrect) {
+        isInputCorrect = false;
+        addErrorMessage('В этом месяце нет такого дня');
+    }
 
     return isInputCorrect;
 }
@@ -1101,11 +1105,16 @@ function checkDateInput() {
             return true;
         }
     } else {
-        yearCorrect = checkInputOnDigits(day, 1, 31, false);
+        dayCorrect = checkInputOnDigits(day, 1, 31, false);
         monthCorrect = checkInputOnDigits(month, 1, 12, false);
         yearCorrect = checkInputOnDigits(year, 1930, new Date().getFullYear(), false);
         return true;
     }
+}
+
+function checkCountOfDays(x) {
+    var realDaysCount = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    return day.value <= realDaysCount[x-1];
 }
 
 function checkEmailInput(inputElement) {
