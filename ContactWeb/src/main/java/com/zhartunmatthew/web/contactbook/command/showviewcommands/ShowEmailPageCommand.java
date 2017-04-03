@@ -34,6 +34,7 @@ public class ShowEmailPageCommand implements AbstractCommand {
         } else {
             log.info("NO CHECKED ITEMS");
         }
+        request.setAttribute("recipientsCount", recipients.size());
         request.setAttribute("recipients", recipients);
         request.setAttribute("templates", templateManager.getAllTemplates());
 

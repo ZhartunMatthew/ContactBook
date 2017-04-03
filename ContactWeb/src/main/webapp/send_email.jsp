@@ -12,12 +12,21 @@
         <h2> Отправка email </h2>
         <h3> Получатели </h3>
         <div class="recipients-block">
-        <c:forEach var="recipient" items="${recipients}">
-            <label> ${recipient.firstName} ${recipient.lastName}
-                <input class="recipient-email" type="text" disabled value="${recipient.email}">
-            </label>
-            <input type="hidden" value="${recipient.id}" name="recipient-id">
-        </c:forEach>
+            <c:choose>
+                <c:when test="${recipientsCount > 0}">
+                    <c:forEach var="recipient" items="${recipients}">
+                        <label> ${recipient.firstName} ${recipient.lastName}
+                            <input class="recipient-email" type="text" disabled value="${recipient.email}">
+                        </label>
+                        <input type="hidden" value="${recipient.id}" name="recipient-id">
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <p class="no-recipients"> Ошибка! </p>
+                    <p class="no-recipients"> У выбранных контатов не указан email </p>
+                    <p class="no-recipients"> Отправка писем невозможна. </p>
+                </c:otherwise>
+            </c:choose>
         </div>
         <div>
             <h3> Параметры сообщения </h3>

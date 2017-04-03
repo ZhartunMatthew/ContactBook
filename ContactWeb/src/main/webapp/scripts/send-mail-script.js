@@ -35,6 +35,7 @@ templateOptionSelect.onchange = function () {
     var emailText = templateOptionSelect.options[selectedIndex].value;
     emailTextArea.value = emailText;
     emailTextArea.disabled = selectedIndex > 0;
+    highlightInput(emailTextArea, true);
 };
 
 function createHiddenForTemplateIndex() {
