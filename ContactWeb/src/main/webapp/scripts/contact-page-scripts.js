@@ -866,7 +866,7 @@ function checkInputFieldsBeforeSubmit() {
     }
     if(!checkWebsite(website)) {
         isInputCorrect = false;
-        addErrorMessage('Вебсайт введен некорректно');
+        addErrorMessage('Вебсайт слишком длинный или введен некорректно');
     }
     if(!checkEmail(email)) {
         isInputCorrect = false;
@@ -1139,6 +1139,9 @@ function checkEmail(inputElement) {
     if(inputElement.value.length === 0) {
         return true;
     }
+    if(inputElement.value.length > 30) {
+        return false;
+    }
     var regex = /^[\w]{1}[\w\.]*@[\w]+\.[a-z]{2,4}$/i;
     return regex.test(inputElement.value);
 }
@@ -1154,6 +1157,9 @@ function checkWebsiteInput(inputElement) {
 function checkWebsite(inputElement) {
     if(inputElement.value.length === 0) {
         return true;
+    }
+    if(inputElement.value.length > 30) {
+        return false;
     }
     var regex = /^[\w]*\.[a-z]{2,4}$/i;
     return regex.test(inputElement.value);

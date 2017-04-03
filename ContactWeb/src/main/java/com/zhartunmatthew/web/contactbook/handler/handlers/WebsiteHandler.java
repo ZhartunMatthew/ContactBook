@@ -9,7 +9,7 @@ public class WebsiteHandler extends AbstractHandler  {
     @Override
     public void handleField(Contact contact, String data) throws WrongInputException {
         if(!StringUtils.isEmpty(data)) {
-            if(ValidationUtils.checkLength(data, 1, 9)) {
+            if(ValidationUtils.checkLength(data, 1, 35)) {
                 contact.setWebsite(data);
             } else {
                 throw new WrongInputException("Website is invalid");
