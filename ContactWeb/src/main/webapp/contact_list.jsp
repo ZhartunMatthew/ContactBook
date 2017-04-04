@@ -1,8 +1,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
+<c:choose>
+    <c:when test="${param.command == 'search_contacts'}">
+        <c:set var="titleName" value="Результаты поиска"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="titleName" value="Список контактов"/>
+    </c:otherwise>
+</c:choose>
 <html>
 <head>
-    <title> Список контактов </title>
+    <title> <c:out value="${titleName}"/> </title>
     <link rel="stylesheet" type="text/css" href="style/column-style.css">
     <link rel="stylesheet" type="text/css" href="style/button-style.css">
     <link rel="stylesheet" type="text/css" href="style/popup-style.css">
@@ -76,6 +84,9 @@
                     </li>
                 </ul>
             </div>
+        </c:if>
+        <c:if test="${contactsCount == 0}">
+            <br> <div class="not-found"> Контактов с задаными параметрани не найдены! </div>
         </c:if>
         <div class="first-row">
             <div class="column column-1"> # </div>

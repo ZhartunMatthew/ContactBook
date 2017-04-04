@@ -31,7 +31,7 @@ public class EmailTemplateManager {
                 templates.add(st.render());
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return templates;
     }

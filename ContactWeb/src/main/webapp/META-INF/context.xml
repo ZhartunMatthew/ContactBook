@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
     <Resource
-        name="jdbc/contactbook"
+        name="jdbc/zhartun_matthew_contactbook"
         type="javax.sql.DataSource"
         auth="Container"
         maxTotal="30"
         maxIdle="10"
         maxWaitMillis="1000"
-        username="root"
-        password="1208"
+        username="zhartun_matthew"
+        password="1234567"
         driverClassName="com.mysql.jdbc.Driver"
-        url="jdbc:mysql://localhost:3306/contactbook"/>
+        url="jdbc:mysql://localhost:3306/zhartun_matthew_contactbook"/>
 </Context>
 

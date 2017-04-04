@@ -55,6 +55,7 @@ public class SearchContactsCommand implements AbstractCommand {
         ArrayList<Contact> contacts = contactService.findAllByParameters(searchParameters);
 
         request.setAttribute("contacts", contacts);
+        request.setAttribute("contactsCount", contacts != null ? contacts.size() : 0);
         return COMMAND_URL;
     }
 

@@ -9,7 +9,7 @@ public class StreetHandler extends AbstractHandler  {
     @Override
     public void handleField(Contact contact, String data) throws WrongInputException {
         if(!StringUtils.isEmpty(data)) {
-            if(ValidationUtils.checkLength(data, 1, 35)) {
+            if(ValidationUtils.checkLength(data, 35)) {
                 contact.setStreet(data);
             } else {
                 throw new WrongInputException("Street is invalid");

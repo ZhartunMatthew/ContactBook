@@ -94,7 +94,7 @@ public class ContactService {
                 }
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
     }
 
@@ -202,7 +202,7 @@ public class ContactService {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return entitiesForInsert;
     }

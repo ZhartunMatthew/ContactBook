@@ -23,7 +23,7 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
             "operator_code, " +
             "phone_number AS number, " +
             "comment " +
-            "FROM contactbook.phones " +
+            "FROM phones " +
             "WHERE phones.contact_id = ?";
 
     private static final String INSERT_CONTACT_PHONES =

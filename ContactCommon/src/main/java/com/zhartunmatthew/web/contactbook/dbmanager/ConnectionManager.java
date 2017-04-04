@@ -19,7 +19,7 @@ public class ConnectionManager {
 
     private ConnectionManager() {
         try {
-            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/contactbook");
+            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/zhartun_matthew_contactbook");
         } catch (NamingException ex) {
             log.error(ex.getMessage() + ex.getCause());
         }
@@ -37,7 +37,7 @@ public class ConnectionManager {
         try {
             connection = dataSource.getConnection();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return connection;
     }

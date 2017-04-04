@@ -18,12 +18,12 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
             "file_name, " +
             "comment, " +
             "upload_date " +
-            "FROM contactbook.attachments " +
+            "FROM attachments " +
             "WHERE contact_id = ?";
 
     private static final String SELECT_ATTACHMENT_BY_ID =
             "SELECT id_file AS id, contact_id, file_name, comment, upload_date " +
-            "FROM contactbook.attachments WHERE id_file = ? LIMIT 1";
+            "FROM attachments WHERE id_file = ? LIMIT 1";
 
     private static final String INSERT_ATTACHMENT_QUERY =
             "INSERT INTO attachments (contact_id, file_name, upload_date, comment) VALUES (?, ?, ?, ?);";

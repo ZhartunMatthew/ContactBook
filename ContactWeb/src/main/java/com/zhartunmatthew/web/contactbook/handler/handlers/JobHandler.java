@@ -9,7 +9,7 @@ public class JobHandler extends AbstractHandler  {
     @Override
     public void handleField(Contact contact, String data) throws WrongInputException {
         if(!StringUtils.isEmpty(data)) {
-            if(ValidationUtils.checkLength(data, 1, 47)) {
+            if(ValidationUtils.checkLength(data, 47)) {
                 contact.setJob(data);
             } else {
                 throw new WrongInputException("Job is invalid");

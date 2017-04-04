@@ -9,7 +9,7 @@ public class PostcodeHandler extends AbstractHandler {
     @Override
     public void handleField(Contact contact, String data) throws WrongInputException {
         if(!StringUtils.isEmpty(data)) {
-            if(ValidationUtils.checkLength(data, 1, 9)) {
+            if(ValidationUtils.checkLength(data, 10)) {
                 contact.setPostCode(data);
             } else {
                 throw new WrongInputException("Postcode is invalid");

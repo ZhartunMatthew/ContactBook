@@ -9,7 +9,7 @@ public class FlatHandler extends AbstractHandler  {
     @Override
     public void handleField(Contact contact, String data) throws WrongInputException {
         if(!StringUtils.isEmpty(data)) {
-            if(ValidationUtils.checkLength(data, 1, 10)) {
+            if(ValidationUtils.checkLength(data, 10)) {
                 contact.setFlat(data);
             } else {
                 throw new WrongInputException("Flat is invalid");

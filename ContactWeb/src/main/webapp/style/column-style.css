@@ -73,3 +73,7 @@ a {
     color: cornflowerblue;
     text-decoration: none;
 }
+
+.not-found {
+    color: red;
+}

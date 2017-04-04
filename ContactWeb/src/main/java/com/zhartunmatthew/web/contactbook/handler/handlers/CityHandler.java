@@ -9,7 +9,7 @@ public class CityHandler extends AbstractHandler  {
     @Override
     public void handleField(Contact contact, String data) throws WrongInputException {
         if(!StringUtils.isEmpty(data)) {
-            if(ValidationUtils.checkLength(data, 1, 35) && ValidationUtils.hasOnlyChars(data, "-")) {
+            if(ValidationUtils.checkLength(data, 35) && ValidationUtils.hasOnlyChars(data, "-")) {
                 contact.setCity(data);
             } else {
                 throw new WrongInputException("Invalid city name");

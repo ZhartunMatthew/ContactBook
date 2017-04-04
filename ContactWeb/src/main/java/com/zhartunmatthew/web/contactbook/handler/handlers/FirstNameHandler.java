@@ -9,7 +9,7 @@ public class FirstNameHandler extends AbstractHandler {
     @Override
     public void handleField(Contact contact, String data) throws WrongInputException {
         if(!StringUtils.isEmpty(data)) {
-            if(ValidationUtils.hasOnlyChars(data, "-") && ValidationUtils.checkLength(data, 1, 35)) {
+            if(ValidationUtils.hasOnlyChars(data, "-") && ValidationUtils.checkLength(data, 35)) {
                 contact.setFirstName(data);
             } else {
                 throw new WrongInputException("First name is invalid");

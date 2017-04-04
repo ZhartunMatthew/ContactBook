@@ -88,7 +88,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
     private static final String DELETE_CONTACTS_ADDRESS = "DELETE FROM addresses WHERE contact_id = ?";
 
-    private static final String GET_COUNT = "SELECT COUNT(*) AS count FROM contactbook.contacts";
+    private static final String GET_COUNT = "SELECT COUNT(*) AS count FROM contacts";
 
     private static final String GET_LAST_ID = "SELECT last_insert_id() AS last_id FROM contacts";
 
@@ -276,7 +276,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
                 contact.setAttachments(getContactAttachments(contact.getId()));
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage() + ex.getCause());
         }
         return contact;
     }

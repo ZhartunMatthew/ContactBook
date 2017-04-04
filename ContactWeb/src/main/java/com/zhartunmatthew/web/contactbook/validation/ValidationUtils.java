@@ -15,7 +15,7 @@ public class ValidationUtils {
         return StringUtils.containsOnly(inputValue.toLowerCase(), ALPHABET_EN + ALPHABET_RU + chars);
     }
 
-    public static boolean checkLength(String inputValue, int min, int max) {
-        return StringUtils.length(inputValue) > min && StringUtils.length(inputValue) < max;
+    public static boolean checkLength(String inputValue, int max) {
+        return StringUtils.length(inputValue) < max;
     }
 }

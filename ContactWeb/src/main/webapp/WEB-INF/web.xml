@@ -35,7 +35,7 @@
     </jsp-config>
 
     <resource-ref>
-        <res-ref-name>jdbc/contactbook</res-ref-name>
+        <res-ref-name>jdbc/zhartun_matthew_contactbook</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
     </resource-ref>
