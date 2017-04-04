@@ -7,6 +7,7 @@ import com.zhartunmatthew.web.contactbook.entity.MaritalStatus;
 import com.zhartunmatthew.web.contactbook.entity.Nationality;
 import com.zhartunmatthew.web.contactbook.services.ContactService;
 import com.zhartunmatthew.web.contactbook.services.UtilService;
+import com.zhartunmatthew.web.contactbook.validation.ValidationUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +28,10 @@ public class ShowContactCommand implements AbstractCommand {
         isRedirected = false;
         String id = request.getParameter("contact_id");
         if(!Objects.isNull(id)) {
+            if(!ValidationUtils.isNumber(id)) {
+                isRedirected = true;
+                return REDIRECTED_URL;
+            }
             ContactService contactService = new ContactService();
             Contact contact = contactService.getContactById(Long.parseLong(id));
             if(contact.getId() == null) {
