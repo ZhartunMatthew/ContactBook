@@ -39,10 +39,10 @@
                     <input type="file" class="hidden" id="uploaded-contact-photo">
                 </div>
                 <input id="old-contact-photo" type="hidden" name="photo-path" value="${contact.photoPath}">
-                <label> Фамилия
+                <label> Фамилия*
                     <input id="last-name" type="text" name="last-name" value="${contact.lastName}">
                 </label>
-                <label> Имя
+                <label> Имя*
                     <input id="first-name" type="text" name="first-name" value="${contact.firstName}">
                 </label>
                 <label> Отчество
