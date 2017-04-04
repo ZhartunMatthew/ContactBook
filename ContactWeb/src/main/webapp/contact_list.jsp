@@ -86,7 +86,7 @@
             </div>
         </c:if>
         <c:if test="${contactsCount == 0}">
-            <br> <div class="not-found"> Контактов с задаными параметрани не найдены! </div>
+            <br> <div class="not-found"> Контактов с заданными параметрами не найдены! </div>
         </c:if>
         <div class="first-row">
             <div class="column column-1"> # </div>
