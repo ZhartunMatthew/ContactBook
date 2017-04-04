@@ -27,7 +27,7 @@ public class GetImageCommand implements AbstractCommand {
             content = Files.readAllBytes(image.toPath());
             response.getOutputStream().write(content);
         } catch (IOException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            log.error("Error in command GetImage", ex);
         }
 
         return null;

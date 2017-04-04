@@ -26,11 +26,11 @@ public class DeleteContactCommand implements AbstractCommand {
                     checkedItems.add(Long.parseLong(val));
                     LOG.info("Checked: {}", Integer.parseInt(val));
                 }
+                ContactService contactService = new ContactService();
+                contactService.deleteContacts(checkedItems);
             } else {
                 LOG.info("NO CHECKED ITEMS");
             }
-            ContactService contactService = new ContactService();
-            contactService.deleteContacts(checkedItems);
         } catch (ServiceException ex) {
             throw new CommandException("Can't execute command DeleteContact", ex);
         }

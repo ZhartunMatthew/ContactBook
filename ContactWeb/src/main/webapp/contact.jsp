@@ -29,12 +29,12 @@
         <form id="contact-form" class="contact" method="post" action="${actionOnSubmit}" enctype="multipart/form-data">
             <input type="hidden" name="id" value="${contactID}">
             <div class="nav-buttons">
-                <a class="nav-button save" id="submit-contact-button"></a>
-                <a class="nav-button home" href="${pageContext.request.contextPath}/controller"></a>
+                <a title="Сохранить контакт" class="nav-button save" id="submit-contact-button"></a>
+                <a title="Вернуться к списку" class="nav-button home" href="${pageContext.request.contextPath}/controller"></a>
             </div>
             <div class="main-info">
                 <h2>Основная информация</h2>
-                <div id="contact-photo" class="contact-photo-area">
+                <div title="Изменить фото" id="contact-photo" class="contact-photo-area">
                     <img src="${photoPath}" id="contact-photo-image" class="contact-photo-image">
                     <input type="file" class="hidden" id="uploaded-contact-photo">
                 </div>
@@ -125,9 +125,9 @@
             </div>
 
             <div class="nav-buttons">
-                <div class="nav-button add" id="add-phone-button"></div>
-                <div class="nav-button delete" id="delete-phone-button"></div>
-                <div class="nav-button edit" id="edit-checked-phone-button"></div>
+                <div title="Добавить телефон" class="nav-button add" id="add-phone-button"></div>
+                <div title="Удалить отмеченные телефоны" class="nav-button delete" id="delete-phone-button"></div>
+                <div title="Редактировать отмеченный телефон" class="nav-button edit" id="edit-checked-phone-button"></div>
             </div>
             <h3>Контактные телефоны</h3>
             <div class="first-row">
@@ -158,9 +158,9 @@
             </div>
 
             <div class="nav-buttons">
-                <div class="nav-button add" id="add-attachment-button"></div>
-                <div class="nav-button delete" id="delete-attachment-button"></div>
-                <div class="nav-button edit" id="edit-checked-attachment-button"></div>
+                <div title="Добавить файл" id="add-attachment-button" class="nav-button add"></div>
+                <div title="Удалить отмеченные файлы" id="delete-attachment-button" class="nav-button delete"></div>
+                <div title="Редактировать отмеченный файл" id="edit-checked-attachment-button" class="nav-button edit"></div>
             </div>
             <h3>Прикрепленные файлы</h3>
             <div class="first-row">

@@ -17,11 +17,11 @@
 </head>
     <body>
         <div class="nav-buttons">
-            <a class="nav-button home" href="${pageContext.request.contextPath}/controller"> </a>
-            <a class="nav-button add" href="${pageContext.request.contextPath}/controller?command=show_contact"> </a>
-            <a id="delete-contact-button" class="nav-button delete"></a>
-            <a class="nav-button search" href="${pageContext.request.contextPath}/controller?command=show_contact_search"></a>
-            <a id="show-email-page-button" class="nav-button send-mail"></a>
+            <a title="Вернуться к списку" class="nav-button home" href="${pageContext.request.contextPath}/controller"> </a>
+            <a title="Добавить контакт" class="nav-button add" href="${pageContext.request.contextPath}/controller?command=show_contact"> </a>
+            <a title="Удалть отмеченне контакты" id="delete-contact-button" class="nav-button delete"></a>
+            <a title="Поиск контактов" class="nav-button search" href="${pageContext.request.contextPath}/controller?command=show_contact_search"></a>
+            <a title="Отправить email" id="show-email-page-button" class="nav-button send-mail"></a>
         </div>
         <c:if test="${not empty pagination && pagination.pageCount > 1 }">
             <div class="pagination">
