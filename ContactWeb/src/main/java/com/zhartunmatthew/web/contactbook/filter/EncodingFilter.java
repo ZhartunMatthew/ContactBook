@@ -1,13 +1,15 @@
 package com.zhartunmatthew.web.contactbook.filter;
 
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import java.io.IOException;
 
 public class EncodingFilter implements Filter {
 
-    private static Logger log = Logger.getLogger(EncodingFilter.class);
+    private final static Logger LOG = LoggerFactory.getLogger(EncodingFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {}
@@ -21,7 +23,7 @@ public class EncodingFilter implements Filter {
             servletResponse.setCharacterEncoding("UTF-8");
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (Exception ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            LOG.error("Error in Filter", ex);
         }
     }
 

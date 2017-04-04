@@ -8,7 +8,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class MainHandler {
 
-    private static Logger log = Logger.getLogger(MainHandler.class);
+    private final static Logger LOG = LoggerFactory.getLogger(MainHandler.class);
 
     public void handleInputs(HttpServletRequest request) {
         DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
@@ -40,7 +41,7 @@ public class MainHandler {
                         try {
                             handler.handleField(contact, item.getString("UTF-8"));
                         } catch (UnsupportedEncodingException | WrongInputException ex) {
-                            log.error(ex.getMessage() + ex.getCause());
+                            LOG.error("Handler error", ex);
                         }
                     }
                 } else {
@@ -55,7 +56,7 @@ public class MainHandler {
             request.setAttribute("files", files);
             request.setAttribute("contact", contact);
         } catch (FileUploadException ex) {
-            ex.printStackTrace();
+            LOG.error("File uploading error", ex);
         }
     }
 }

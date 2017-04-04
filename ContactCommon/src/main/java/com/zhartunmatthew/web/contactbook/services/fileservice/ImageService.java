@@ -1,7 +1,7 @@
 package com.zhartunmatthew.web.contactbook.services.fileservice;
 
+import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.util.ResourceBundle;
@@ -10,9 +10,8 @@ public class ImageService {
 
     private final static String PROPERTIES_PATH = "directories";
     private static ResourceBundle resBundle = ResourceBundle.getBundle(PROPERTIES_PATH);
-    private static Logger log = Logger.getLogger(ImageService.class);
 
-    public static String writePhoto(Long id, FileItem photoItem, String oldPhotoPath) {
+    public static String writePhoto(Long id, FileItem photoItem, String oldPhotoPath) throws ServiceException {
         String photoPath = null;
 
         if (oldPhotoPath != null && !oldPhotoPath.isEmpty()) {
@@ -24,7 +23,7 @@ public class ImageService {
             File directory = new File(directoryPath);
             if (!directory.exists()) {
                 if(!directory.mkdir()) {
-                    log.error("Can't create directory for contact image");
+                    throw new ServiceException("Can't create new directory");
                 }
             }
             photoPath = "image";
@@ -32,7 +31,7 @@ public class ImageService {
             try {
                 photoItem.write(photoFile);
             } catch (Exception ex) {
-                log.error(ex.getMessage() + ex.getCause());
+                throw new ServiceException("Can't write new photo");
             }
         }
         if (photoPath == null) {

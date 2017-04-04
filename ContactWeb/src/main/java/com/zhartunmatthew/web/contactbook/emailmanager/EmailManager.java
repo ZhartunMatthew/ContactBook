@@ -1,5 +1,8 @@
 package com.zhartunmatthew.web.contactbook.emailmanager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -10,6 +13,7 @@ public class EmailManager {
     private String senderEmail = null;
     private String senderPassword = null;
     private Session session = null;
+    private final static Logger LOG = LoggerFactory.getLogger(EmailManager.class);
 
     public EmailManager() {
         senderEmail = ResourceBundle.getBundle("emailconfig").getObject("sender_name").toString();
@@ -37,7 +41,7 @@ public class EmailManager {
             message.setText(text);
             Transport.send(message);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Email send error");
         }
     }
 }

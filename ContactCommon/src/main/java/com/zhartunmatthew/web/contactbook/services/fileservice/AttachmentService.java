@@ -4,8 +4,8 @@ import com.zhartunmatthew.web.contactbook.dao.AttachmentDAO;
 import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionUtils;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
+import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.sql.Connection;
@@ -16,11 +16,10 @@ import java.util.ResourceBundle;
 
 public class AttachmentService {
 
-    private static Logger log = Logger.getLogger(AttachmentService.class);
     private final static String PROPERTIES_PATH = "directories";
     private static ResourceBundle resBundle = ResourceBundle.getBundle(PROPERTIES_PATH);
 
-    public static void writeAttachments(ArrayList<Attachment> attachments, ArrayList<FileItem> fileItems) {
+    public static void writeAttachments(ArrayList<Attachment> attachments, ArrayList<FileItem> fileItems) throws ServiceException {
         Iterator<Attachment> oneAttachment = attachments.iterator();
         Iterator<FileItem> oneFleItem = fileItems.iterator();
         while (oneAttachment.hasNext() && oneFleItem.hasNext()) {
@@ -28,19 +27,19 @@ public class AttachmentService {
         }
     }
 
-    private static void writeFile(Attachment attachment, FileItem fileItem) {
+    private static void writeFile(Attachment attachment, FileItem fileItem) throws ServiceException {
         String filePath = resBundle.getString("files-directory") + "contact_" + attachment.getContactID() + File.separator;
         File directory = new File(filePath);
         if (!directory.exists()) {
             if (!directory.mkdir()) {
-                log.error("Can't create directory for attachments");
+                throw new ServiceException("Can't create new directory");
             }
         }
         File file = new File(filePath + "file_" + attachment.getId());
         try {
             fileItem.write(file);
         } catch (Exception ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new ServiceException("Can't write new file", ex);
         }
     }
 
@@ -64,17 +63,17 @@ public class AttachmentService {
         directory.delete();
     }
 
-    public static Attachment getAttachmentById(Long id) {
+    public static Attachment getAttachmentById(Long id) throws ServiceException {
         Attachment attachment = null;
         try (Connection connection = ConnectionUtils.getConnection()) {
             try {
                 AttachmentDAO attachmentDAO = new AttachmentDAO(connection);
                 attachment = attachmentDAO.read(id);
             } catch (DAOException ex) {
-                log.error(ex.getMessage() + ex.getCause());
+                throw new ServiceException("Can't get attachment by id");
             }
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new ServiceException("Can't get connection");
         }
         return attachment;
     }

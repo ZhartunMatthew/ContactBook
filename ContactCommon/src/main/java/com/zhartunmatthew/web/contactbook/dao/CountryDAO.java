@@ -6,6 +6,7 @@ import com.zhartunmatthew.web.contactbook.entity.Country;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CountryDAO extends AbstractDAO<Long, Country> {
@@ -28,8 +29,8 @@ public class CountryDAO extends AbstractDAO<Long, Country> {
                 country.setName(resultSet.getString("country_name"));
                 countries.add(country);
             }
-        } catch (Exception ex) {
-            log.error(ex.getMessage() + ex.getCause());
+        } catch (SQLException ex) {
+            throw new DAOException("Can't read all countries", ex);
         }
         return countries;
     }

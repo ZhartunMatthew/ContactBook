@@ -1,8 +1,11 @@
 package com.zhartunmatthew.web.contactbook.command.executablecommands;
 
 import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
+import com.zhartunmatthew.web.contactbook.command.exception.CommandException;
 import com.zhartunmatthew.web.contactbook.services.ContactService;
-import org.apache.log4j.Logger;
+import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,23 +13,27 @@ import java.util.ArrayList;
 
 public class DeleteContactCommand implements AbstractCommand {
 
-    private static Logger log = Logger.getLogger(DeleteContactCommand.class);
+    private final static Logger LOG = LoggerFactory.getLogger(DeleteContactCommand.class);
     private static String REDIRECT_URL = "controller";
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String[] items = request.getParameterValues("contact-check");
-        ArrayList<Long> checkedItems = new ArrayList<>();
-        if(items != null) {
-            for(String val : items) {
-                checkedItems.add(Long.parseLong(val));
-                log.info("Checked: " + Integer.parseInt(val));
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+        try {
+            String[] items = request.getParameterValues("contact-check");
+            ArrayList<Long> checkedItems = new ArrayList<>();
+            if (items != null) {
+                for (String val : items) {
+                    checkedItems.add(Long.parseLong(val));
+                    LOG.info("Checked: {}", Integer.parseInt(val));
+                }
+            } else {
+                LOG.info("NO CHECKED ITEMS");
             }
-        } else {
-            log.info("NO CHECKED ITEMS");
+            ContactService contactService = new ContactService();
+            contactService.deleteContacts(checkedItems);
+        } catch (ServiceException ex) {
+            throw new CommandException("Can't execute command DeleteContact", ex);
         }
-        ContactService contactService = new ContactService();
-        contactService.deleteContacts(checkedItems);
 
         return REDIRECT_URL;
     }

@@ -1,14 +1,12 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
 import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 
 public abstract class AbstractDAO<PrKey, Type> {
 
-    Logger log = Logger.getLogger(AbstractDAO.class);
     protected Connection connection;
 
     AbstractDAO(Connection connection) {

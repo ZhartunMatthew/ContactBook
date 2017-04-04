@@ -13,10 +13,12 @@ import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.abstractions.ContactEntity;
 import com.zhartunmatthew.web.contactbook.entity.abstractions.Entity;
+import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
 import com.zhartunmatthew.web.contactbook.services.fileservice.AttachmentService;
 import com.zhartunmatthew.web.contactbook.services.fileservice.ImageService;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -25,11 +27,11 @@ import java.util.Iterator;
 
 public class ContactService {
 
-    private static Logger log = Logger.getLogger(ContactService.class);
+    private final static Logger LOG = LoggerFactory.getLogger(ContactService.class);
 
     public ContactService() {}
 
-    public void insertContact(Contact contact, FileItem contactPhoto, ArrayList<FileItem> files) {
+    public void insertContact(Contact contact, FileItem contactPhoto, ArrayList<FileItem> files) throws ServiceException {
         Long lastId;
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
@@ -62,16 +64,16 @@ public class ContactService {
                 connection.commit();
             } catch (DAOException ex) {
                 connection.rollback();
-                log.error(ex.getMessage() + ex.getCause());
+                throw new ServiceException("Can't insert new contact", ex);
             } finally {
                 connection.setAutoCommit(true);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            throw new ServiceException("Can't get connection", ex);
         }
     }
 
-    public void deleteContacts(ArrayList<Long> items) {
+    public void deleteContacts(ArrayList<Long> items) throws ServiceException {
         try (Connection connection = ConnectionUtils.getConnection()) {
             AttachmentDAO attachmentDAO = new AttachmentDAO(connection);
             PhoneDAO phoneDAO = new PhoneDAO(connection);
@@ -88,61 +90,61 @@ public class ContactService {
                     AttachmentService.removeAllContactAttachments(id);
                 } catch (DAOException ex) {
                     connection.rollback();
-                    log.error(ex.getMessage() + ex.getCause());
+                    throw new ServiceException("Can't delete contact", ex);
                 } finally {
                     connection.setAutoCommit(true);
                 }
             }
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new ServiceException("Can't get connection", ex);
         }
     }
 
-    public Contact getContactById(Long id) {
+    public Contact getContactById(Long id) throws ServiceException {
         Contact contact = null;
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
             contact = contactDAO.read(id);
         } catch (SQLException | DAOException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new ServiceException(String.format("Can't get contact by id = %d", id), ex);
         }
         return contact;
     }
 
-    public Long getContactCount() {
+    public Long getContactCount() throws ServiceException {
         Long count = 0L;
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
             count = contactDAO.getContactCount();
         } catch (SQLException | DAOException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new ServiceException("Can't get contact count", ex);
         }
         return count;
     }
 
-    public ArrayList<Contact> getCertainCount(int from, int limit) {
+    public ArrayList<Contact> getCertainCount(int from, int limit) throws ServiceException {
         ArrayList<Contact> contacts = null;
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
             contacts = contactDAO.readCertainCount(from, limit);
         } catch (SQLException | DAOException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new ServiceException("Can't get certain count of attachments", ex);
         }
         return contacts;
     }
 
-    public ArrayList<Contact> findAllByParameters(SearchParameters parameters) {
+    public ArrayList<Contact> findAllByParameters(SearchParameters parameters) throws ServiceException {
         ArrayList<Contact> contacts = null;
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
             contacts = contactDAO.searchUserByParameters(parameters);
         } catch (SQLException | DAOException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new ServiceException("Can't find contacts by parameters", ex);
         }
         return contacts;
     }
 
-    public void updateContact(Contact contact, FileItem contactPhoto, ArrayList<FileItem> files) {
+    public void updateContact(Contact contact, FileItem contactPhoto, ArrayList<FileItem> files) throws ServiceException {
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
             AttachmentDAO attachmentDAO = new AttachmentDAO(connection);
@@ -160,28 +162,28 @@ public class ContactService {
                 connection.commit();
             } catch (DAOException ex) {
                 connection.rollback();
-                log.error(ex.getMessage() + ex.getCause());
+                throw new ServiceException("Can't update contact", ex);
             } finally {
                 connection.setAutoCommit(true);
             }
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new ServiceException("Can't get connection", ex);
         }
     }
 
     private <Type extends ContactEntity> ArrayList<Type> updateEntities(ArrayList<Type> entities,
                                          ArrayList<Type> entitiesFromDB,
-                                         AbstractDAO<Long, Type> entityDAO) throws DAOException {
+                                         AbstractDAO<Long, Type> entityDAO) throws DAOException, ServiceException {
         ArrayList<Type> entitiesForInsert = new ArrayList<>();
         try {
             for (Type entity : entities) {
                 if (entity.getId() == null) {
-                    log.info("INSERT: " + entity);
+                    LOG.debug("INSERT: {}", entity);
                     entityDAO.insert(entity);
                     entitiesForInsert.add(entity);
                 } else {
                     if (!entitiesFromDB.contains(entity)) {
-                        log.info("UPDATE: " + entity);
+                        LOG.debug("UPDATE: {}", entity);
                         entityDAO.update(entity.getId(), entity);
                     }
                     Iterator<? extends Entity> entityIterator = entitiesFromDB.iterator();
@@ -195,36 +197,25 @@ public class ContactService {
                 }
             }
             for (Type entity : entitiesFromDB) {
-                log.info("DELETE: " + entity);
+                LOG.debug("DELETE: {}", entity);
                 entityDAO.delete(entity.getId());
                 if (entity.getClass() == Attachment.class) {
                     AttachmentService.removeAttachmentFromDisk(entity.getContactID(), entity.getId());
                 }
             }
-        } catch (Exception ex) {
-            log.error(ex.getMessage() + ex.getCause());
+        } catch (DAOException ex) {
+            throw new ServiceException("Can't get connection", ex);
         }
         return entitiesForInsert;
     }
 
-    public Long getLastInsertedContactId() {
-        Long id = null;
-        try (Connection connection = ConnectionUtils.getConnection()) {
-            ContactDAO contactDAO = new ContactDAO(connection);
-            id = contactDAO.getLastInsertedId();
-        } catch (SQLException | DAOException ex) {
-            log.error(ex.getMessage() + ex.getCause());
-        }
-        return id;
-    }
-
-    public ArrayList<Contact> getContactsByBirthDate() {
+    public ArrayList<Contact> getContactsByBirthDate() throws ServiceException {
         ArrayList<Contact> contacts = null;
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
             contacts = contactDAO.readByBirthDate();
-        } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+        } catch (DAOException | SQLException ex) {
+            throw new ServiceException("Can't get contact by birth date", ex);
         }
         return contacts;
     }

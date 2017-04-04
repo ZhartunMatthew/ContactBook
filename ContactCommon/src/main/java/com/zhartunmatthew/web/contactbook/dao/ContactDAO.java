@@ -2,19 +2,16 @@ package com.zhartunmatthew.web.contactbook.dao;
 
 import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.dto.search.DateSearchType;
+import com.zhartunmatthew.web.contactbook.dto.search.SearchParameters;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.entityfactory.EntityFactory;
-import com.zhartunmatthew.web.contactbook.dto.search.SearchParameters;
-import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 public class ContactDAO extends AbstractDAO<Long, Contact> {
-
-    private static Logger log = Logger.getLogger(ContactDAO.class);
 
     private static final String SELECT_ALL_CONTACTS =
             "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
@@ -132,7 +129,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
                 contacts.add(tempContact);
             }
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException("Can't read all contacts", ex);
         }
         return contacts;
     }
@@ -143,7 +140,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         try {
             phones = phoneDAO.readByContactId(i);
         } catch (Exception ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't get Phones with contact id = %d", i), ex);
         }
         return phones;
     }
@@ -154,7 +151,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         try {
             attachments = attachmentDAO.readByContactId(i);
         } catch (Exception ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't get Attachments with contact id = %d", i), ex);
         }
         return attachments;
     }
@@ -167,7 +164,6 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             statement.setLong(2, from);
             contactResultSet = statement.executeQuery();
             while (contactResultSet.next()) {
-                log.info("ONE MORE");
                 Contact tempContact = (Contact)
                         EntityFactory.createEntityFromResultSet(contactResultSet, Contact.class);
                 tempContact.setPhones(getContactPhones(tempContact.getId()));
@@ -175,7 +171,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
                 contacts.add(tempContact);
             }
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException("Can't read certain count of contacts", ex);
         }
         return contacts;
     }
@@ -189,7 +185,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
                 count = resultSet.getLong(1);
             }
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException("Can't get contact count", ex);
         }
         return count;
     }
@@ -232,7 +228,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
             statement.executeUpdate();
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException("Can't insert new contact", ex);
         }
     }
 
@@ -247,7 +243,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
             statement.executeUpdate();
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException("Cant insert Address", ex);
         }
     }
 
@@ -258,7 +254,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             resultSet = statement.executeQuery();
             lastId = resultSet.next() ? resultSet.getLong("last_id") : -1;
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException("Can't get last id", ex);
         }
         return lastId;
     }
@@ -276,7 +272,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
                 contact.setAttachments(getContactAttachments(contact.getId()));
             }
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't read contact with id = %d", l), ex);
         }
         return contact;
     }
@@ -320,7 +316,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             statement.executeUpdate();
             updateContactAddress(l, val);
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't update contact with id = %d", l), ex);
         }
     }
 
@@ -334,17 +330,17 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             statement.setLong(6, val.getId());
             statement.executeUpdate();
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't update Address with id = %d", l), ex);
         }
     }
 
-    public void updateContactPhoto(Long id, String photoPath) {
+    public void updateContactPhoto(Long id, String photoPath) throws DAOException {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_CONTACT_PHOTO)) {
             statement.setString(1, photoPath);
             statement.setLong(2, id);
             statement.executeUpdate();
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't update contact photo with id = %d", id), ex);
         }
     }
 
@@ -354,7 +350,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             statement.setLong(1, l);
             statement.execute();
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't delete contact with id = %d", l), ex);
         }
     }
 
@@ -363,7 +359,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't delete contact address with id = %d", id), ex);
         }
     }
 
@@ -454,7 +450,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         return query;
     }
 
-    public ArrayList<Contact> readByBirthDate() {
+    public ArrayList<Contact> readByBirthDate() throws DAOException {
         ArrayList<Contact> contacts = new ArrayList<>();
         ResultSet contactResultSet;
         try (PreparedStatement statement = connection.prepareStatement(SELECT_BY_BIRTH_DATE)) {
@@ -465,7 +461,7 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
                 contacts.add(tempContact);
             }
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException("Can't get contact by birth date", ex);
         }
         return contacts;
     }

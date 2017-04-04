@@ -1,13 +1,15 @@
 package com.zhartunmatthew.web.contactbook.command.executablecommands;
 
 import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
+import com.zhartunmatthew.web.contactbook.command.exception.CommandException;
 import com.zhartunmatthew.web.contactbook.emailmanager.EmailManager;
-import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactCommand;
 import com.zhartunmatthew.web.contactbook.emailmanager.EmailTemplateManager;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.services.ContactService;
+import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,16 +17,20 @@ import java.util.ArrayList;
 
 public class SendEmailCommand implements AbstractCommand {
 
-    private Logger log = Logger.getLogger(ShowContactCommand.class);
+    private final static Logger LOG = LoggerFactory.getLogger(SendEmailCommand.class);
     private String REDIRECT_URL = "controller";
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String emailText = request.getParameter("email-text");
-        String emailSubject = request.getParameter("email-subject");
-        ArrayList<Contact> recipients = getAllRecipients(request);
-        int emailTemplate = Integer.parseInt(request.getParameter("selected-template-index"));
-        sendEmails(recipients, emailTemplate, emailSubject, emailText);
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+        try {
+            String emailText = request.getParameter("email-text");
+            String emailSubject = request.getParameter("email-subject");
+            ArrayList<Contact> recipients = getAllRecipients(request);
+            int emailTemplate = Integer.parseInt(request.getParameter("selected-template-index"));
+            sendEmails(recipients, emailTemplate, emailSubject, emailText);
+        } catch (ServiceException ex) {
+            throw new CommandException("Can't execute command SendMail", ex);
+        }
         return REDIRECT_URL;
     }
 
@@ -33,7 +39,7 @@ public class SendEmailCommand implements AbstractCommand {
         return true;
     }
 
-    private ArrayList<Contact> getAllRecipients(HttpServletRequest request) {
+    private ArrayList<Contact> getAllRecipients(HttpServletRequest request) throws ServiceException {
         ArrayList<Contact> recipients = new ArrayList<>();
         try {
             ContactService contactService = new ContactService();
@@ -44,7 +50,7 @@ public class SendEmailCommand implements AbstractCommand {
                 }
             }
         } catch (NumberFormatException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            LOG.error("Error in get recipients:", ex);
         }
 
         return recipients;

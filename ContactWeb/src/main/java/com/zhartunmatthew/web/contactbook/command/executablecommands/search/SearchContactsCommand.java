@@ -1,10 +1,12 @@
 package com.zhartunmatthew.web.contactbook.command.executablecommands.search;
 
 import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
+import com.zhartunmatthew.web.contactbook.command.exception.CommandException;
 import com.zhartunmatthew.web.contactbook.dto.search.DateSearchType;
 import com.zhartunmatthew.web.contactbook.dto.search.SearchParameters;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.services.ContactService;
+import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,47 +21,51 @@ public class SearchContactsCommand implements AbstractCommand {
     private final static String COMMAND_URL = "contact_list.jsp";
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
-        SearchParameters searchParameters = new SearchParameters();
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+        try {
+            SearchParameters searchParameters = new SearchParameters();
 
-        searchParameters.setFirstName(request.getParameter("first-name"));
-        searchParameters.setLastName(request.getParameter("last-name"));
-        searchParameters.setPatronymic(request.getParameter("patronymic"));
-        searchParameters.setSex(request.getParameter("sex"));
+            searchParameters.setFirstName(request.getParameter("first-name"));
+            searchParameters.setLastName(request.getParameter("last-name"));
+            searchParameters.setPatronymic(request.getParameter("patronymic"));
+            searchParameters.setSex(request.getParameter("sex"));
 
-        String maritalStatus = request.getParameter("marital-status");
-        searchParameters.setMaritalStatus(maritalStatus == null ? 0 : Integer.parseInt(maritalStatus));
+            String maritalStatus = request.getParameter("marital-status");
+            searchParameters.setMaritalStatus(maritalStatus == null ? 0 : Integer.parseInt(maritalStatus));
 
-        String nationality = request.getParameter("nationality");
-        searchParameters.setNationality((nationality == null ? 0 : Integer.parseInt(nationality)));
+            String nationality = request.getParameter("nationality");
+            searchParameters.setNationality((nationality == null ? 0 : Integer.parseInt(nationality)));
 
-        String country = request.getParameter("country");
-        searchParameters.setCountry(country == null ? 0 : Integer.parseInt(country));
+            String country = request.getParameter("country");
+            searchParameters.setCountry(country == null ? 0 : Integer.parseInt(country));
 
-        searchParameters.setPostcode(request.getParameter("postcode"));
-        searchParameters.setCity(request.getParameter("city"));
-        searchParameters.setStreet(request.getParameter("street"));
-        searchParameters.setHouse(request.getParameter("house-number"));
-        searchParameters.setFlat(request.getParameter("flat"));
+            searchParameters.setPostcode(request.getParameter("postcode"));
+            searchParameters.setCity(request.getParameter("city"));
+            searchParameters.setStreet(request.getParameter("street"));
+            searchParameters.setHouse(request.getParameter("house-number"));
+            searchParameters.setFlat(request.getParameter("flat"));
 
-        String dateDay = request.getParameter("birth-date-day");
-        String dateMonth = request.getParameter("birth-date-month");
-        String dateYear = request.getParameter("birth-date-year");
-        if(!StringUtils.isEmpty(dateDay) &&
-                !StringUtils.isEmpty(dateMonth) && !StringUtils.isEmpty(dateYear)) {
-            searchParameters.setDate(stringToDate(dateDay, dateMonth, dateYear));
-            searchParameters.setDateSearchType(
-                    DateSearchType.getType(Integer.parseInt(request.getParameter("date-type"))));
+            String dateDay = request.getParameter("birth-date-day");
+            String dateMonth = request.getParameter("birth-date-month");
+            String dateYear = request.getParameter("birth-date-year");
+            if (!StringUtils.isEmpty(dateDay) &&
+                    !StringUtils.isEmpty(dateMonth) && !StringUtils.isEmpty(dateYear)) {
+                searchParameters.setDate(stringToDate(dateDay, dateMonth, dateYear));
+                searchParameters.setDateSearchType(
+                        DateSearchType.getType(Integer.parseInt(request.getParameter("date-type"))));
+            }
+            ContactService contactService = new ContactService();
+            ArrayList<Contact> contacts = contactService.findAllByParameters(searchParameters);
+
+            request.setAttribute("contacts", contacts);
+            request.setAttribute("contactsCount", contacts != null ? contacts.size() : 0);
+        } catch (ServiceException ex) {
+            throw new CommandException("Can't execute command SearchContacts", ex);
         }
-        ContactService contactService = new ContactService();
-        ArrayList<Contact> contacts = contactService.findAllByParameters(searchParameters);
-
-        request.setAttribute("contacts", contacts);
-        request.setAttribute("contactsCount", contacts != null ? contacts.size() : 0);
         return COMMAND_URL;
     }
 
-    private Date stringToDate(String day, String month, String year) {
+    private Date stringToDate(String day, String month, String year) throws CommandException {
         Integer iDay = Integer.parseInt(day);
         Integer iMonth = Integer.parseInt(month);
         Integer iYear = Integer.parseInt(year);
@@ -77,7 +83,7 @@ public class SearchContactsCommand implements AbstractCommand {
                 sqlDate = null;
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            throw new CommandException("Can't parse date");
         }
         return sqlDate;
     }

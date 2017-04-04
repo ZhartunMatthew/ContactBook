@@ -31,7 +31,7 @@ public class NationalityDAO extends AbstractDAO<Long, Nationality> {
                 nationalities.add(nationality);
             }
         } catch (Exception ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException("Can't read all nationalities", ex);
         }
         return nationalities;
     }

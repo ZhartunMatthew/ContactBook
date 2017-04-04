@@ -1,7 +1,8 @@
 package com.zhartunmatthew.web.contactbook.emailmanager;
 
 import com.zhartunmatthew.web.contactbook.entity.Contact;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.STGroupFile;
@@ -11,7 +12,7 @@ import java.util.ResourceBundle;
 
 public class EmailTemplateManager {
 
-    private Logger log = Logger.getLogger(EmailTemplateManager.class);
+    private final static Logger LOG = LoggerFactory.getLogger(EmailTemplateManager.class);
     private int TEMPLATE_COUNT = 3;
     private STGroup stGroup;
     private String TEMPLATE_NAME = "template_";
@@ -31,7 +32,7 @@ public class EmailTemplateManager {
                 templates.add(st.render());
             }
         } catch (Exception ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            LOG.error("Error in template manager", ex);
         }
         return templates;
     }

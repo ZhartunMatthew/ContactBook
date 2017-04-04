@@ -2,12 +2,16 @@ package com.zhartunmatthew.web.contactbook.emailmanager;
 
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ResourceBundle;
 
 public class EmailScheduler {
 
     private Scheduler emailScheduler;
+    private final static Logger LOG = LoggerFactory.getLogger(EmailScheduler.class);
+
     public void init() {
         try {
             ResourceBundle bundle = ResourceBundle.getBundle("emailconfig");
@@ -31,7 +35,7 @@ public class EmailScheduler {
             emailScheduler.start();
 
         } catch (SchedulerException ex) {
-            ex.printStackTrace();
+            LOG.error("Error while init scheduler", ex);
         }
     }
 
@@ -39,7 +43,7 @@ public class EmailScheduler {
         try {
             emailScheduler.shutdown(false);
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            LOG.error("Error while shutdown scheduler", e);
         }
     }
 }

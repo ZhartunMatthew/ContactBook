@@ -2,30 +2,39 @@ package com.zhartunmatthew.web.contactbook.emailmanager;
 
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.services.ContactService;
+import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class SendEmailJob implements Job {
 
+    private final static Logger LOG = LoggerFactory.getLogger(SendEmailJob.class);
+
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        ContactService contactService = new ContactService();
-        ArrayList<Contact> birthdayContacts = contactService.getContactsByBirthDate();
-        String recipient = ResourceBundle.getBundle("emailconfig").getObject("admin_email").toString();
-        String subject = "Birthdays";
-        String message;
-        if(birthdayContacts == null || birthdayContacts.size() == 0) {
-            message = "Сегодня без именинников :(";
-        } else {
-            message = prepareMessage(birthdayContacts);
+        try {
+            ContactService contactService = new ContactService();
+            ArrayList<Contact> birthdayContacts = contactService.getContactsByBirthDate();
+            String recipient = ResourceBundle.getBundle("emailconfig").getObject("admin_email").toString();
+            String subject = "Birthdays";
+            String message;
+            if (birthdayContacts == null || birthdayContacts.size() == 0) {
+                message = "Сегодня без именинников :(";
+            } else {
+                message = prepareMessage(birthdayContacts);
+            }
+            EmailManager emailManager = new EmailManager();
+            emailManager.sendMail(recipient, subject, message);
+        } catch (ServiceException ex) {
+            LOG.error("Error in SendMailJob", ex);
         }
-        EmailManager emailManager = new EmailManager();
-        emailManager.sendMail(recipient, subject, message);
     }
 
     private String prepareMessage(ArrayList<Contact> birthdayContacts) {

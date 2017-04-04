@@ -29,7 +29,7 @@ public class MaritalStatusDAO extends AbstractDAO<Long, MaritalStatus> {
                 maritalStatuses.add(maritalStatus);
             }
         } catch (Exception ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException("Can't read all marital statuses", ex);
         }
         return maritalStatuses;
     }

@@ -3,7 +3,6 @@ package com.zhartunmatthew.web.contactbook.dao;
 import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.entityfactory.EntityFactory;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PhoneDAO extends AbstractDAO<Long, Phone> {
-
-    private Logger log = Logger.getLogger(PhoneDAO.class);
 
     private static final String SELECT_CONTACT_PHONES =
             "SELECT phone_id AS id, " +
@@ -54,7 +51,7 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
                 phones.add(phone);
             }
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't read phones by contact id = %d", contactId), ex);
         }
         return phones;
     }
@@ -77,7 +74,7 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
             statement.executeUpdate();
             statement.close();
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException("Can't insert new phone", ex);
         }
     }
 
@@ -97,7 +94,7 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
             statement.setLong(6, id);
             statement.executeUpdate();
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't update phone with id = %d", id), ex);
         }
     }
 
@@ -107,7 +104,7 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't delete phone by id = %d", id), ex);
         }
     }
 
@@ -116,7 +113,7 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't delete phones by contact id = %d", id), ex);
         }
     }
 }

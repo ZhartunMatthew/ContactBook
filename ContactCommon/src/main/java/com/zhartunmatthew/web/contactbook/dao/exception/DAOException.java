@@ -1,6 +1,7 @@
 package com.zhartunmatthew.web.contactbook.dao.exception;
 
 public class DAOException extends Exception {
+
     public DAOException(String message, Exception exception) {
         super(message, exception);
     }

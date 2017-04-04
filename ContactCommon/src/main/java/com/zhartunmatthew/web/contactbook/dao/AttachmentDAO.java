@@ -53,7 +53,7 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
                 attachments.add(attachment);
             }
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't read Attachments by contact id = %s", contactId), ex);
         }
         return attachments;
     }
@@ -78,7 +78,7 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
             }
             statement.close();
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException("Can't insert new Attachment", ex);
         }
     }
 
@@ -92,7 +92,7 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
                 attachment = (Attachment) EntityFactory.createEntityFromResultSet(resultSet, Attachment.class);
             }
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't read Attachment with id = %d", id), ex);
         }
         return attachment;
     }
@@ -105,7 +105,7 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
             statement.setLong(3, val.getId());
             statement.executeUpdate();
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't update Attachment with id = %d", id), ex);
         }
     }
 
@@ -115,7 +115,7 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't delete Attachment with id = %d", id), ex);
         }
     }
 
@@ -124,7 +124,7 @@ public class AttachmentDAO extends AbstractDAO<Long, Attachment> {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new DAOException(String.format("Can't delete Attachments with contact id = %d", id), ex);
         }
     }
 }

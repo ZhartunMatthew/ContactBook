@@ -1,6 +1,8 @@
 package com.zhartunmatthew.web.contactbook.dbmanager;
 
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -13,7 +15,7 @@ import java.util.Enumeration;
 
 public class ConnectionManager {
 
-    private Logger log = Logger.getLogger(ConnectionManager.class);
+    private final static Logger LOG = LoggerFactory.getLogger(ConnectionManager.class);
     private DataSource dataSource;
     private static ConnectionManager instance;
 
@@ -21,7 +23,7 @@ public class ConnectionManager {
         try {
             dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/zhartun_matthew_contactbook");
         } catch (NamingException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            LOG.error("Error in ConnectionManager", ex);
         }
     }
 
@@ -37,7 +39,7 @@ public class ConnectionManager {
         try {
             connection = dataSource.getConnection();
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            LOG.error("Error in ConnectionManager getConnection", ex);
         }
         return connection;
     }
@@ -52,7 +54,7 @@ public class ConnectionManager {
                 try {
                     DriverManager.deregisterDriver(driver);
                 } catch (SQLException ex) {
-                    log.error(ex.getMessage() + ex.getCause());
+                    LOG.error("Error in ConnectionManager deregisterDrivers", ex);
                 }
             }
         }

@@ -2,19 +2,20 @@ package com.zhartunmatthew.web.contactbook.jsonbuilder;
 
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Date;
 import java.util.ArrayList;
 
 public class JSONBuilder {
 
-    private static Logger log = Logger.getLogger(JSONBuilder.class);
+    private final static Logger LOG = LoggerFactory.getLogger(JSONBuilder.class);
 
     public static ArrayList<Phone> buildPhoneListFromJSON(String jsonPhones) {
         ArrayList<Phone> phones = new ArrayList<>();
@@ -41,7 +42,7 @@ public class JSONBuilder {
                 phones.add(phone);
             });
         } catch (ParseException | ClassCastException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            LOG.error("JSON phones error", ex);
         }
         return phones;
     }
@@ -71,7 +72,7 @@ public class JSONBuilder {
             });
 
         } catch (ParseException | ClassCastException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            LOG.error("JSON attachments error", ex);
         }
         return attachments;
     }

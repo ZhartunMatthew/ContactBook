@@ -8,7 +8,7 @@ import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionUtils;
 import com.zhartunmatthew.web.contactbook.entity.Country;
 import com.zhartunmatthew.web.contactbook.entity.MaritalStatus;
 import com.zhartunmatthew.web.contactbook.entity.Nationality;
-import org.apache.log4j.Logger;
+import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,40 +16,38 @@ import java.util.ArrayList;
 
 public class UtilService {
 
-    private static Logger log = Logger.getLogger(UtilService.class);
-
     public UtilService() {
     }
 
-    public ArrayList<MaritalStatus> getMaritalStatuses() {
+    public ArrayList<MaritalStatus> getMaritalStatuses() throws ServiceException {
         ArrayList<MaritalStatus> maritalStatuses = null;
         try (Connection connection = ConnectionUtils.getConnection()) {
             MaritalStatusDAO maritalStatusDAO = new MaritalStatusDAO(connection);
             maritalStatuses = maritalStatusDAO.readAll();
         } catch (SQLException | DAOException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new ServiceException("Can't get martial statuses", ex);
         }
         return maritalStatuses;
     }
 
-    public ArrayList<Nationality> getNationalities() {
+    public ArrayList<Nationality> getNationalities() throws ServiceException {
         ArrayList<Nationality> nationalities = null;
         try (Connection connection = ConnectionUtils.getConnection()) {
             NationalityDAO maritalStatusDAO = new NationalityDAO(connection);
             nationalities = maritalStatusDAO.readAll();
         } catch (SQLException | DAOException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new ServiceException("Can't get nationalities", ex);
         }
         return nationalities;
     }
 
-    public ArrayList<Country> getCountries() {
+    public ArrayList<Country> getCountries() throws ServiceException {
         ArrayList<Country> countries = null;
         try (Connection connection = ConnectionUtils.getConnection()) {
             CountryDAO maritalStatusDAO = new CountryDAO(connection);
             countries = maritalStatusDAO.readAll();
         } catch (SQLException | DAOException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            throw new ServiceException("Can't get countries", ex);
         }
         return countries;
     }
