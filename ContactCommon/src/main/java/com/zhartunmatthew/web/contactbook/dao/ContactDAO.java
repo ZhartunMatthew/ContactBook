@@ -393,58 +393,19 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
     }
 
     private String buildQuery(SearchParameters parameters, String query) {
-        if (parameters.getFirstName() != null && !parameters.getFirstName().isEmpty()) {
-            query += " AND first_name LIKE '" + parameters.getFirstName() + "'";
-        }
-        if (parameters.getLastName() != null && !parameters.getLastName().isEmpty()) {
-            query += " AND last_name LIKE '" + parameters.getLastName() + "'";
-        }
-        if (parameters.getPatronymic() != null && !parameters.getPatronymic().equals("")) {
-            query += " AND patronymic LIKE '" + parameters.getPatronymic() + "'";
-        }
-        if (parameters.getSex() != null && !parameters.getSex().equals("X")) {
-            query += " AND sex = '" + parameters.getSex() + "'";
-        }
-        if (parameters.getMaritalStatus() != 0) {
-            query += " AND marital_status.id_marital_status LIKE '" + parameters.getMaritalStatus() + "'";
-        }
-        if (parameters.getNationality() != 0) {
-            query += " AND nationality.id_nationality LIKE '" + parameters.getNationality() + "'";
-        }
-        if (parameters.getCountry() != 0) {
-            query += " AND countries.id_country LIKE '" + parameters.getCountry() + "'";
-        }
-
-        if(parameters.getPostcode() != null && !parameters.getPostcode().isEmpty()) {
-            query += " AND postcode LIKE '" + parameters.getPostcode() + "'";
-        }
-
-        if (parameters.getCity() != null && !parameters.getCity().isEmpty()) {
-            query += " AND city LIKE '" + parameters.getCity() + "'";
-        }
-        if (parameters.getStreet() != null && !parameters.getStreet().isEmpty()) {
-            query += " AND street LIKE '" + parameters.getStreet() + "'";
-        }
-        if (parameters.getHouse() != null && !parameters.getHouse().isEmpty()) {
-            query += " AND house_number LIKE '" + parameters.getHouse() + "'";
-        }
-        if (parameters.getFlat() != null && !parameters.getFlat().isEmpty()) {
-            query += " AND flat LIKE '" + parameters.getFlat() + "'";
-        }
-        if(parameters.getDate() != null) {
-            String sign = "=";
-            if(parameters.getDateSearchType() == DateSearchType.SAME) {
-                sign = "=";
-            }
-            if(parameters.getDateSearchType() == DateSearchType.OLDER) {
-                sign = "<=";
-            }
-            if(parameters.getDateSearchType() == DateSearchType.YOUNGER) {
-                sign = ">=";
-            }
-            query += " AND birth_date " + sign + "'" + parameters.getDate() + "'";
-        }
-
+        query += buildStringQueryPart("first_name", parameters.getFirstName());
+        query += buildStringQueryPart("last_name", parameters.getLastName());
+        query += buildStringQueryPart("patronymic", parameters.getPatronymic());
+        query += buildSexQueryPart(parameters.getSex());
+        query += buildIntQueryPart("marital_status.id_marital_status", parameters.getMaritalStatus());
+        query += buildIntQueryPart("nationality.id_nationality", parameters.getNationality());
+        query += buildIntQueryPart("countries.id_country", parameters.getCountry());
+        query += buildStringQueryPart("postcode", parameters.getPostcode());
+        query += buildStringQueryPart("city", parameters.getCity());
+        query += buildStringQueryPart("street", parameters.getStreet());
+        query += buildStringQueryPart("house_number", parameters.getHouse());
+        query += buildStringQueryPart("flat", parameters.getFlat());
+        query += buildDateQueryPart(parameters.getDate(), parameters.getDateSearchType());
         query += " ORDER BY last_name;";
 
         return query;
@@ -464,5 +425,39 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             throw new DAOException("Can't get contact by birth date", ex);
         }
         return contacts;
+    }
+
+    private String buildStringQueryPart(String parameter, String value) {
+        return value != null && !value.isEmpty() ? String.format(" AND %s LIKE '%s'", parameter, value) : "";
+    }
+
+    private String buildSexQueryPart(String value) {
+        return value != null && !value.equals("X") ? String.format(" AND sex = '%s'", value) : "";
+    }
+
+    private String buildIntQueryPart(String parameter, int value) {
+        if(value != 0) {
+            return String.format(" AND %s LIKE '%d'", parameter, value);
+        } else {
+            return "";
+        }
+    }
+
+    private String buildDateQueryPart(Date date, DateSearchType type) {
+        if(date != null) {
+            String sign = "=";
+            if(type == DateSearchType.SAME) {
+                sign = "=";
+            }
+            if(type == DateSearchType.OLDER) {
+                sign = "<=";
+            }
+            if(type == DateSearchType.YOUNGER) {
+                sign = ">=";
+            }
+            return " AND birth_date " + sign + "'" + date + "'";
+        } else {
+            return "";
+        }
     }
 }
