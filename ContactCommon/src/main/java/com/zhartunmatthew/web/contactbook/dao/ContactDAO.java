@@ -284,45 +284,35 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
             statement.setString(2, val.getLastName());
             statement.setString(3, val.getPatronymic());
             statement.setDate(4, val.getBirthDate());
-
-            String sex = val.getSex();
-            if(sex == null) {
-                statement.setNull(5, Types.VARCHAR);
-            } else {
-                statement.setString(5, sex);
-            }
-
-            Long maritalStatus = val.getMaritalStatus();
-            if (maritalStatus == null) {
-                statement.setNull(6, Types.INTEGER);
-            } else {
-                statement.setLong(6, maritalStatus);
-            }
-
-            Long nationality = val.getNationality();
-            if (nationality == null) {
-                statement.setNull(7, Types.INTEGER);
-            } else {
-                statement.setLong(7, nationality);
-            }
-
+            stringSetter(statement, 5, val.getSex());
+            longSetter(statement, 6, val.getMaritalStatus());
+            longSetter(statement, 7, val.getNationality());
             statement.setString(8, val.getWebsite());
             statement.setString(9, val.getEmail());
             statement.setString(10, val.getPhotoPath());
             statement.setString(11, val.getJob());
-
-            Long country = val.getCountry();
-            if (country == null) {
-                statement.setNull(12, Types.INTEGER);
-            } else {
-                statement.setLong(12, country);
-            }
-
+            longSetter(statement, 12, val.getCountry());
             statement.setLong(13, l);
             statement.executeUpdate();
             updateContactAddress(l, val);
         } catch (SQLException ex) {
             throw new DAOException(String.format("Can't update contact with id = %d", l), ex);
+        }
+    }
+
+    private void longSetter(PreparedStatement statement, int index, Long value) throws SQLException {
+        if(value == null) {
+            statement.setNull(index, Types.INTEGER);
+        } else {
+            statement.setLong(index, value);
+        }
+    }
+
+    private void stringSetter(PreparedStatement statement, int index, String value) throws SQLException {
+        if(value == null) {
+            statement.setNull(index, Types.VARCHAR);
+        } else {
+            statement.setString(index, value);
         }
     }
 

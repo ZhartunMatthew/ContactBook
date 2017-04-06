@@ -2,6 +2,8 @@ package com.zhartunmatthew.web.contactbook.jsonbuilder;
 
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
+import com.zhartunmatthew.web.contactbook.entity.abstractions.ContactEntity;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -28,16 +30,12 @@ public class JSONBuilder {
                 Phone phone = new Phone();
 
                 Object id = object.get("id");
-                if(id != null) {
-                    phone.setId(Long.parseLong(id.toString()));
-                } else {
-                    phone.setId(null);
-                }
+                idSetter(phone, id);
                 phone.setCountryCode((String) object.get("countryCode"));
                 phone.setOperatorCode((String) object.get("operatorCode"));
                 phone.setNumber((String) object.get("number"));
                 phone.setType(((Long) object.get("type")).intValue());
-                phone.setComment((String) object.get("comment"));
+                commentSetter(phone, object.get("comment"));
 
                 phones.add(phone);
             });
@@ -57,16 +55,10 @@ public class JSONBuilder {
                 JSONObject object = (JSONObject) item;
                 Attachment attachment = new Attachment();
 
-                Object id = object.get("id");
-                if(id != null) {
-                    attachment.setId(Long.parseLong(id.toString()));
-                } else {
-                    attachment.setId(null);
-                }
-
+                idSetter(attachment, object.get("id"));
                 attachment.setUploadDate(new Date(DateTime.now().getMillis()));
                 attachment.setFileName((String) object.get("fileName"));
-                attachment.setComment((String) object.get("comment"));
+                commentSetter(attachment, object.get("comment"));
 
                 attachments.add(attachment);
             });
@@ -75,5 +67,21 @@ public class JSONBuilder {
             LOG.error("JSON attachments error", ex);
         }
         return attachments;
+    }
+
+    private static void idSetter(ContactEntity entity, Object id) {
+        if(id != null) {
+            entity.setId(Long.parseLong(id.toString()));
+        } else {
+            entity.setId(null);
+        }
+    }
+
+    private static void commentSetter(ContactEntity entity, Object comment) {
+        if(!StringUtils.isEmpty((String) comment)) {
+            entity.setComment((String) comment);
+        } else {
+            entity.setComment(null);
+        }
     }
 }
