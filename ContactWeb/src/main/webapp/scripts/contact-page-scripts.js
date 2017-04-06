@@ -774,6 +774,11 @@ savePhotoButton.onclick = function() {
         photoImage.src = this.result;
     };
     if(image) {
+        if(image.type !== 'image/jpeg' && image.type !== 'image/png' && image.type !== 'image/gif') {
+            addErrorMessage("Фыбранный файл не является картинкой");
+            openModal(popupWindowError);
+            return;
+        }
         if(!checkPhotoInputBeforeSave()) {
             openModal(popupWindowError);
             return;
