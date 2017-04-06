@@ -16,17 +16,18 @@ import java.util.ResourceBundle;
 public class SendEmailJob implements Job {
 
     private final static Logger LOG = LoggerFactory.getLogger(SendEmailJob.class);
+    private static ResourceBundle bundle = ResourceBundle.getBundle("emailconfig");
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         try {
             ContactService contactService = new ContactService();
             ArrayList<Contact> birthdayContacts = contactService.getContactsByBirthDate();
-            String recipient = ResourceBundle.getBundle("emailconfig").getObject("admin_email").toString();
+            String recipient = bundle.getObject("admin_email").toString();
             String subject = "Birthdays";
             String message;
             if (birthdayContacts == null || birthdayContacts.size() == 0) {
-                message = "Сегодня без именинников :(";
+                message = bundle.getObject("no_birthday_email").toString();
             } else {
                 message = prepareMessage(birthdayContacts);
             }
@@ -38,7 +39,7 @@ public class SendEmailJob implements Job {
     }
 
     private String prepareMessage(ArrayList<Contact> birthdayContacts) {
-        String message = ResourceBundle.getBundle("emailconfig").getObject("birthday_email").toString() + "\n";
+        String message = bundle.getObject("birthday_email").toString() + "\n";
         for(Contact contact : birthdayContacts) {
             message += contact.getFirstName() + " ";
             message += contact.getLastName() + " ";
