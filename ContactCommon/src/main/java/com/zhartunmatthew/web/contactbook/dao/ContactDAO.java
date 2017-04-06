@@ -1,17 +1,20 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
 import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
-import com.zhartunmatthew.web.contactbook.dto.search.DateSearchType;
 import com.zhartunmatthew.web.contactbook.dto.search.SearchParameters;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.entityfactory.EntityFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 public class ContactDAO extends AbstractDAO<Long, Contact> {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(ContactDAO.class);
 
     private static final String SELECT_ALL_CONTACTS =
             "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
@@ -401,8 +404,11 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         query += buildStringQueryPart("street", parameters.getStreet());
         query += buildStringQueryPart("house_number", parameters.getHouse());
         query += buildStringQueryPart("flat", parameters.getFlat());
-        query += buildDateQueryPart(parameters.getDate(), parameters.getDateSearchType());
+        query += buildDateQueryPart(parameters.getFromDate(), ">=");
+        query += buildDateQueryPart(parameters.getToDate(), "<=");
         query += " ORDER BY last_name;";
+
+        LOGGER.info(query);
 
         return query;
     }
@@ -439,18 +445,8 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         }
     }
 
-    private String buildDateQueryPart(Date date, DateSearchType type) {
+    private String buildDateQueryPart(Date date, String sign) {
         if(date != null) {
-            String sign = "=";
-            if(type == DateSearchType.SAME) {
-                sign = "=";
-            }
-            if(type == DateSearchType.OLDER) {
-                sign = "<=";
-            }
-            if(type == DateSearchType.YOUNGER) {
-                sign = ">=";
-            }
             return " AND birth_date " + sign + "'" + date + "'";
         } else {
             return "";

@@ -15,8 +15,9 @@ public class SearchParameters {
     private String street;
     private String house;
     private String flat;
-    private Date date;
-    private DateSearchType dateSearchType;
+    private Date fromDate;
+    private Date toDate;
+
 
     public String getFirstName() {
         return firstName;
@@ -106,20 +107,20 @@ public class SearchParameters {
         this.street = street;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getFromDate() {
+        return fromDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
     }
 
-    public DateSearchType getDateSearchType() {
-        return dateSearchType;
+    public Date getToDate() {
+        return toDate;
     }
 
-    public void setDateSearchType(DateSearchType dateSearchType) {
-        this.dateSearchType = dateSearchType;
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
     }
 
     public String getPostcode() {
@@ -129,4 +130,6 @@ public class SearchParameters {
     public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
+
+
 }

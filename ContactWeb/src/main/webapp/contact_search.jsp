@@ -19,22 +19,26 @@
             <label> Отчество
                 <input id="patronymic" type="text" name="patronymic">
             </label>
-            <label> Поиск по дате
-                <select name="date-type">
-                    <option selected value="0"> Точная дата </option>
-                    <option value="1"> Младше </option>
-                    <option value="2"> Старше </option>
-                </select>
+            <label> Дата 'от'
+                <div class="date-filed">
+                    <input id="from-year" class="date date-year" type="text" name="from-birth-date-year" placeholder="Год">
+                </div>
+                <div class="date-filed">
+                    <input id="from-month" class="date date-month" type="text" name="from-birth-date-month" placeholder="Мес.">
+                </div>
+                <div class="date-filed">
+                    <input id="from-day" class="date date-day" type="text" name="from-birth-date-day" placeholder="День">
+                </div>
             </label>
-            <label> Ввведите дату
+            <label> Дата 'до'
                 <div class="date-filed">
-                    <input id="year" class="date date-year" type="text" name="birth-date-year" placeholder="Год">
+                    <input id="to-year" class="date date-year" type="text" name="to-birth-date-year" placeholder="Год">
                 </div>
                 <div class="date-filed">
-                    <input id="month" class="date date-month" type="text" name="birth-date-month" placeholder="Мес.">
+                    <input id="to-month" class="date date-month" type="text" name="to-birth-date-month" placeholder="Мес.">
                 </div>
                 <div class="date-filed">
-                    <input id="day" class="date date-day" type="text" name="birth-date-day" placeholder="День">
+                    <input id="to-day" class="date date-day" type="text" name="to-birth-date-day" placeholder="День">
                 </div>
             </label>
             <label> Пол

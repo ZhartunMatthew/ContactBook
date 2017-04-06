@@ -1,19 +1,17 @@
-package com.zhartunmatthew.web.contactbook.command.executablecommands.search;
+package com.zhartunmatthew.web.contactbook.command.executablecommands;
 
 import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
 import com.zhartunmatthew.web.contactbook.command.exception.CommandException;
-import com.zhartunmatthew.web.contactbook.dto.search.DateSearchType;
 import com.zhartunmatthew.web.contactbook.dto.search.SearchParameters;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.services.ContactService;
 import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class SearchContactsCommand implements AbstractCommand {
@@ -45,15 +43,16 @@ public class SearchContactsCommand implements AbstractCommand {
             searchParameters.setHouse(request.getParameter("house-number"));
             searchParameters.setFlat(request.getParameter("flat"));
 
-            String dateDay = request.getParameter("birth-date-day");
-            String dateMonth = request.getParameter("birth-date-month");
-            String dateYear = request.getParameter("birth-date-year");
-            if (!StringUtils.isEmpty(dateDay) &&
-                    !StringUtils.isEmpty(dateMonth) && !StringUtils.isEmpty(dateYear)) {
-                searchParameters.setDate(stringToDate(dateDay, dateMonth, dateYear));
-                searchParameters.setDateSearchType(
-                        DateSearchType.getType(Integer.parseInt(request.getParameter("date-type"))));
-            }
+            String fromDay = request.getParameter("from-birth-date-day");
+            String fromMonth = request.getParameter("from-birth-date-month");
+            String fromYear = request.getParameter("from-birth-date-year");
+            searchParameters.setFromDate(string2Date(fromDay, fromMonth, fromYear));
+
+            String toDay = request.getParameter("to-birth-date-day");
+            String toMonth = request.getParameter("to-birth-date-month");
+            String toYear = request.getParameter("to-birth-date-year");
+            searchParameters.setToDate(string2Date(toDay, toMonth, toYear));
+
             ContactService contactService = new ContactService();
             ArrayList<Contact> contacts = contactService.findAllByParameters(searchParameters);
 
@@ -65,27 +64,22 @@ public class SearchContactsCommand implements AbstractCommand {
         return COMMAND_URL;
     }
 
-    private Date stringToDate(String day, String month, String year) throws CommandException {
-        Integer iDay = Integer.parseInt(day);
-        Integer iMonth = Integer.parseInt(month);
-        Integer iYear = Integer.parseInt(year);
-
-        String dateString = iYear.toString();
-        dateString += iMonth < 10 ? "-0" + iMonth.toString() : "-" + iMonth.toString();
-        dateString += iDay < 10 ? "-0" + iDay.toString() : "-" + iDay.toString();
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date sqlDate = null;
-        try {
-            if(!dateString.isEmpty()) {
-                sqlDate = new java.sql.Date(dateFormat.parse(dateString).getTime());
-            } else {
-                sqlDate = null;
+    private Date string2Date(String day, String month, String year) throws CommandException {
+        if (checkDate(day, month, year)) {
+            DateTime dateTime = new DateTime();
+            try {
+                dateTime = dateTime.withDate(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+                return new Date(dateTime.getMillis());
+            } catch (NumberFormatException ex){
+                throw new CommandException("Can't parse date ", ex);
             }
-        } catch (ParseException e) {
-            throw new CommandException("Can't parse date");
+        } else {
+            return null;
         }
-        return sqlDate;
+    }
+
+    private boolean checkDate(String day, String month, String year) {
+        return StringUtils.isNotEmpty(day) && StringUtils.isNotEmpty(month) && StringUtils.isNotEmpty(year);
     }
 
     @Override

@@ -5,7 +5,7 @@ import com.zhartunmatthew.web.contactbook.command.executablecommands.AddContactC
 import com.zhartunmatthew.web.contactbook.command.executablecommands.DeleteContactCommand;
 import com.zhartunmatthew.web.contactbook.command.executablecommands.SendEmailCommand;
 import com.zhartunmatthew.web.contactbook.command.executablecommands.UpdateContactCommand;
-import com.zhartunmatthew.web.contactbook.command.executablecommands.search.SearchContactsCommand;
+import com.zhartunmatthew.web.contactbook.command.executablecommands.SearchContactsCommand;
 import com.zhartunmatthew.web.contactbook.command.getcommand.DownloadAttachmentCommand;
 import com.zhartunmatthew.web.contactbook.command.getcommand.GetImageCommand;
 import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactCommand;

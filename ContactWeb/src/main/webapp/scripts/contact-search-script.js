@@ -11,9 +11,12 @@ document.getElementById('clear-search').onclick = function () {
     firstName.value = '';
     lastName.value = '';
     patronymic.value = '';
-    day.value = '';
-    month.value = '';
-    year.value = '';
+    toDay.value = '';
+    toMonth.value = '';
+    toYear.value = '';
+    fromDay.value = '';
+    fromMonth.value = '';
+    fromYear.value = '';
     document.getElementById('sex').selectedIndex = 0;
     document.getElementById('nationality').selectedIndex = 0;
     document.getElementById('marital-status').selectedIndex = 0;
@@ -26,9 +29,12 @@ document.getElementById('clear-search').onclick = function () {
     highlightInput(firstName, true);
     highlightInput(lastName, true);
     highlightInput(patronymic, true);
-    highlightInput(day, true);
-    highlightInput(month, true);
-    highlightInput(year, true);
+    highlightInput(toDay, true);
+    highlightInput(toMonth, true);
+    highlightInput(toYear, true);
+    highlightInput(fromDay, true);
+    highlightInput(fromMonth, true);
+    highlightInput(fromYear, true);
     highlightInput(postcode, true);
     highlightInput(city, true);
     highlightInput(street, true);
@@ -82,8 +88,13 @@ function checkInputFieldsBeforeSubmit() {
         isInputCorrect = false;
         addErrorMessage('Отчество имеет недопустимую длину или содержит недопустимые символы');
     }
-    if(!checkDateInput()) {
+    if(!checkDateInput(fromDay, fromMonth, fromYear)) {
         isInputCorrect = false;
+        addErrorMessage('Ошибка ввода даты "ОТ"');
+    }
+    if(!checkDateInput(toDay, toMonth, toYear)) {
+        isInputCorrect = false;
+        addErrorMessage('Ошибка ввода даты "ДО"');
     }
 
     if(!checkTextOnLength(postcode, 8, false)) {
@@ -120,7 +131,10 @@ function isAnyFieldEntered() {
     if(patronymic.value.trim().length > 0) {
         return true;
     }
-    if(day.value.trim().length > 0) {
+    if(toDay.value.trim().length > 0) {
+        return true;
+    }
+    if(fromDay.value.trim().length > 0) {
         return true;
     }
     var sex = document.getElementById('sex');
@@ -173,18 +187,32 @@ patronymic.onkeyup = function () {
     checkInputOnText(this, 30, false);
 };
 
-var day = document.getElementById('day');
-var month = document.getElementById('month');
-var year = document.getElementById('year');
+var fromDay = document.getElementById('from-day');
+var fromMonth = document.getElementById('from-month');
+var fromYear = document.getElementById('from-year');
 
-day.onkeyup = function () {
-    checkDateInput();
+fromDay.onkeyup = function () {
+    checkDateInput(fromDay, fromMonth, fromYear);
 };
-month.onkeyup = function () {
-    checkDateInput();
+fromMonth.onkeyup = function () {
+    checkDateInput(fromDay, fromMonth, fromYear);
 };
-year.onkeyup = function () {
-    checkDateInput();
+fromYear.onkeyup = function () {
+    checkDateInput(fromDay, fromMonth, fromYear);
+};
+
+var toDay = document.getElementById('to-day');
+var toMonth = document.getElementById('to-month');
+var toYear = document.getElementById('to-year');
+
+toDay.onkeyup = function () {
+    checkDateInput(toDay, toMonth, toYear);
+};
+toMonth.onkeyup = function () {
+    checkDateInput(toDay, toMonth, toYear);
+};
+toYear.onkeyup = function () {
+    checkDateInput(toDay, toMonth, toYear);
 };
 
 var postcode = document.getElementById('postcode');
@@ -310,7 +338,7 @@ function isOnlyDigits(value) {
     return true;
 }
 
-function checkDateInput() {
+function checkDateInput(day, month, year) {
     var dayCorrect, monthCorrect, yearCorrect;
     if(day.value.length > 0 || month.value.length > 0 || year.value.length > 0) {
         var currentDate = new Date();
