@@ -75,6 +75,7 @@ emailSubjectArea.onkeyup = function () {
 
 function checkInputFieldsBeforeSubmit() {
     var isCorrectInput = true;
+    removeRedundantSpaces();
 
     if(templateOptionSelect.selectedIndex == 0 && emailTextArea.value.length < 1) {
         isCorrectInput = false;
@@ -121,4 +122,9 @@ function highlightInput(inputElement, isCorrect) {
     } else {
         inputElement.style.borderColor = 'red';
     }
+}
+
+function removeRedundantSpaces() {
+    emailTextArea.value = emailTextArea.value.replace(/ +/g," ");
+    emailSubjectArea.value = emailSubjectArea.value.replace(/ +/g," ");
 }

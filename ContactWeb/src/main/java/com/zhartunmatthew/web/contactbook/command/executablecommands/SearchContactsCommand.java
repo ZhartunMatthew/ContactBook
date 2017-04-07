@@ -23,9 +23,9 @@ public class SearchContactsCommand implements AbstractCommand {
         try {
             SearchParameters searchParameters = new SearchParameters();
 
-            searchParameters.setFirstName(request.getParameter("first-name"));
-            searchParameters.setLastName(request.getParameter("last-name"));
-            searchParameters.setPatronymic(request.getParameter("patronymic"));
+            searchParameters.setFirstName(trimIfNotNull(request.getParameter("first-name")));
+            searchParameters.setLastName(trimIfNotNull(request.getParameter("last-name")));
+            searchParameters.setPatronymic(trimIfNotNull(request.getParameter("patronymic")));
             searchParameters.setSex(request.getParameter("sex"));
 
             String maritalStatus = request.getParameter("marital-status");
@@ -37,11 +37,11 @@ public class SearchContactsCommand implements AbstractCommand {
             String country = request.getParameter("country");
             searchParameters.setCountry(country == null ? 0 : Integer.parseInt(country));
 
-            searchParameters.setPostcode(request.getParameter("postcode"));
-            searchParameters.setCity(request.getParameter("city"));
-            searchParameters.setStreet(request.getParameter("street"));
-            searchParameters.setHouse(request.getParameter("house-number"));
-            searchParameters.setFlat(request.getParameter("flat"));
+            searchParameters.setPostcode(trimIfNotNull(request.getParameter("postcode")));
+            searchParameters.setCity(trimIfNotNull(request.getParameter("city")));
+            searchParameters.setStreet(trimIfNotNull(request.getParameter("street")));
+            searchParameters.setHouse(trimIfNotNull(request.getParameter("house-number")));
+            searchParameters.setFlat(trimIfNotNull(request.getParameter("flat")));
 
             String fromDay = request.getParameter("from-birth-date-day");
             String fromMonth = request.getParameter("from-birth-date-month");
@@ -80,6 +80,14 @@ public class SearchContactsCommand implements AbstractCommand {
 
     private boolean checkDate(String day, String month, String year) {
         return StringUtils.isNotEmpty(day) && StringUtils.isNotEmpty(month) && StringUtils.isNotEmpty(year);
+    }
+
+    private String trimIfNotNull(String value) {
+        if(!StringUtils.isEmpty(value)) {
+            return value.trim();
+        } else {
+            return null;
+        }
     }
 
     @Override

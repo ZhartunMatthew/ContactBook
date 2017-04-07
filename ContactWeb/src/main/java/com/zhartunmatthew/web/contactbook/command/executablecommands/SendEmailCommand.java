@@ -24,7 +24,11 @@ public class SendEmailCommand implements AbstractCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             String emailText = request.getParameter("email-text");
-            String emailSubject = request.getParameter("email-subject");
+            if(emailText != null) {
+                emailText = emailText.trim();
+            }
+            String emailSubject = request.getParameter("email-subject").trim();
+            LOG.debug("Email text: {} Email subject: {}", emailText, emailSubject);
             ArrayList<Contact> recipients = getAllRecipients(request);
             int emailTemplate = Integer.parseInt(request.getParameter("selected-template-index"));
             sendEmails(recipients, emailTemplate, emailSubject, emailText);

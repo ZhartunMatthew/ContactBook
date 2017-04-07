@@ -9,6 +9,7 @@ public class HouseHandler extends AbstractHandler  {
     @Override
     public void handleField(Contact contact, String data) throws WrongInputException {
         if(!StringUtils.isEmpty(data)) {
+            data = data.trim();
             if(ValidationUtils.checkLength(data, 10)) {
                 contact.setHouseNumber(data);
             } else {

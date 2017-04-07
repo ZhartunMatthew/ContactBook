@@ -9,10 +9,15 @@ public class PatronymicHandler extends AbstractHandler  {
     @Override
     public void handleField(Contact contact, String data) throws WrongInputException {
         if(!StringUtils.isEmpty(data)) {
-            if(ValidationUtils.checkLength(data, 35) && ValidationUtils.hasOnlyChars(data, "-")) {
-                contact.setPatronymic(data);
+            data = data.trim();
+            if(data.length() > 0) {
+                if (ValidationUtils.checkLength(data, 35) && ValidationUtils.hasOnlyChars(data, "- ")) {
+                    contact.setPatronymic(data);
+                } else {
+                    throw new WrongInputException("Patronymic is invalid");
+                }
             } else {
-                throw new WrongInputException("Patronymic is invalid");
+                contact.setPatronymic(null);
             }
         } else {
             contact.setPatronymic(null);

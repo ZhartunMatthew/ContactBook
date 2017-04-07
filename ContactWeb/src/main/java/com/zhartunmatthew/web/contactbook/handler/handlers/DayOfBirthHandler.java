@@ -10,11 +10,12 @@ import java.sql.Date;
 
 public class DayOfBirthHandler extends AbstractHandler{
     @Override
-    public void handleField(Contact contact, String value) throws WrongInputException {
-        if (!StringUtils.isEmpty(value)) {
+    public void handleField(Contact contact, String data) throws WrongInputException {
+        if (!StringUtils.isEmpty(data)) {
             try {
-                if(ValidationUtils.isNumber(value)) {
-                    int day = Integer.parseInt(value);
+                data = data.trim();
+                if(ValidationUtils.isNumber(data)) {
+                    int day = Integer.parseInt(data);
                     if (day != 0) {
                         if (contact.getBirthDate() == null) {
                             contact.setBirthDate(new Date(0));

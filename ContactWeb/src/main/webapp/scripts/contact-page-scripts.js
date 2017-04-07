@@ -854,6 +854,8 @@ function checkInputFieldsBeforeSubmit() {
     popupErrorMessage.innerHTML = null;
     var isInputCorrect = true;
 
+    removeRedundantSpaces();
+
     if(!checkOnText(firstName, 30, true)) {
         isInputCorrect = false;
         addErrorMessage('Имя имеет недопустимую длину или содержит недопустимые символы');
@@ -881,28 +883,40 @@ function checkInputFieldsBeforeSubmit() {
         isInputCorrect = false;
         addErrorMessage('Работа введена некорректно');
     }
-    if(!checkTextOnLength(postcode, 8, false)) {
+    if(!checkOnTextWithDigits(postcode, 8, false)) {
         isInputCorrect = false;
         addErrorMessage('Индекс введен некорректно');
     }
-    if(!checkOnText(city, 30, false)) {
+    if(!checkOnTextWithDigits(city, 30, false)) {
         isInputCorrect = false;
         addErrorMessage('Город введен некорректно');
     }
-    if(!checkTextOnLength(street, 30, false)) {
+    if(!checkOnTextWithDigits(street, 30, false)) {
         isInputCorrect = false;
         addErrorMessage('Улица введена некорректно');
     }
-    if(!checkTextOnLength(house, 8, false)) {
+    if(!checkOnTextWithDigits(house, 8, false)) {
         isInputCorrect = false;
         addErrorMessage('Дом введен некорректно');
     }
-    if(!checkTextOnLength(flat, 8, false)) {
+    if(!checkOnTextWithDigits(flat, 8, false)) {
         isInputCorrect = false;
         addErrorMessage('Квартира введена некорректно');
     }
 
     return isInputCorrect;
+}
+
+function removeRedundantSpaces() {
+    firstName.value = firstName.value.replace(/ +/g," ");
+    lastName.value = lastName.value.replace(/ +/g," ");
+    patronymic.value = patronymic.value.replace(/ +/g," ");
+    job.value = job.value.replace(/ +/g," ");
+    postcode.value = postcode.value.replace(/ +/g," ");
+    city.value = city.value.replace(/ +/g," ");
+    street.value = street.value.replace(/ +/g," ");
+    house.value = house.value.replace(/ +/g," ");
+    flat.value = flat.value.replace(/ +/g," ");
 }
 
 var firstName = document.getElementById('first-name');
@@ -951,27 +965,27 @@ job.onkeyup = function () {
 
 var postcode = document.getElementById('postcode');
 postcode.onkeyup = function () {
-    checkInputOnLength(this, 8, false);
+    checkInputOnTextWithDigits(this, 8, false);
 };
 
 var city = document.getElementById('city');
 city.onkeyup = function () {
-    checkInputOnText(this, 30, false);
+    checkInputOnTextWithDigits(this, 30, false);
 };
 
 var street = document.getElementById('street');
 street.onkeyup = function () {
-    checkInputOnLength(this, 30, false);
+    checkInputOnTextWithDigits(this, 30, false);
 };
 
 var house = document.getElementById('house');
 house.onkeyup = function () {
-    checkInputOnLength(this, 8, false);
+    checkInputOnTextWithDigits(this, 8, false);
 };
 
 var flat = document.getElementById('flat');
 flat.onkeyup = function () {
-    checkInputOnLength(this, 8, false);
+    checkInputOnTextWithDigits(this, 8, false);
 };
 
 //------------------------------VALIDATION-----------------------------------------
@@ -988,6 +1002,14 @@ function checkInputOnText(inputElement, maxLength, isRequired) {
     }
 }
 
+function checkInputOnTextWithDigits(inputElement, maxLength, isRequired) {
+    if(checkOnTextWithDigits(inputElement, maxLength, isRequired)) {
+        highlightInput(inputElement, true);
+    } else {
+        highlightInput(inputElement, false);
+    }
+}
+
 function checkOnText(inputElement, maxLength, isRequired) {
     var length = inputElement.value.trim().length;
     if(isRequired && length < 1) {
@@ -995,6 +1017,19 @@ function checkOnText(inputElement, maxLength, isRequired) {
     }
 
     if(isOnlyLetters(inputElement.value) && length < maxLength) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkOnTextWithDigits(inputElement, maxLength, isRequired) {
+    var length = inputElement.value.trim().length;
+    if(isRequired && length < 1) {
+        return false;
+    }
+
+    if(isOnlyLettersDigitsSpaces(inputElement.value) && length < maxLength) {
         return true;
     } else {
         return false;
@@ -1036,7 +1071,17 @@ function checkTextOnLength(inputElement, maxLength, isRequired) {
 }
 
 function isOnlyLetters(value) {
-    var letters = letters_ru + letters_en + '-';
+    var letters = letters_ru + letters_en + '-' + ' ';
+    for (var i = 0; i < value.length; i++) {
+        if (letters.indexOf(value.toLowerCase().charAt(i)) == -1) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function isOnlyLettersDigitsSpaces(value) {
+    var letters = letters_ru + letters_en + '-' + digits + ' ';
     for (var i = 0; i < value.length; i++) {
         if (letters.indexOf(value.toLowerCase().charAt(i)) == -1) {
             return false;
@@ -1145,7 +1190,7 @@ function checkEmail(inputElement) {
     if(inputElement.value.length > 30) {
         return false;
     }
-    var regex = /^[\w]{1}[\w\.]*@[\w]+\.[a-z]{2,4}$/i;
+    var regex = /^[\w]{1}[\w\.-]*@[\w]+\.[a-z]{2,4}$/i;
     return regex.test(inputElement.value);
 }
 
@@ -1164,7 +1209,7 @@ function checkWebsite(inputElement) {
     if(inputElement.value.length > 30) {
         return false;
     }
-    var regex = /^[\w]*\.[a-z]{2,4}$/i;
+    var regex = /^[\w-]*\.[a-z]{2,4}$/i;
     return regex.test(inputElement.value);
 }
 
