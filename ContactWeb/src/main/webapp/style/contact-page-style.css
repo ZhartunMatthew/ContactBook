@@ -7,6 +7,10 @@ input:focus {
     outline-color: #9e9e9e;
 }
 
+select:focus {
+    outline-color: #9e9e9e;
+}
+
 form.contact label {
     margin: 10px 0;
     display: block;

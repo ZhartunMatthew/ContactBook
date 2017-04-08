@@ -3,6 +3,7 @@ package com.zhartunmatthew.web.contactbook.jsonbuilder;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.abstractions.ContactEntity;
+import com.zhartunmatthew.web.contactbook.validation.ValidationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
@@ -79,7 +80,11 @@ public class JSONBuilder {
 
     private static void commentSetter(ContactEntity entity, Object comment) {
         if(!StringUtils.isEmpty((String) comment)) {
-            entity.setComment((String) comment);
+            String commentStr = (String) comment;
+            if(!ValidationUtils.checkLength(commentStr, 160)) {
+                commentStr = commentStr.substring(0, 160);
+            }
+            entity.setComment(commentStr);
         } else {
             entity.setComment(null);
         }

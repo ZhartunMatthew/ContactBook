@@ -77,12 +77,12 @@ function checkInputFieldsBeforeSubmit() {
     var isCorrectInput = true;
     removeRedundantSpaces();
 
-    if(templateOptionSelect.selectedIndex == 0 && emailTextArea.value.length < 1) {
+    if(templateOptionSelect.selectedIndex == 0 && emailTextArea.value.trim().length < 1) {
         isCorrectInput = false;
         addErrorMessage('Если шаблон не выбран, необходимо ввести текст');
     }
 
-    if(emailSubjectArea.value.length < 1) {
+    if(emailSubjectArea.value.trim().length < 1) {
         isCorrectInput = false;
         addErrorMessage('Необходимо ввести тему');
     }
@@ -126,5 +126,7 @@ function highlightInput(inputElement, isCorrect) {
 
 function removeRedundantSpaces() {
     emailTextArea.value = emailTextArea.value.replace(/ +/g," ");
+    emailTextArea.value = emailTextArea.value.trim();
     emailSubjectArea.value = emailSubjectArea.value.replace(/ +/g," ");
+    emailSubjectArea.value = emailSubjectArea.value.trim();
 }

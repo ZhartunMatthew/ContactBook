@@ -71,12 +71,12 @@ function checkInputFieldsBeforeSubmit() {
     popupErrorMessage.innerHTML = null;
     var isInputCorrect = true;
 
+    removeAllRedundantSpaces();
+
     if(!isAnyFieldEntered()) {
         addErrorMessage('Ни одно поле не введено!');
         return false;
     }
-
-    removeRedundantSpaces();
 
     if(!checkOnText(firstName, 30, false)) {
         isInputCorrect = false;
@@ -125,31 +125,36 @@ function checkInputFieldsBeforeSubmit() {
     return isInputCorrect;
 }
 
-function removeRedundantSpaces() {
-    firstName.value = firstName.value.replace(/ +/g," ");
-    lastName.value = lastName.value.replace(/ +/g," ");
-    patronymic.value = patronymic.value.replace(/ +/g," ");
-    postcode.value = postcode.value.replace(/ +/g," ");
-    city.value = city.value.replace(/ +/g," ");
-    street.value = street.value.replace(/ +/g," ");
-    house.value = house.value.replace(/ +/g," ");
-    flat.value = flat.value.replace(/ +/g," ");
+function removeAllRedundantSpaces() {
+    removeRedundantSpaces(firstName);
+    removeRedundantSpaces(lastName);
+    removeRedundantSpaces(patronymic);
+    removeRedundantSpaces(postcode);
+    removeRedundantSpaces(city);
+    removeRedundantSpaces(street);
+    removeRedundantSpaces(house);
+    removeRedundantSpaces(flat);
+}
+
+function removeRedundantSpaces(input) {
+    input.value = input.value.replace(/ +/g, " ");
+    input.value = input.value.trim();
 }
 
 function isAnyFieldEntered() {
-    if(firstName.value.trim().length > 0) {
+    if(!isEmpty(firstName)) {
         return true;
     }
-    if(lastName.value.trim().length > 0) {
+    if(!isEmpty(lastName)) {
         return true;
     }
-    if(patronymic.value.trim().length > 0) {
+    if(!isEmpty(patronymic)) {
         return true;
     }
-    if(toDay.value.trim().length > 0) {
+    if(!isEmpty(toDay)) {
         return true;
     }
-    if(fromDay.value.trim().length > 0) {
+    if(!isEmpty(fromDay)) {
         return true;
     }
     var sex = document.getElementById('sex');
@@ -164,7 +169,7 @@ function isAnyFieldEntered() {
     if(marital.selectedIndex > 0) {
         return true;
     }
-    if(postcode.value.trim().length  > 0) {
+    if(!isEmpty(postcode)) {
         return true;
     }
     var country = document.getElementById('country');
@@ -172,16 +177,16 @@ function isAnyFieldEntered() {
         return true;
     }
 
-    if(city.value.trim().length > 0) {
+    if(!isEmpty(city)) {
         return true;
     }
-    if(street.value.trim().length > 0) {
+    if(!isEmpty(street)) {
         return true;
     }
-    if(house.value.trim().length  > 0) {
+    if(!isEmpty(house)) {
         return true;
     }
-    if(flat.value.trim().length > 0) {
+    if(!isEmpty(flat)) {
         return true;
     }
     return false;
@@ -269,9 +274,17 @@ function checkInputOnText(inputElement, maxLength, isRequired) {
     }
 }
 
+function checkInputOnTextWithDigits(inputElement, maxLength, isRequired) {
+    if(checkOnTextWithDigits(inputElement, maxLength, isRequired)) {
+        highlightInput(inputElement, true);
+    } else {
+        highlightInput(inputElement, false);
+    }
+}
+
 function checkOnText(inputElement, maxLength, isRequired) {
     var length = inputElement.value.trim().length;
-    if(isRequired && length < 1) {
+    if(isRequired && isEmpty(inputElement)) {
         return false;
     }
 
@@ -284,7 +297,7 @@ function checkOnText(inputElement, maxLength, isRequired) {
 
 function checkOnTextWithDigits(inputElement, maxLength, isRequired) {
     var length = inputElement.value.trim().length;
-    if(isRequired && length < 1) {
+    if(isRequired && isEmpty(inputElement)) {
         return false;
     }
 
@@ -305,7 +318,7 @@ function checkInputOnLength(inputElement, maxLength, isRequired) {
 
 function checkTextOnLength(inputElement, maxLength, isRequired) {
     var length = inputElement.value.trim().length;
-    if(isRequired && length < 1) {
+    if(isRequired && isEmpty(inputElement)) {
         return false;
     }
 
@@ -338,7 +351,7 @@ function checkInputOnDigits(inputElement, min, max, isRequired) {
 
 function checkOnDigits(inputElement, min, max, isRequired) {
     var length = inputElement.value.length;
-    if(isRequired && length < 1) {
+    if(isRequired && isEmpty(inputElement)) {
         return false;
     }
 
@@ -368,7 +381,7 @@ function isOnlyDigits(value) {
 
 function checkDateInput(day, month, year) {
     var dayCorrect, monthCorrect, yearCorrect;
-    if(day.value.length > 0 || month.value.length > 0 || year.value.length > 0) {
+    if(!isEmpty(day) || !isEmpty(month) || !isEmpty(year)) {
         var currentDate = new Date();
         dayCorrect = checkInputOnDigits(day, 1, 31, true);
         monthCorrect = checkInputOnDigits(month, 1, 12, true);
@@ -403,14 +416,24 @@ function checkDateInput(day, month, year) {
 }
 
 function checkDateOrder() {
-    var fromDate = new Date(fromYear.value, fromMonth.value, fromDay.value);
-    var toDate = new Date(toYear.value, toMonth.value, toDay.value);
+    var fromDate = null, toDate = null;
+    if(!isEmpty(fromYear) && !isEmpty(fromMonth) && !isEmpty(fromDay)) {
+        fromDate = new Date(fromYear.value, fromMonth.value, fromDay.value);
+    }
 
-    if(fromDate.valueOf() > toDate.valueOf()) {
+    if(!isEmpty(toYear) && !isEmpty(toMonth) && !isEmpty(toDay)) {
+        toDate = new Date(toYear.value, toMonth.value, toDay.value);
+    }
+
+    if(fromDate !== null && toDate !== null && fromDate.valueOf() > toDate.valueOf()) {
         addErrorMessage("Даты не могут идти в таком порядке");
         return false;
     }
     return true;
+}
+
+function isEmpty(input) {
+    return input.value.trim().length === 0;
 }
 
 function isOnlyLettersDigitsSpaces(value) {

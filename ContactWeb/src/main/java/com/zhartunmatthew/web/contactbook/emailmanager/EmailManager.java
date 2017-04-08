@@ -41,7 +41,7 @@ public class EmailManager {
             message.setText(text);
             Transport.send(message);
         } catch (Exception e) {
-            LOG.error("Email send error");
+            LOG.error("Email send error", e);
         }
     }
 }

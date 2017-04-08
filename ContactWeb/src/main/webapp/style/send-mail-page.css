@@ -61,3 +61,7 @@
 .no-recipients {
     color: red;
 }
+
+textarea:focus {
+    outline-color: #9e9e9e;
+}

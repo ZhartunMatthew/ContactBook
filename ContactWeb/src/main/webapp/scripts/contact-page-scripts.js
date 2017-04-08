@@ -338,6 +338,8 @@ function valToType(value) {
 function checkPhoneInputBeforeSave() {
     var isCorrectInput = true;
 
+    removeAllRedundantSpacesPhone();
+
     if(!checkOnDigits(countryCode, 1, 9999, true)) {
         isCorrectInput = false;
         addErrorMessage("Некорректный ввод кода страны");
@@ -356,6 +358,10 @@ function checkPhoneInputBeforeSave() {
     }
 
     return isCorrectInput;
+}
+
+function removeAllRedundantSpacesPhone() {
+    removeRedundantSpaces(phoneComment);
 }
 
 var countryCode = document.getElementById('country-code');
@@ -669,6 +675,8 @@ var prevPath = '';
 function checkAttachmentInputBeforeSave(isRequired) {
     var isInputCorrect = true;
 
+    removeAllRedundantSpacesAttachment();
+
     var MAX_SIZE = 10;
     var SIZE_MB = 1024 * 1024;
     var attachmentFile = attachmentFileInput.files[0];
@@ -692,11 +700,11 @@ function checkAttachmentInputBeforeSave(isRequired) {
         }
     }
 
-    if(!checkAttachmentName(attachmentNameInput, 100, true)) {
+    if(!checkAttachmentName(attachmentNameInput, 80, true)) {
         isInputCorrect = false;
         addErrorMessage('Имя файла не указано или указано некорректно');
     }
-    if(!checkTextOnLength(attachmentCommentInput, 200, false)) {
+    if(!checkTextOnLength(attachmentCommentInput, 150, false)) {
         isInputCorrect = false;
         addErrorMessage('Комментарий файла не указан или указан некорректно');
     }
@@ -709,18 +717,23 @@ function checkAttachmentInputBeforeSave(isRequired) {
     return isInputCorrect;
 }
 
+function removeAllRedundantSpacesAttachment() {
+    removeRedundantSpaces(attachmentNameInput);
+    removeRedundantSpaces(attachmentCommentInput);
+}
+
 //----------------------------------ATTACHMENT VALIDATION---------------------
 
 var attachmentFileInput = document.getElementById('attachment-path');
 
 var attachmentNameInput = document.getElementById('attachment-name');
 attachmentNameInput.onkeyup = function () {
-    checkAttachmentNameInput(this, 100, true);
+    checkAttachmentNameInput(this, 80, true);
 };
 
 var attachmentCommentInput = document.getElementById('attachment-comment');
 attachmentCommentInput.onkeyup = function () {
-    checkAttachmentComment(this, 10, false);
+    checkAttachmentComment(this, 150, false);
 };
 
 function checkAttachmentNameInput(inputElement, maxLength, isRequired) {
@@ -854,7 +867,7 @@ function checkInputFieldsBeforeSubmit() {
     popupErrorMessage.innerHTML = null;
     var isInputCorrect = true;
 
-    removeRedundantSpaces();
+    removeAllRedundantSpaces();
 
     if(!checkOnText(firstName, 30, true)) {
         isInputCorrect = false;
@@ -907,16 +920,21 @@ function checkInputFieldsBeforeSubmit() {
     return isInputCorrect;
 }
 
-function removeRedundantSpaces() {
-    firstName.value = firstName.value.replace(/ +/g," ");
-    lastName.value = lastName.value.replace(/ +/g," ");
-    patronymic.value = patronymic.value.replace(/ +/g," ");
-    job.value = job.value.replace(/ +/g," ");
-    postcode.value = postcode.value.replace(/ +/g," ");
-    city.value = city.value.replace(/ +/g," ");
-    street.value = street.value.replace(/ +/g," ");
-    house.value = house.value.replace(/ +/g," ");
-    flat.value = flat.value.replace(/ +/g," ");
+function removeAllRedundantSpaces() {
+    removeRedundantSpaces(firstName);
+    removeRedundantSpaces(lastName);
+    removeRedundantSpaces(patronymic);
+    removeRedundantSpaces(job);
+    removeRedundantSpaces(postcode);
+    removeRedundantSpaces(city);
+    removeRedundantSpaces(street);
+    removeRedundantSpaces(house);
+    removeRedundantSpaces(flat);
+}
+
+function removeRedundantSpaces(input) {
+    input.value = input.value.replace(/ +/g, " ");
+    input.value = input.value.trim();
 }
 
 var firstName = document.getElementById('first-name');
