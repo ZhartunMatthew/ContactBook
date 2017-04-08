@@ -3,7 +3,6 @@ package com.zhartunmatthew.web.contactbook.dto.search;
 import com.zhartunmatthew.web.contactbook.services.UtilService;
 import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
 
-import java.nio.charset.Charset;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -138,31 +137,30 @@ public class SearchCriteria {
 
     public ArrayList<String> toArray() throws ServiceException {
         UtilService utilService = new UtilService();
-        Charset charset = Charset.forName("UTF-8");
         ArrayList<String> criteriaList = new ArrayList<>();
-        addStringToList(criteriaList, new String("имя:".getBytes(), charset), firstName);
-        addStringToList(criteriaList, new String("фамилия:".getBytes(), charset), lastName);
-        addStringToList(criteriaList, new String("отчество:".getBytes(), charset), patronymic);
-        addStringToList(criteriaList, new String("пол:".getBytes(), charset), sex);
-        if(maritalStatus != 0) {
-            criteriaList.add(new String("сп: ".getBytes(), charset) + utilService.getMaritalStatus(maritalStatus).getName());
+        addStringToList(criteriaList, "имя:", firstName);
+        addStringToList(criteriaList, "фамилия:", lastName);
+        addStringToList(criteriaList, "отчество:", patronymic);
+        addStringToList(criteriaList, "пол:", sex);
+        if (maritalStatus != 0) {
+            criteriaList.add("сп: " + utilService.getMaritalStatus(maritalStatus).getName());
         }
-        if(nationality != 0) {
-            criteriaList.add(new String("гр.: ".getBytes(), charset) + utilService.getNationality(nationality).getName());
+        if (nationality != 0) {
+            criteriaList.add("гр.: " + utilService.getNationality(nationality).getName());
         }
-        if(country != 0) {
-            criteriaList.add(new String("страна: ".getBytes(), charset) + utilService.getCountry(country).getName());
+        if (country != 0) {
+            criteriaList.add("страна: " + utilService.getCountry(country).getName());
         }
-        addStringToList(criteriaList, new String("инд.:".getBytes(), charset), postcode);
-        addStringToList(criteriaList, new String("г.:".getBytes(), charset), city);
-        addStringToList(criteriaList, new String("ул.:".getBytes(), charset), street);
-        addStringToList(criteriaList, new String("д.:".getBytes(), charset), house);
-        addStringToList(criteriaList, new String("кв. :".getBytes(), charset), flat);
-        if(fromDate != null) {
-            addStringToList(criteriaList, new String("от даты:".getBytes(), charset), getDateString(fromDate));
+        addStringToList(criteriaList, "инд.:", postcode);
+        addStringToList(criteriaList, "г.:", city);
+        addStringToList(criteriaList, "ул.:", street);
+        addStringToList(criteriaList, "д.:", house);
+        addStringToList(criteriaList, "кв. :", flat);
+        if (fromDate != null) {
+            addStringToList(criteriaList, "от даты:", getDateString(fromDate));
         }
-        if(toDate != null) {
-            addStringToList(criteriaList, new String("до даты:".getBytes(), charset), getDateString(toDate));
+        if (toDate != null) {
+            addStringToList(criteriaList,"до даты:", getDateString(toDate));
         }
 
         return criteriaList;
