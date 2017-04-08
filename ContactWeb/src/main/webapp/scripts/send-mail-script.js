@@ -64,7 +64,7 @@ function addErrorMessage(message) {
 }
 
 emailTextArea.onkeyup = function () {
-    if(templateOptionSelect.selectedIndex == 0) {
+    if(templateOptionSelect.selectedIndex === 0) {
         checkInputOnLength(this, 200, true);
     }
 };
@@ -77,7 +77,7 @@ function checkInputFieldsBeforeSubmit() {
     var isCorrectInput = true;
     removeRedundantSpaces();
 
-    if(templateOptionSelect.selectedIndex == 0 && emailTextArea.value.trim().length < 1) {
+    if(templateOptionSelect.selectedIndex === 0 && emailTextArea.value.trim().length < 1) {
         isCorrectInput = false;
         addErrorMessage('Если шаблон не выбран, необходимо ввести текст');
     }

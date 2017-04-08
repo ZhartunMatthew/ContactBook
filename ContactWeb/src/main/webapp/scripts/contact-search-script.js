@@ -439,7 +439,7 @@ function isEmpty(input) {
 function isOnlyLettersDigitsSpaces(value) {
     var letters = letters_ru + letters_en + '-' + digits + ' ';
     for (var i = 0; i < value.length; i++) {
-        if (letters.indexOf(value.toLowerCase().charAt(i)) == -1) {
+        if (letters.indexOf(value.toLowerCase().charAt(i)) === -1) {
             return false;
         }
     }

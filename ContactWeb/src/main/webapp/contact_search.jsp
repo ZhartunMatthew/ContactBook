@@ -3,6 +3,7 @@
 <html>
     <head>
         <title> Поиск контактов </title>
+        <link rel="stylesheet" type="text/css" href="style/common-style.css">
         <link rel="stylesheet" type="text/css" href="style/form-style.css">
         <link rel="stylesheet" type="text/css" href="style/search-page.css">
         <link rel="stylesheet" type="text/css" href="style/popup-style.css">

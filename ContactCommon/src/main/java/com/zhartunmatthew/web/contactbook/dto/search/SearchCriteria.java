@@ -2,7 +2,7 @@ package com.zhartunmatthew.web.contactbook.dto.search;
 
 import java.sql.Date;
 
-public class SearchParameters {
+public class SearchCriteria {
     private String firstName;
     private String lastName;
     private String patronymic;
@@ -17,7 +17,6 @@ public class SearchParameters {
     private String flat;
     private Date fromDate;
     private Date toDate;
-
 
     public String getFirstName() {
         return firstName;

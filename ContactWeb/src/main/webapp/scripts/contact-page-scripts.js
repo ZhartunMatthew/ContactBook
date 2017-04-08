@@ -337,6 +337,7 @@ function valToType(value) {
 
 function checkPhoneInputBeforeSave() {
     var isCorrectInput = true;
+    popupErrorMessage.innerHTML = null;
 
     removeAllRedundantSpacesPhone();
 
@@ -674,6 +675,7 @@ function prepareAttachmentForSubmit() {
 var prevPath = '';
 function checkAttachmentInputBeforeSave(isRequired) {
     var isInputCorrect = true;
+    popupErrorMessage.innerHTML = null;
 
     removeAllRedundantSpacesAttachment();
 
@@ -1091,7 +1093,7 @@ function checkTextOnLength(inputElement, maxLength, isRequired) {
 function isOnlyLetters(value) {
     var letters = letters_ru + letters_en + '-' + ' ';
     for (var i = 0; i < value.length; i++) {
-        if (letters.indexOf(value.toLowerCase().charAt(i)) == -1) {
+        if (letters.indexOf(value.toLowerCase().charAt(i)) === -1) {
             return false;
         }
     }
@@ -1101,7 +1103,7 @@ function isOnlyLetters(value) {
 function isOnlyLettersDigitsSpaces(value) {
     var letters = letters_ru + letters_en + '-' + digits + ' ';
     for (var i = 0; i < value.length; i++) {
-        if (letters.indexOf(value.toLowerCase().charAt(i)) == -1) {
+        if (letters.indexOf(value.toLowerCase().charAt(i)) === -1) {
             return false;
         }
     }
@@ -1150,7 +1152,7 @@ function checkOnDigits(inputElement, min, max, isRequired) {
 
 function isOnlyDigits(value) {
     for (var i = 0; i < value.length; i++) {
-        if (digits.indexOf(value.toLowerCase().charAt(i)) == -1) {
+        if (digits.indexOf(value.toLowerCase().charAt(i)) === -1) {
             return false;
         }
     }
@@ -1159,6 +1161,7 @@ function isOnlyDigits(value) {
 
 function checkDateInput() {
     var dayCorrect, monthCorrect, yearCorrect;
+    popupErrorMessage.innerHTML = null;
     if(day.value.length > 0 || month.value.length > 0 || year.value.length > 0) {
         var currentDate = new Date();
         dayCorrect = checkInputOnDigits(day, 1, 31, true);

@@ -2,7 +2,7 @@ package com.zhartunmatthew.web.contactbook.command.executablecommands;
 
 import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
 import com.zhartunmatthew.web.contactbook.command.exception.CommandException;
-import com.zhartunmatthew.web.contactbook.dto.search.SearchParameters;
+import com.zhartunmatthew.web.contactbook.dto.search.SearchCriteria;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.services.ContactService;
 import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
@@ -21,12 +21,14 @@ public class SearchContactsCommand implements AbstractCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
-            SearchParameters searchParameters = new SearchParameters();
+            SearchCriteria searchParameters = new SearchCriteria();
 
             searchParameters.setFirstName(trimIfNotNull(request.getParameter("first-name")));
             searchParameters.setLastName(trimIfNotNull(request.getParameter("last-name")));
             searchParameters.setPatronymic(trimIfNotNull(request.getParameter("patronymic")));
-            searchParameters.setSex(request.getParameter("sex"));
+
+            String sex = request.getParameter("sex");
+            searchParameters.setSex(sex != null && !sex.equals("X") ? sex : null);
 
             String maritalStatus = request.getParameter("marital-status");
             searchParameters.setMaritalStatus(maritalStatus == null ? 0 : Integer.parseInt(maritalStatus));

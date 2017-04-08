@@ -1,7 +1,8 @@
 package com.zhartunmatthew.web.contactbook.dao;
 
 import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
-import com.zhartunmatthew.web.contactbook.dto.search.SearchParameters;
+import com.zhartunmatthew.web.contactbook.dto.search.SearchCriteria;
+import com.zhartunmatthew.web.contactbook.dto.search.SearchCriteriaBuilder;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
@@ -113,6 +114,8 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
 
     private static final String UPDATE_CONTACT_ADDRESS =
             "UPDATE addresses SET city = ?, street = ?, house_number = ?, flat = ?, postcode = ? WHERE contact_id = ?";
+
+    private static int position = 0;
 
     public ContactDAO(Connection connection) {
         super(connection);
@@ -362,8 +365,9 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         }
     }
 
-    public ArrayList<Contact> searchUserByParameters(SearchParameters parameters) throws DAOException, SQLException {
-        PreparedStatement statement = connection.prepareStatement(buildQuery(parameters, PARAMS_QUERY));
+    public ArrayList<Contact> searchUserByParameters(SearchCriteria criteria) throws DAOException, SQLException {
+        SearchCriteriaBuilder builder = new SearchCriteriaBuilder(criteria);
+        PreparedStatement statement = builder.getPreparedStatement(connection);
 
         ResultSet contactResult = statement.executeQuery();
         ArrayList<Contact> contacts = new ArrayList<>();
@@ -391,28 +395,6 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         return contacts;
     }
 
-    private String buildQuery(SearchParameters parameters, String query) {
-        query += buildStringQueryPart("first_name", parameters.getFirstName());
-        query += buildStringQueryPart("last_name", parameters.getLastName());
-        query += buildStringQueryPart("patronymic", parameters.getPatronymic());
-        query += buildSexQueryPart(parameters.getSex());
-        query += buildIntQueryPart("marital_status.id_marital_status", parameters.getMaritalStatus());
-        query += buildIntQueryPart("nationality.id_nationality", parameters.getNationality());
-        query += buildIntQueryPart("countries.id_country", parameters.getCountry());
-        query += buildStringQueryPart("postcode", parameters.getPostcode());
-        query += buildStringQueryPart("city", parameters.getCity());
-        query += buildStringQueryPart("street", parameters.getStreet());
-        query += buildStringQueryPart("house_number", parameters.getHouse());
-        query += buildStringQueryPart("flat", parameters.getFlat());
-        query += buildDateQueryPart(parameters.getFromDate(), ">=");
-        query += buildDateQueryPart(parameters.getToDate(), "<=");
-        query += " ORDER BY last_name;";
-
-        LOGGER.info(query);
-
-        return query;
-    }
-
     public ArrayList<Contact> readByBirthDate() throws DAOException {
         ArrayList<Contact> contacts = new ArrayList<>();
         ResultSet contactResultSet;
@@ -429,27 +411,4 @@ public class ContactDAO extends AbstractDAO<Long, Contact> {
         return contacts;
     }
 
-    private String buildStringQueryPart(String parameter, String value) {
-        return value != null && !value.isEmpty() ? String.format(" AND %s LIKE '%s'", parameter, value) : "";
-    }
-
-    private String buildSexQueryPart(String value) {
-        return value != null && !value.equals("X") ? String.format(" AND sex = '%s'", value) : "";
-    }
-
-    private String buildIntQueryPart(String parameter, int value) {
-        if(value != 0) {
-            return String.format(" AND %s LIKE '%d'", parameter, value);
-        } else {
-            return "";
-        }
-    }
-
-    private String buildDateQueryPart(Date date, String sign) {
-        if(date != null) {
-            return " AND birth_date " + sign + "'" + date + "'";
-        } else {
-            return "";
-        }
-    }
 }

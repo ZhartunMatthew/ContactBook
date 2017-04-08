@@ -20,6 +20,7 @@
 <html>
     <head>
         <title> <c:out value="${titleName}"/> </title>
+        <link rel="stylesheet" type="text/css" href="style/common-style.css">
         <link rel="stylesheet" type="text/css" href="style/column-style.css">
         <link rel="stylesheet" type="text/css" href="style/contact-page-style.css">
         <link rel="stylesheet" type="text/css" href="style/popup-style.css">

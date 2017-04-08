@@ -7,7 +7,7 @@ import com.zhartunmatthew.web.contactbook.dao.ContactDAO;
 import com.zhartunmatthew.web.contactbook.dao.PhoneDAO;
 import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionUtils;
-import com.zhartunmatthew.web.contactbook.dto.search.SearchParameters;
+import com.zhartunmatthew.web.contactbook.dto.search.SearchCriteria;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
@@ -133,13 +133,13 @@ public class ContactService {
         return contacts;
     }
 
-    public ArrayList<Contact> findAllByParameters(SearchParameters parameters) throws ServiceException {
+    public ArrayList<Contact> findAllByParameters(SearchCriteria criteria) throws ServiceException {
         ArrayList<Contact> contacts = null;
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
-            contacts = contactDAO.searchUserByParameters(parameters);
+            contacts = contactDAO.searchUserByParameters(criteria);
         } catch (SQLException | DAOException ex) {
-            throw new ServiceException("Can't find contacts by parameters", ex);
+            throw new ServiceException("Can't find contacts by criteria", ex);
         }
         return contacts;
     }
