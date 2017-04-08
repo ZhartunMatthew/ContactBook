@@ -46,8 +46,6 @@ public class SearchCriteriaBuilder {
         position = setDate(statement, position, criteria.getFromDate());
         position = setDate(statement, position, criteria.getToDate());
 
-        System.out.println("READY QUERY: " + statement.toString());
-
         return statement;
     }
 
@@ -68,8 +66,6 @@ public class SearchCriteriaBuilder {
         stringBuilder.append(dateQueryPart(criteria.getFromDate(), ">="));
         stringBuilder.append(dateQueryPart(criteria.getToDate(), "<="));
         stringBuilder.append(" ORDER BY last_name;");
-
-        System.out.println(">>>>>>>>> QUERY: " + stringBuilder.toString());
 
         return stringBuilder.toString();
     }

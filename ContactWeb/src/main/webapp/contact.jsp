@@ -20,7 +20,6 @@
 <html>
     <head>
         <title> <c:out value="${titleName}"/> </title>
-        <link rel="stylesheet" type="text/css" href="style/common-style.css">
         <link rel="stylesheet" type="text/css" href="style/column-style.css">
         <link rel="stylesheet" type="text/css" href="style/contact-page-style.css">
         <link rel="stylesheet" type="text/css" href="style/popup-style.css">
@@ -41,34 +40,34 @@
                 </div>
                 <input id="old-contact-photo" type="hidden" name="photo-path" value="${contact.photoPath}">
                 <label> Фамилия*
-                    <input id="last-name" type="text" name="last-name" value="${contact.lastName}">
+                    <input id="last-name" type="text" name="last-name" value="${contact.lastName}" tabindex="1">
                 </label>
                 <label> Имя*
-                    <input id="first-name" type="text" name="first-name" value="${contact.firstName}">
+                    <input id="first-name" type="text" name="first-name" value="${contact.firstName}" tabindex="2">
                 </label>
                 <label> Отчество
-                    <input id="patronymic" type="text" name="patronymic" value="${contact.patronymic}">
+                    <input id="patronymic" type="text" name="patronymic" value="${contact.patronymic}" tabindex="3">
                 </label>
                 <label> Дата рождения
                     <div class="date-filed">
-                        <input id="year" class="date date-year" type="text" name="birth-date-year" placeholder="Год" value="${year}">
+                        <input id="year" class="date date-year" type="text" name="birth-date-year" placeholder="Год" value="${year}" tabindex="6">
                     </div>
                     <div class="date-filed">
-                        <input id="month" class="date date-month" type="text" name="birth-date-month" placeholder="Мес." value="${month}">
+                        <input id="month" class="date date-month" type="text" name="birth-date-month" placeholder="Мес." value="${month}" tabindex="5">
                     </div>
                     <div class="date-filed">
-                        <input id="day" class="date date-day" type="text" name="birth-date-day" placeholder="День" value="${day}">
+                        <input id="day" class="date date-day" type="text" name="birth-date-day" placeholder="День" value="${day}" tabindex="4">
                     </div>
                 </label>
                 <label> Пол
-                    <select name="sex">
+                    <select name="sex" tabindex="7">
                         <option ${empty contact.sex ? 'selected' : ''} value="X"> Не выбран </option>
                         <option ${contact.sex == 'M' ? 'selected' : ''} value="M"> Мужчина </option>
                         <option ${contact.sex == 'F' ? 'selected' : ''} value="F"> Женщина </option>
                     </select>
                 </label>
                 <label> Гражданство
-                    <select name="nationality">
+                    <select name="nationality" tabindex="8">
                         <option ${empty contact.nationality ? 'selected' : ''} value="0"> Не выбрано </option>
                         <c:forEach var="nationality" items="${nationalities}">
                             <option ${contact.nationality == nationality.id ? 'selected' : ''} value="${nationality.id}">
@@ -78,7 +77,7 @@
                     </select>
                 </label>
                 <label> Семейное положение
-                    <select name="marital-status">
+                    <select name="marital-status" tabindex="9">
                         <option ${empty contact.maritalStatus ? 'selected' : ''} value="0"> Не выбрано </option>
                         <c:forEach var="maritalStatus" items="${martialStatuses}">
                             <option ${contact.maritalStatus == maritalStatus.id ? 'selected' : ''} value="${maritalStatus.id}">
@@ -88,21 +87,21 @@
                     </select>
                 </label>
                 <label> Website
-                    <input id="website" name="website" type="text" value="${contact.website}">
+                    <input id="website" name="website" type="text" value="${contact.website}" tabindex="10">
                 </label>
                 <label> Email
-                    <input id="email" name="email" type="text" value="${contact.email}">
+                    <input id="email" name="email" type="text" value="${contact.email}" tabindex="11">
                 </label>
                 <label> Текущее место работы
-                    <input id="job" name="job" type="text" value="${contact.job}">
+                    <input id="job" name="job" type="text" value="${contact.job}" tabindex="12">
                 </label>
 
                 <h3>Адрес</h3>
                 <label> Индекс
-                    <input id="postcode" name="postcode" type="text" value="${contact.postCode}">
+                    <input id="postcode" name="postcode" type="text" value="${contact.postCode}" tabindex="13">
                 </label>
                 <label> Страна
-                    <select name="country">
+                    <select name="country" tabindex="14">
                         <option ${empty contact.country ? 'selected' : ''} value="0"> Не выбрано </option>
                         <c:forEach var="country" items="${countries}">
                             <option ${contact.country == country.id ? 'selected' : ''} value="${country.id}">
@@ -112,16 +111,16 @@
                     </select>
                 </label>
                 <label> Город
-                    <input id="city" name="city" type="text" value="${contact.city}">
+                    <input id="city" name="city" type="text" value="${contact.city}" tabindex="15">
                 </label>
                 <label> Улица
-                    <input id="street" name="street" type="text" value="${contact.street}">
+                    <input id="street" name="street" type="text" value="${contact.street}" tabindex="16">
                 </label>
                 <label> Дом
-                    <input id="house" name="house-number" type="text" value="${contact.houseNumber}">
+                    <input id="house" name="house-number" type="text" value="${contact.houseNumber}" tabindex="17">
                 </label>
                 <label> Квартира
-                    <input id="flat" name="flat" type="text" value="${contact.flat}">
+                    <input id="flat" name="flat" type="text" value="${contact.flat}" tabindex="18">
                 </label>
             </div>
 

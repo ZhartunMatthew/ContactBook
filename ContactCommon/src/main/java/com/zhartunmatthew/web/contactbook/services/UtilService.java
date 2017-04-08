@@ -51,4 +51,37 @@ public class UtilService {
         }
         return countries;
     }
+
+    public MaritalStatus getMaritalStatus(int id) throws ServiceException {
+        MaritalStatus maritalStatus = null;
+        try (Connection connection = ConnectionUtils.getConnection()) {
+            MaritalStatusDAO maritalStatusDAO = new MaritalStatusDAO(connection);
+            maritalStatus = maritalStatusDAO.read((long)id);
+        } catch (SQLException | DAOException ex) {
+            throw new ServiceException("Can't get martial statuses by id", ex);
+        }
+        return maritalStatus;
+    }
+
+    public Nationality getNationality(int id) throws ServiceException {
+        Nationality nationality = null;
+        try (Connection connection = ConnectionUtils.getConnection()) {
+            NationalityDAO maritalStatusDAO = new NationalityDAO(connection);
+            nationality = maritalStatusDAO.read((long)id);
+        } catch (SQLException | DAOException ex) {
+            throw new ServiceException("Can't get nationality by id", ex);
+        }
+        return nationality;
+    }
+
+    public Country getCountry(int id) throws ServiceException {
+        Country country = null;
+        try (Connection connection = ConnectionUtils.getConnection()) {
+            CountryDAO maritalStatusDAO = new CountryDAO(connection);
+            country = maritalStatusDAO.read((long)id);
+        } catch (SQLException | DAOException ex) {
+            throw new ServiceException("Can't get countries", ex);
+        }
+        return country;
+    }
 }

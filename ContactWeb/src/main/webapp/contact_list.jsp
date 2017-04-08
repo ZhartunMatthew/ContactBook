@@ -11,7 +11,6 @@
 <html>
 <head>
     <title> <c:out value="${titleName}"/> </title>
-    <link rel="stylesheet" type="text/css" href="style/common-style.css">
     <link rel="stylesheet" type="text/css" href="style/column-style.css">
     <link rel="stylesheet" type="text/css" href="style/button-style.css">
     <link rel="stylesheet" type="text/css" href="style/popup-style.css">
@@ -87,7 +86,15 @@
             </div>
         </c:if>
         <c:if test="${contactsCount == 0}">
-            <br> <div class="not-found"> Контактов с заданными параметрами не найдены! </div>
+            <br> <div class="not-found"> Контактов с заданными параметрами не найдено! </div>
+        </c:if>
+        <c:if test="${not null and not empty criteria}">
+            <div class="search-criteria-block">
+                <div class="search-criteria"> Критерий поиска: </div>
+                <c:forEach var="parameter" items="${criteria}">
+                    <input class="parameter-name" type="text" disabled value="${parameter}">
+                </c:forEach>
+            </div>
         </c:if>
         <div class="first-row">
             <div class="column column-1"> # </div>

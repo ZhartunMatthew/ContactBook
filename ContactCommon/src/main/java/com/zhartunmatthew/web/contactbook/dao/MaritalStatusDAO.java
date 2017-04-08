@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public class MaritalStatusDAO extends AbstractDAO<Long, MaritalStatus> {
 
     private static String SELECT_ALL = "SELECT id_marital_status, marital_status_name FROM marital_status";
+    private static String SELECT =
+            "SELECT id_marital_status, marital_status_name FROM marital_status WHERE id_marital_status = ?";
 
     public MaritalStatusDAO(Connection connection) {
         super(connection);
@@ -41,7 +43,20 @@ public class MaritalStatusDAO extends AbstractDAO<Long, MaritalStatus> {
 
     @Override
     public MaritalStatus read(Long id) throws DAOException {
-        return null;
+        MaritalStatus maritalStatus = null;
+        ResultSet resultSet;
+        try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
+            statement.setLong(1, id);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                maritalStatus = new MaritalStatus();
+                maritalStatus.setId(resultSet.getInt("id_marital_status"));
+                maritalStatus.setName(resultSet.getString("marital_status_name"));
+            }
+        } catch (Exception ex) {
+            throw new DAOException("Can't read all maritalStatus by id", ex);
+        }
+        return maritalStatus;
     }
 
     @Override

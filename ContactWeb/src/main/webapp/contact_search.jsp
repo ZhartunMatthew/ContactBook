@@ -3,7 +3,6 @@
 <html>
     <head>
         <title> Поиск контактов </title>
-        <link rel="stylesheet" type="text/css" href="style/common-style.css">
         <link rel="stylesheet" type="text/css" href="style/form-style.css">
         <link rel="stylesheet" type="text/css" href="style/search-page.css">
         <link rel="stylesheet" type="text/css" href="style/popup-style.css">
@@ -12,45 +11,45 @@
         <form id="contact-search-form" method="post" action="${pageContext.request.contextPath}/controller?command=search_contacts">
             <h3> Введите данные о контакте </h3>
             <label> Фамилия
-                <input id="last-name" type="text" name="last-name">
+                <input id="last-name" type="text" name="last-name" tabindex="1">
             </label>
             <label> Имя
-                <input id="first-name" type="text" name="first-name">
+                <input id="first-name" type="text" name="first-name" tabindex="2">
             </label>
             <label> Отчество
-                <input id="patronymic" type="text" name="patronymic">
+                <input id="patronymic" type="text" name="patronymic" tabindex="3">
             </label>
-            <label> Дата 'от'
+            <label> Дата рождения с
                 <div class="date-filed">
-                    <input id="from-year" class="date date-year" type="text" name="from-birth-date-year" placeholder="Год">
+                    <input id="from-year" class="date date-year" type="text" name="from-birth-date-year" placeholder="Год" tabindex="6">
                 </div>
                 <div class="date-filed">
-                    <input id="from-month" class="date date-month" type="text" name="from-birth-date-month" placeholder="Мес.">
+                    <input id="from-month" class="date date-month" type="text" name="from-birth-date-month" placeholder="Мес." tabindex="5">
                 </div>
                 <div class="date-filed">
-                    <input id="from-day" class="date date-day" type="text" name="from-birth-date-day" placeholder="День">
+                    <input id="from-day" class="date date-day" type="text" name="from-birth-date-day" placeholder="День" tabindex="4">
                 </div>
             </label>
-            <label> Дата 'до'
+            <label> Дата рождения до
                 <div class="date-filed">
-                    <input id="to-year" class="date date-year" type="text" name="to-birth-date-year" placeholder="Год">
+                    <input id="to-year" class="date date-year" type="text" name="to-birth-date-year" placeholder="Год" tabindex="9">
                 </div>
                 <div class="date-filed">
-                    <input id="to-month" class="date date-month" type="text" name="to-birth-date-month" placeholder="Мес.">
+                    <input id="to-month" class="date date-month" type="text" name="to-birth-date-month" placeholder="Мес." tabindex="8">
                 </div>
                 <div class="date-filed">
-                    <input id="to-day" class="date date-day" type="text" name="to-birth-date-day" placeholder="День">
+                    <input id="to-day" class="date date-day" type="text" name="to-birth-date-day" placeholder="День" tabindex="7">
                 </div>
             </label>
             <label> Пол
-                <select id="sex" name="sex">
+                <select id="sex" name="sex" tabindex="10">
                     <option selected value="X"> Не выбран </option>
                     <option value="M"> Мужчина </option>
                     <option value="F"> Женщина </option>
                 </select>
             </label>
             <label> Гражданство
-                <select id="nationality" name="nationality">
+                <select id="nationality" name="nationality" tabindex="11">
                     <option selected value="0"> Не выбрано </option>
                     <c:forEach var="nationality" items="${nationalities}">
                         <option ${contact.nationality == nationality.id ? 'selected' : ''} value="${nationality.id}">
@@ -60,7 +59,7 @@
                 </select>
             </label>
             <label> Семейное положение
-                <select id="marital-status" name="marital-status">
+                <select id="marital-status" name="marital-status" tabindex="12">
                     <option selected value="0"> Не выбрано </option>
                     <c:forEach var="maritalStatus" items="${martialStatuses}">
                         <option ${contact.maritalStatus == maritalStatus.id ? 'selected' : ''} value="${maritalStatus.id}">
@@ -72,10 +71,10 @@
 
             <h3>Адрес</h3>
             <label> Индекс
-                <input id="postcode" name="postcode" type="text">
+                <input id="postcode" name="postcode" type="text" tabindex="13">
             </label>
             <label> Страна
-                <select id="country" name="country">
+                <select id="country" name="country" tabindex="14">
                     <option selected value="0"> Не выбрано </option>
                     <c:forEach var="country" items="${countries}">
                         <option ${contact.country == country.id ? 'selected' : ''} value="${country.id}">
@@ -85,16 +84,16 @@
                 </select>
             </label>
             <label> Город
-                <input id="city" name="city" type="text">
+                <input id="city" name="city" type="text" tabindex="15">
             </label>
             <label> Улица
-                <input id="street" name="street" type="text">
+                <input id="street" name="street" type="text" tabindex="16">
             </label>
             <label> Дом
-                <input id="house" name="house-number" type="text">
+                <input id="house" name="house-number" type="text" tabindex="17">
             </label>
             <label> Квартира
-                <input id="flat" name="flat" type="text">
+                <input id="flat" name="flat" type="text" tabindex="18">
             </label>
             <div class="search-buttons">
                 <a class="search-button" id="start-search"> Поиск </a>

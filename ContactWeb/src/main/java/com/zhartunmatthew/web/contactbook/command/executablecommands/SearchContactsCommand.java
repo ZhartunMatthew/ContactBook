@@ -21,44 +21,45 @@ public class SearchContactsCommand implements AbstractCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
-            SearchCriteria searchParameters = new SearchCriteria();
+            SearchCriteria criteria = new SearchCriteria();
 
-            searchParameters.setFirstName(trimIfNotNull(request.getParameter("first-name")));
-            searchParameters.setLastName(trimIfNotNull(request.getParameter("last-name")));
-            searchParameters.setPatronymic(trimIfNotNull(request.getParameter("patronymic")));
+            criteria.setFirstName(trimIfNotNull(request.getParameter("first-name")));
+            criteria.setLastName(trimIfNotNull(request.getParameter("last-name")));
+            criteria.setPatronymic(trimIfNotNull(request.getParameter("patronymic")));
 
             String sex = request.getParameter("sex");
-            searchParameters.setSex(sex != null && !sex.equals("X") ? sex : null);
+            criteria.setSex(sex != null && !sex.equals("X") ? sex : null);
 
             String maritalStatus = request.getParameter("marital-status");
-            searchParameters.setMaritalStatus(maritalStatus == null ? 0 : Integer.parseInt(maritalStatus));
+            criteria.setMaritalStatus(maritalStatus == null ? 0 : Integer.parseInt(maritalStatus));
 
             String nationality = request.getParameter("nationality");
-            searchParameters.setNationality((nationality == null ? 0 : Integer.parseInt(nationality)));
+            criteria.setNationality((nationality == null ? 0 : Integer.parseInt(nationality)));
 
             String country = request.getParameter("country");
-            searchParameters.setCountry(country == null ? 0 : Integer.parseInt(country));
+            criteria.setCountry(country == null ? 0 : Integer.parseInt(country));
 
-            searchParameters.setPostcode(trimIfNotNull(request.getParameter("postcode")));
-            searchParameters.setCity(trimIfNotNull(request.getParameter("city")));
-            searchParameters.setStreet(trimIfNotNull(request.getParameter("street")));
-            searchParameters.setHouse(trimIfNotNull(request.getParameter("house-number")));
-            searchParameters.setFlat(trimIfNotNull(request.getParameter("flat")));
+            criteria.setPostcode(trimIfNotNull(request.getParameter("postcode")));
+            criteria.setCity(trimIfNotNull(request.getParameter("city")));
+            criteria.setStreet(trimIfNotNull(request.getParameter("street")));
+            criteria.setHouse(trimIfNotNull(request.getParameter("house-number")));
+            criteria.setFlat(trimIfNotNull(request.getParameter("flat")));
 
             String fromDay = request.getParameter("from-birth-date-day");
             String fromMonth = request.getParameter("from-birth-date-month");
             String fromYear = request.getParameter("from-birth-date-year");
-            searchParameters.setFromDate(string2Date(fromDay, fromMonth, fromYear));
+            criteria.setFromDate(string2Date(fromDay, fromMonth, fromYear));
 
             String toDay = request.getParameter("to-birth-date-day");
             String toMonth = request.getParameter("to-birth-date-month");
             String toYear = request.getParameter("to-birth-date-year");
-            searchParameters.setToDate(string2Date(toDay, toMonth, toYear));
+            criteria.setToDate(string2Date(toDay, toMonth, toYear));
 
             ContactService contactService = new ContactService();
-            ArrayList<Contact> contacts = contactService.findAllByParameters(searchParameters);
+            ArrayList<Contact> contacts = contactService.findAllByParameters(criteria);
 
             request.setAttribute("contacts", contacts);
+            request.setAttribute("criteria", criteria.toArray());
             request.setAttribute("contactsCount", contacts != null ? contacts.size() : 0);
         } catch (ServiceException ex) {
             throw new CommandException("Can't execute command SearchContacts", ex);

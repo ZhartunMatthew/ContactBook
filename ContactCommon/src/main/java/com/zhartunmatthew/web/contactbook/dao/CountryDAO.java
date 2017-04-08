@@ -12,6 +12,8 @@ import java.util.ArrayList;
 public class CountryDAO extends AbstractDAO<Long, Country> {
 
     private static String SELECT_ALL = "SELECT countries.id_country, countries.country_name FROM countries";
+    private static String SELECT =
+            "SELECT countries.id_country, countries.country_name FROM countries WHERE id_country = ?";
 
     public CountryDAO(Connection connection) {
         super(connection);
@@ -42,7 +44,20 @@ public class CountryDAO extends AbstractDAO<Long, Country> {
 
     @Override
     public Country read(Long aLong) throws DAOException {
-        return null;
+        Country country = null;
+        ResultSet resultSet;
+        try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
+            statement.setLong(1, aLong);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                country = new Country();
+                country.setId(resultSet.getLong("id_country"));
+                country.setName(resultSet.getString("country_name"));
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Can't read all countries", ex);
+        }
+        return country;
     }
 
     @Override

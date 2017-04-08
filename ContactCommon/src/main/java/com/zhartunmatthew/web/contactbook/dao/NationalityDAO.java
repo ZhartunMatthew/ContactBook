@@ -13,6 +13,9 @@ public class NationalityDAO extends AbstractDAO<Long, Nationality> {
     private static String SELECT_ALL =
             "SELECT nationality.id_nationality, nationality.nationality_name FROM nationality";
 
+    private static String SELECT =
+            "SELECT nationality.id_nationality, nationality.nationality_name FROM nationality WHERE id_nationality = ?";
+
     public NationalityDAO(Connection connection) {
         super(connection);
     }
@@ -43,7 +46,20 @@ public class NationalityDAO extends AbstractDAO<Long, Nationality> {
 
     @Override
     public Nationality read(Long aLong) throws DAOException {
-        return null;
+        Nationality nationality = null;
+        ResultSet resultSet;
+        try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
+            statement.setLong(1, aLong);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                nationality = new Nationality();
+                nationality.setId(resultSet.getLong("id_nationality"));
+                nationality.setName(resultSet.getString("nationality_name"));
+            }
+        } catch (Exception ex) {
+            throw new DAOException("Can't read all nationality by id", ex);
+        }
+        return nationality;
     }
 
     @Override

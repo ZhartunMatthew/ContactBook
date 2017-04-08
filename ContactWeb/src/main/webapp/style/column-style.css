@@ -77,3 +77,18 @@ a {
 .not-found {
     color: red;
 }
+
+.parameter-name {
+    padding: 2px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.search-criteria {
+    margin-top: 7px;
+    margin-bottom: 10px;
+}
+
+.search-criteria-block {
+    max-width: 1200px;
+}

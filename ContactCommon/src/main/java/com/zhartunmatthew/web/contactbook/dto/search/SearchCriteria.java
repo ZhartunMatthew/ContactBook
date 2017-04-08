@@ -1,6 +1,12 @@
 package com.zhartunmatthew.web.contactbook.dto.search;
 
+import com.zhartunmatthew.web.contactbook.services.UtilService;
+import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
+
+import java.nio.charset.Charset;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class SearchCriteria {
     private String firstName;
@@ -130,5 +136,59 @@ public class SearchCriteria {
         this.postcode = postcode;
     }
 
+    public ArrayList<String> toArray() throws ServiceException {
+        UtilService utilService = new UtilService();
+        Charset charset = Charset.forName("UTF-8");
+        ArrayList<String> criteriaList = new ArrayList<>();
+        addStringToList(criteriaList, new String("имя:".getBytes(), charset), firstName);
+        addStringToList(criteriaList, new String("фамилия:".getBytes(), charset), lastName);
+        addStringToList(criteriaList, new String("отчество:".getBytes(), charset), patronymic);
+        addStringToList(criteriaList, new String("пол:".getBytes(), charset), sex);
+        if(maritalStatus != 0) {
+            criteriaList.add(new String("сп: ".getBytes(), charset) + utilService.getMaritalStatus(maritalStatus).getName());
+        }
+        if(nationality != 0) {
+            criteriaList.add(new String("гр.: ".getBytes(), charset) + utilService.getNationality(nationality).getName());
+        }
+        if(country != 0) {
+            criteriaList.add(new String("страна: ".getBytes(), charset) + utilService.getCountry(country).getName());
+        }
+        addStringToList(criteriaList, new String("инд.:".getBytes(), charset), postcode);
+        addStringToList(criteriaList, new String("г.:".getBytes(), charset), city);
+        addStringToList(criteriaList, new String("ул.:".getBytes(), charset), street);
+        addStringToList(criteriaList, new String("д.:".getBytes(), charset), house);
+        addStringToList(criteriaList, new String("кв. :".getBytes(), charset), flat);
+        if(fromDate != null) {
+            addStringToList(criteriaList, new String("от даты:".getBytes(), charset), getDateString(fromDate));
+        }
+        if(toDate != null) {
+            addStringToList(criteriaList, new String("до даты:".getBytes(), charset), getDateString(toDate));
+        }
+
+        return criteriaList;
+    }
+
+    private void addStringToList(ArrayList<String> list, String name, String value) {
+        if(value != null) {
+            list.add(name + " " + value);
+        }
+    }
+
+    private String getDateString(Date date) {
+        if(date != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            int iDay = calendar.get(Calendar.DAY_OF_MONTH);
+            int iMonth = calendar.get(Calendar.MONTH) + 1;
+            int iYear = calendar.get(Calendar.YEAR);
+            String day = iDay < 10 ? "0" + Integer.toString(iDay) : Integer.toString(iDay);
+            String month = iMonth < 10 ? "0" + Integer.toString(iMonth) : Integer.toString(iMonth);
+            String year = Integer.toString(iYear);
+
+            return day + "." + month + "." + year;
+        } else {
+            return "";
+        }
+    }
 
 }
