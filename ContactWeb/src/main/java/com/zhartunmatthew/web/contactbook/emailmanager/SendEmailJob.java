@@ -10,6 +10,7 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -33,7 +34,7 @@ public class SendEmailJob implements Job {
             }
             EmailManager emailManager = new EmailManager();
             emailManager.sendMail(recipient, subject, message);
-        } catch (ServiceException ex) {
+        } catch (ServiceException | MessagingException ex) {
             LOG.error("Error in SendMailJob", ex);
         }
     }
