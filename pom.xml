@@ -6,8 +6,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>ContactCommon</module>
-        <module>ContactWeb</module>
+        <module>contact-common</module>
+        <module>contact-web</module>
     </modules>
 
     <packaging>pom</packaging>
