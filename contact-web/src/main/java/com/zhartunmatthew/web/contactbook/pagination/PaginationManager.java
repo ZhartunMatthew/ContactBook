@@ -11,7 +11,8 @@ public class PaginationManager {
     private HttpServletRequest request;
 
     public PaginationManager(HttpServletRequest request, long itemsCount) {
-        this.pageCount = (int) (itemsCount + CONTACTS_PER_PAGE - 1) / CONTACTS_PER_PAGE;
+        this.pageCount =
+                (int) (itemsCount + CONTACTS_PER_PAGE - 1) / CONTACTS_PER_PAGE;
         this.request = request;
     }
 

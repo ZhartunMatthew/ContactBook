@@ -28,15 +28,12 @@ public class DownloadAttachmentCommand implements AbstractCommand {
             String fullPath = AttachmentService.getFullAttachmentPath(attachment);
             FileInputStream fileInputStream = null;
             OutputStream outputStream = null;
-
             try {
                 fileInputStream = new FileInputStream(fullPath);
                 outputStream = response.getOutputStream();
-
                 response.setContentType("application/download");
                 response.setHeader("Content-Disposition", "attachment;filename=" +
                         FileNameHelper.cyr2lat(attachment.getFileName()));
-
                 byte[] content = new byte[(int) new File(fullPath).length()];
                 while (fileInputStream.read(content) != -1) {
                     outputStream.write(content);

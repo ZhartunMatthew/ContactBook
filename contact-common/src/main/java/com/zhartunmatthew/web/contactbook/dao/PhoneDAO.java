@@ -13,28 +13,25 @@ import java.util.ArrayList;
 public class PhoneDAO extends AbstractDAO<Long, Phone> {
 
     private static final String SELECT_CONTACT_PHONES =
-            "SELECT phone_id AS id, " +
-            "contact_id, " +
-            "type AS phone_type, " +
-            "country_code, " +
-            "operator_code, " +
-            "phone_number AS number, " +
-            "comment " +
-            "FROM phones " +
-            "WHERE phones.contact_id = ?";
+        "SELECT phone_id AS id, contact_id, type AS phone_type, " +
+        "country_code, operator_code, phone_number AS number, " +
+        "comment FROM phones WHERE phones.contact_id = ?";
 
     private static final String INSERT_CONTACT_PHONES =
-            "INSERT INTO phones (contact_id, country_code, operator_code, phone_number, comment, type)" +
-            "VALUES (?, ?, ?, ?, ?, ?);";
+        "INSERT INTO phones (contact_id, country_code, " +
+        "operator_code, phone_number, comment, type)" +
+        "VALUES (?, ?, ?, ?, ?, ?);";
 
     private static final String DELETE_CONTACT_PHONE =
-            "DELETE FROM phones WHERE contact_id = ?";
+        "DELETE FROM phones WHERE contact_id = ?";
 
     private static final String UPDATE_PHONE =
-            "UPDATE phones SET country_code = ?, operator_code = ?, phone_number = ?, " +
-            "type = ?, comment = ? WHERE phone_id = ?";
+        "UPDATE phones SET country_code = ?, " +
+        "operator_code = ?, phone_number = ?, " +
+        "type = ?, comment = ? WHERE phone_id = ?";
 
-    private static final String DELETE_PHONE = "DELETE FROM phones WHERE phone_id = ?";
+    private static final String DELETE_PHONE =
+            "DELETE FROM phones WHERE phone_id = ?";
 
     public PhoneDAO(Connection connection) {
         super(connection);
@@ -43,11 +40,13 @@ public class PhoneDAO extends AbstractDAO<Long, Phone> {
     public ArrayList<Phone> readByContactId(Long contactId) throws DAOException {
         ArrayList<Phone> phones = new ArrayList<>();
         ResultSet phoneResultSet;
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_CONTACT_PHONES)) {
+        try (PreparedStatement statement =
+                     connection.prepareStatement(SELECT_CONTACT_PHONES)) {
             statement.setLong(1, contactId);
             phoneResultSet = statement.executeQuery();
             while (phoneResultSet.next()) {
-                Phone phone = (Phone) EntityFactory.createEntityFromResultSet(phoneResultSet, Phone.class);
+                Phone phone = (Phone)
+                        EntityFactory.createEntityFromResultSet(phoneResultSet, Phone.class);
                 phones.add(phone);
             }
         } catch (SQLException ex) {

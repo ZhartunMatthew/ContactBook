@@ -162,7 +162,6 @@ public class SearchCriteria {
         if (toDate != null) {
             addStringToList(criteriaList,"до даты:", getDateString(toDate));
         }
-
         return criteriaList;
     }
 
@@ -182,7 +181,6 @@ public class SearchCriteria {
             String day = iDay < 10 ? "0" + Integer.toString(iDay) : Integer.toString(iDay);
             String month = iMonth < 10 ? "0" + Integer.toString(iMonth) : Integer.toString(iMonth);
             String year = Integer.toString(iYear);
-
             return day + "." + month + "." + year;
         } else {
             return "";

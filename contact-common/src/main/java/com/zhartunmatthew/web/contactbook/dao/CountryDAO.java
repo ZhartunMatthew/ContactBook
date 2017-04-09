@@ -11,9 +11,12 @@ import java.util.ArrayList;
 
 public class CountryDAO extends AbstractDAO<Long, Country> {
 
-    private static String SELECT_ALL = "SELECT countries.id_country, countries.country_name FROM countries";
+    private static String SELECT_ALL =
+        "SELECT countries.id_country, countries.country_name FROM countries";
+
     private static String SELECT =
-            "SELECT countries.id_country, countries.country_name FROM countries WHERE id_country = ?";
+        "SELECT countries.id_country, countries.country_name " +
+        "FROM countries WHERE id_country = ?";
 
     public CountryDAO(Connection connection) {
         super(connection);

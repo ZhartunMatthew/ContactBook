@@ -25,15 +25,12 @@ public class ShowContactListCommand implements AbstractCommand {
 
             PaginationManager paginationManager = new PaginationManager(request, count);
             Pagination pagination = paginationManager.getPagination();
-
             int offset = paginationManager.getOffset();
             int contactsPerPage = paginationManager.getLimit();
 
             ArrayList<Contact> contacts = contactService.getCertainCount(offset, contactsPerPage);
-
             request.setAttribute("contacts", contacts);
             request.setAttribute("pagination", pagination);
-
             HttpSession session = request.getSession();
             String actionName = (String) session.getAttribute("action-name");
             String actionDescription = (String) session.getAttribute("action-description");

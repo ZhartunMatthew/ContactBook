@@ -11,18 +11,18 @@ public class SearchCriteriaBuilder {
 
     private SearchCriteria criteria = null;
     private final static String START_QUERY =
-            "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
-            "birth_date, sex, marital_status.id_marital_status AS marital_status, " +
-            "nationality.id_nationality AS nationality, " +
-            "countries.id_country AS country, addresses.city AS city, " +
-            "addresses.street AS street, addresses.house_number AS house, " +
-            "addresses.flat AS flat, addresses.postcode AS postcode, " +
-            "website, email, photo_path, job " +
-            "FROM contacts " +
-            "LEFT JOIN nationality ON nationality.id_nationality = contacts.nationality_id " +
-            "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
-            "LEFT JOIN countries ON countries.id_country = contacts.country_id " +
-            "LEFT JOIN addresses ON addresses.contact_id = contacts.id WHERE TRUE";
+        "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
+        "birth_date, sex, marital_status.id_marital_status AS marital_status, " +
+        "nationality.id_nationality AS nationality, " +
+        "countries.id_country AS country, addresses.city AS city, " +
+        "addresses.street AS street, addresses.house_number AS house, " +
+        "addresses.flat AS flat, addresses.postcode AS postcode, " +
+        "website, email, photo_path, job " +
+        "FROM contacts " +
+        "LEFT JOIN nationality ON nationality.id_nationality = contacts.nationality_id " +
+        "LEFT JOIN marital_status ON marital_status.id_marital_status = contacts.marital_status_id " +
+        "LEFT JOIN countries ON countries.id_country = contacts.country_id " +
+        "LEFT JOIN addresses ON addresses.contact_id = contacts.id WHERE TRUE";
 
     public SearchCriteriaBuilder(SearchCriteria criteria) {
         this.criteria = criteria;

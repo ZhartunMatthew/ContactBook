@@ -19,7 +19,8 @@ public class EmailTemplateManager {
     private String PARAMETER_NAME = "username";
 
     public EmailTemplateManager() {
-        String fullPath = ResourceBundle.getBundle("emailconfig").getObject("template_file_path").toString();
+        String fullPath =
+                ResourceBundle.getBundle("emailconfig").getObject("template_file_path").toString();
         stGroup = new STGroupFile(fullPath);
     }
 

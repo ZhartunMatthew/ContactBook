@@ -24,19 +24,19 @@ public class AddContactCommand implements AbstractCommand {
 
             Contact contact = (Contact) request.getAttribute("contact");
             FileItem photoItem = (FileItem) request.getAttribute("photo-item");
-            ArrayList<FileItem> fileItems = (ArrayList<FileItem>) request.getAttribute("files");
+            ArrayList<FileItem> fileItems =
+                    (ArrayList<FileItem>) request.getAttribute("files");
 
             ContactService contactService = new ContactService();
             contactService.insertContact(contact, photoItem, fileItems);
 
             request.getSession().setAttribute("action-name", "Создан новый контакт");
             request.getSession().setAttribute("action-description",
-                    String.format("Контакт '%s %s' был создан", contact.getLastName(), contact.getFirstName()) );
-
+                    String.format("Контакт '%s %s' был создан",
+                            contact.getLastName(), contact.getFirstName()));
         } catch (ServiceException ex) {
             throw new CommandException("Can't execute command AddContact", ex);
         }
-
         return REDIRECT_URL;
     }
 

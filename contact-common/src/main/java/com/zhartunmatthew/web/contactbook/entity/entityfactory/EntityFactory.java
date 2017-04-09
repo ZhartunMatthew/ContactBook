@@ -4,17 +4,17 @@ import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
 import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.abstractions.Entity;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class EntityFactory {
 
-    private static Logger log = Logger.getLogger(EntityFactory.class);
+    private static Logger LOG = LoggerFactory.getLogger(EntityFactory.class);
 
-    public static Entity createEntityFromResultSet(ResultSet resultSet, Class
-            type) {
+    public static Entity createEntityFromResultSet(ResultSet resultSet, Class type) {
         Entity entity = null;
         try {
             if (type == Contact.class) {
@@ -27,13 +27,12 @@ public class EntityFactory {
                 entity = createAttachment(resultSet);
             }
         } catch (SQLException ex) {
-            log.error(ex.getMessage() + ex.getCause());
+            LOG.error("Can't build Entity ", ex);
         }
         return entity;
     }
 
-    private static Contact createContact(ResultSet resultSet) throws
-            SQLException {
+    private static Contact createContact(ResultSet resultSet) throws SQLException {
         Contact contact = new Contact();
         contact.setId(resultSet.getLong("id"));
         contact.setFirstName(resultSet.getString("first_name"));
@@ -68,8 +67,7 @@ public class EntityFactory {
         return phone;
     }
 
-    private static Attachment createAttachment(ResultSet resultSet) throws
-            SQLException {
+    private static Attachment createAttachment(ResultSet resultSet) throws SQLException {
         Attachment attachment = new Attachment();
         attachment.setId(resultSet.getLong("id"));
         attachment.setContactID(resultSet.getLong("contact_id"));

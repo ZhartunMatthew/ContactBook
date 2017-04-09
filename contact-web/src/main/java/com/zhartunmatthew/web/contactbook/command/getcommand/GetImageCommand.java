@@ -15,21 +15,18 @@ public class GetImageCommand implements AbstractCommand {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-
         String imageFile = request.getParameter("name");
         File image = null;
         byte[] content;
         if(imageFile != null) {
             image = new File(imageFile);
         }
-
         try {
             content = Files.readAllBytes(image.toPath());
             response.getOutputStream().write(content);
         } catch (IOException ex) {
             log.error("Error in command GetImage", ex);
         }
-
         return null;
     }
 

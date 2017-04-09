@@ -31,7 +31,8 @@ public class ContactService {
 
     public ContactService() {}
 
-    public void insertContact(Contact contact, FileItem contactPhoto, ArrayList<FileItem> files) throws ServiceException {
+    public void insertContact(Contact contact, FileItem contactPhoto,
+                              ArrayList<FileItem> files) throws ServiceException {
         Long lastId;
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
@@ -40,7 +41,8 @@ public class ContactService {
                 contactDAO.insert(contact);
                 lastId = contactDAO.getLastInsertedId();
                 contactDAO.insertContactAddress(contact, lastId);
-                String photoPath = ImageService.writePhoto(lastId, contactPhoto, contact.getPhotoPath());
+                String photoPath = ImageService.writePhoto(lastId,
+                                        contactPhoto, contact.getPhotoPath());
                 contactDAO.updateContactPhoto(lastId, photoPath);
                 PhoneDAO phoneDAO = new PhoneDAO(connection);
                 ArrayList<Phone> phones = contact.getPhones();
@@ -122,7 +124,8 @@ public class ContactService {
         return count;
     }
 
-    public ArrayList<Contact> getCertainCount(int from, int limit) throws ServiceException {
+    public ArrayList<Contact> getCertainCount(int from, int limit)
+                                                    throws ServiceException {
         ArrayList<Contact> contacts = null;
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
@@ -133,7 +136,8 @@ public class ContactService {
         return contacts;
     }
 
-    public ArrayList<Contact> findAllByParameters(SearchCriteria criteria) throws ServiceException {
+    public ArrayList<Contact> findAllByParameters(SearchCriteria criteria)
+            throws ServiceException {
         ArrayList<Contact> contacts = null;
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
@@ -144,7 +148,8 @@ public class ContactService {
         return contacts;
     }
 
-    public void updateContact(Contact contact, FileItem contactPhoto, ArrayList<FileItem> files) throws ServiceException {
+    public void updateContact(Contact contact, FileItem contactPhoto, ArrayList<FileItem> files)
+                                                    throws ServiceException {
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
             AttachmentDAO attachmentDAO = new AttachmentDAO(connection);
@@ -173,7 +178,8 @@ public class ContactService {
 
     private <Type extends ContactEntity> ArrayList<Type> updateEntities(ArrayList<Type> entities,
                                          ArrayList<Type> entitiesFromDB,
-                                         AbstractDAO<Long, Type> entityDAO) throws DAOException, ServiceException {
+                                         AbstractDAO<Long, Type> entityDAO)
+                                         throws DAOException, ServiceException {
         ArrayList<Type> entitiesForInsert = new ArrayList<>();
         try {
             for (Type entity : entities) {

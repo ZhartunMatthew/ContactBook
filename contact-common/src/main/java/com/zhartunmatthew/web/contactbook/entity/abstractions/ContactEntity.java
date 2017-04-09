@@ -4,5 +4,6 @@ public interface ContactEntity extends Entity {
     Long getContactID();
 
     String getComment();
+
     void setComment(String comment);
 }

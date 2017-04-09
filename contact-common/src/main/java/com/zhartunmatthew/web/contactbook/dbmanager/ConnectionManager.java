@@ -21,7 +21,8 @@ public class ConnectionManager {
 
     private ConnectionManager() {
         try {
-            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/zhartun_matthew_contactbook");
+            dataSource = (DataSource)
+                    new InitialContext().lookup("java:comp/env/jdbc/zhartun_matthew_contactbook");
         } catch (NamingException ex) {
             LOG.error("Error in ConnectionManager", ex);
         }

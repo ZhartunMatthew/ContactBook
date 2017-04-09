@@ -71,7 +71,8 @@ public class SearchContactsCommand implements AbstractCommand {
         if (checkDate(day, month, year)) {
             DateTime dateTime = new DateTime();
             try {
-                dateTime = dateTime.withDate(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+                dateTime = dateTime.withDate(Integer.parseInt(year),
+                        Integer.parseInt(month), Integer.parseInt(day));
                 return new Date(dateTime.getMillis());
             } catch (NumberFormatException ex){
                 throw new CommandException("Can't parse date ", ex);
@@ -82,7 +83,9 @@ public class SearchContactsCommand implements AbstractCommand {
     }
 
     private boolean checkDate(String day, String month, String year) {
-        return StringUtils.isNotEmpty(day) && StringUtils.isNotEmpty(month) && StringUtils.isNotEmpty(year);
+        return  StringUtils.isNotEmpty(day) &&
+                StringUtils.isNotEmpty(month) &&
+                StringUtils.isNotEmpty(year);
     }
 
     private String trimIfNotNull(String value) {

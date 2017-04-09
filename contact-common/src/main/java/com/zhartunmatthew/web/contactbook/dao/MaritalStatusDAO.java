@@ -10,9 +10,12 @@ import java.util.ArrayList;
 
 public class MaritalStatusDAO extends AbstractDAO<Long, MaritalStatus> {
 
-    private static String SELECT_ALL = "SELECT id_marital_status, marital_status_name FROM marital_status";
+    private static String SELECT_ALL =
+        "SELECT id_marital_status, marital_status_name FROM marital_status";
+
     private static String SELECT =
-            "SELECT id_marital_status, marital_status_name FROM marital_status WHERE id_marital_status = ?";
+        "SELECT id_marital_status, marital_status_name " +
+        "FROM marital_status WHERE id_marital_status = ?";
 
     public MaritalStatusDAO(Connection connection) {
         super(connection);
@@ -22,7 +25,8 @@ public class MaritalStatusDAO extends AbstractDAO<Long, MaritalStatus> {
     public ArrayList<MaritalStatus> readAll() throws DAOException {
         ArrayList<MaritalStatus> maritalStatuses = new ArrayList<>();
         ResultSet resultSet;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL)) {
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement(SELECT_ALL)) {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 MaritalStatus maritalStatus = new MaritalStatus();

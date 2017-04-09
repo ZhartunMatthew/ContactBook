@@ -55,7 +55,6 @@ public class ShowContactCommand implements AbstractCommand {
                     request.setAttribute("contactPhoto", path + contact.getPhotoPath());
                 }
             }
-
             UtilService utilService = new UtilService();
             ArrayList<MaritalStatus> maritalStatuses = utilService.getMaritalStatuses();
             ArrayList<Nationality> nationalities = utilService.getNationalities();

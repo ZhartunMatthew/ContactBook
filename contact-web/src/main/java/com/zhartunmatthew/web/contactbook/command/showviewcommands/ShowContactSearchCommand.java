@@ -20,7 +20,6 @@ public class ShowContactSearchCommand implements AbstractCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             UtilService utilService = new UtilService();
-
             ArrayList<MaritalStatus> maritalStatuses = utilService.getMaritalStatuses();
             ArrayList<Nationality> nationalities = utilService.getNationalities();
             ArrayList<Country> countries = utilService.getCountries();
