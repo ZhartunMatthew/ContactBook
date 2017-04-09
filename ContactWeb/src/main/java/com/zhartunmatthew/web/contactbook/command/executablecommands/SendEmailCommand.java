@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -46,8 +47,11 @@ public class SendEmailCommand implements AbstractCommand {
                 request.getSession().setAttribute("action-description", "Ошибка отправки");
             }
 
-        } catch (ServiceException ex) {
-            throw new CommandException("Can't execute command SendMail", ex);
+        } catch (ServiceException | MessagingException ex) {
+            request.getSession().setAttribute("action-name", "Письмо не было отправлено");
+            request.getSession().setAttribute("action-description",
+                    "Ошибка подключеня к почтовому серверу. Повторите позже");
+            LOG.error("Can't send mail. Could not connect to SMTP host");
         }
         return REDIRECT_URL;
     }
@@ -74,7 +78,8 @@ public class SendEmailCommand implements AbstractCommand {
         return recipients;
     }
 
-    private void sendEmails(ArrayList<Contact> recipients, int emailTemplate, String subject, String message) {
+    private void sendEmails(ArrayList<Contact> recipients, int emailTemplate, String subject, String message)
+            throws MessagingException {
         EmailTemplateManager templateManager = new EmailTemplateManager();
         EmailManager emailManager = new EmailManager();
         for(Contact tempRecipient : recipients) {

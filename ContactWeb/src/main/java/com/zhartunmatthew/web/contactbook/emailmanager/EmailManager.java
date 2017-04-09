@@ -32,16 +32,12 @@ public class EmailManager {
         });
     }
 
-    public void sendMail(String email, String subject, String text) {
+    public void sendMail(String email, String subject, String text) throws MessagingException {
         Message message = new MimeMessage(session);
-        try {
-            message.setFrom(new InternetAddress(senderEmail));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-            message.setSubject(subject);
-            message.setText(text);
-            Transport.send(message);
-        } catch (Exception e) {
-            LOG.error("Email send error", e);
-        }
+        message.setFrom(new InternetAddress(senderEmail));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+        message.setSubject(subject);
+        message.setText(text);
+        Transport.send(message);
     }
 }
