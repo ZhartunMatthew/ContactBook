@@ -28,6 +28,11 @@ public class AddContactCommand implements AbstractCommand {
 
             ContactService contactService = new ContactService();
             contactService.insertContact(contact, photoItem, fileItems);
+
+            request.getSession().setAttribute("action-name", "Создан новый контакт");
+            request.getSession().setAttribute("action-description",
+                    String.format("Контакт '%s %s' был создан", contact.getLastName(), contact.getFirstName()) );
+
         } catch (ServiceException ex) {
             throw new CommandException("Can't execute command AddContact", ex);
         }

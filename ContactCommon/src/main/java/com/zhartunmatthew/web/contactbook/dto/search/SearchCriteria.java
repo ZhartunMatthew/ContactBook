@@ -155,7 +155,7 @@ public class SearchCriteria {
         addStringToList(criteriaList, "г.:", city);
         addStringToList(criteriaList, "ул.:", street);
         addStringToList(criteriaList, "д.:", house);
-        addStringToList(criteriaList, "кв. :", flat);
+        addStringToList(criteriaList, "кв.:", flat);
         if (fromDate != null) {
             addStringToList(criteriaList, "от даты:", getDateString(fromDate));
         }

@@ -143,6 +143,8 @@
                 </c:forEach>
             </div>
             <input type="hidden" id="path-context" value="${pageContext.request.contextPath}">
+            <input type="hidden" id="action-name" value="${not empty actionName ? actionName : ''}">
+            <input type="hidden" id="action-description" value="${not empty actionDescription ? actionDescription : ''}">
         </form>
         <div id="popup-window-error" class="popup-window error-window">
             <div class="popup-content">
@@ -152,6 +154,19 @@
                 <div id="error-message"></div>
                 <div class="popup-buttons">
                     <div id="popup-window-error-accept" class="popup-button accept"> Принять </div>
+                </div>
+            </div>
+        </div>
+        <div id="popup-window-message" class="popup-window message-window">
+            <div class="popup-content">
+                <div class="popup-name">
+                    <div id="action-name-text"></div>
+                </div>
+                <div>
+                    <div id="action-description-text"></div>
+                </div>
+                <div class="popup-buttons">
+                    <div id="popup-window-action-accept" class="popup-button accept"> Ок </div>
                 </div>
             </div>
         </div>

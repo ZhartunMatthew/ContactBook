@@ -10,6 +10,7 @@ import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 public class ShowContactListCommand implements AbstractCommand {
@@ -32,6 +33,17 @@ public class ShowContactListCommand implements AbstractCommand {
 
             request.setAttribute("contacts", contacts);
             request.setAttribute("pagination", pagination);
+
+            HttpSession session = request.getSession();
+            String actionName = (String) session.getAttribute("action-name");
+            String actionDescription = (String) session.getAttribute("action-description");
+            if(actionName != null && actionDescription != null) {
+                session.removeAttribute("action-name");
+                session.removeAttribute("action-description");
+            }
+            request.setAttribute("actionName", actionName);
+            request.setAttribute("actionDescription", actionDescription);
+
         } catch (ServiceException ex) {
             throw new CommandException("Can't execute command ShowContactList", ex);
         }

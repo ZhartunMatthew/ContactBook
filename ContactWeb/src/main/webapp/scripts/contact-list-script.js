@@ -65,3 +65,22 @@ function getCheckedItems(itemName) {
     }
     return checkedItems;
 }
+
+var actionWindowModal = document.getElementById('popup-window-message');
+var okButton = document.getElementById('popup-window-action-accept');
+var actionName = document.getElementById('action-name');
+var actionDescription = document.getElementById('action-description');
+var actionNameText = document.getElementById('action-name-text');
+var actionDescriptionText = document.getElementById('action-description-text');
+
+okButton.onclick = function () {
+  closeModal(actionWindowModal);
+};
+
+document.addEventListener("DOMContentLoaded", function() {
+    if(actionName.value.length > 0) {
+        actionNameText.innerHTML = actionName.value;
+        actionDescriptionText.innerHTML = actionDescription.value;
+        openModal(actionWindowModal);
+    }
+});

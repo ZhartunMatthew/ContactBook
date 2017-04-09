@@ -1161,7 +1161,6 @@ function isOnlyDigits(value) {
 
 function checkDateInput() {
     var dayCorrect, monthCorrect, yearCorrect;
-    popupErrorMessage.innerHTML = null;
     if(day.value.length > 0 || month.value.length > 0 || year.value.length > 0) {
         var currentDate = new Date();
         dayCorrect = checkInputOnDigits(day, 1, 31, true);

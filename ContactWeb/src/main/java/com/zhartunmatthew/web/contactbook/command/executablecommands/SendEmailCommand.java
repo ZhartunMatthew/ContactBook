@@ -32,6 +32,20 @@ public class SendEmailCommand implements AbstractCommand {
             ArrayList<Contact> recipients = getAllRecipients(request);
             int emailTemplate = Integer.parseInt(request.getParameter("selected-template-index"));
             sendEmails(recipients, emailTemplate, emailSubject, emailText);
+
+            if(recipients.size() > 0) {
+                String allRecipients = "";
+                for (Contact contact : recipients) {
+                    allRecipients += "[" + contact.getFirstName() + " ";
+                    allRecipients += contact.getLastName() + "] ";
+                }
+                request.getSession().setAttribute("action-name", "Письмо было отправлено");
+                request.getSession().setAttribute("action-description", "Получатели: " + allRecipients);
+            } else {
+                request.getSession().setAttribute("action-name", "Письмо не было отправлено");
+                request.getSession().setAttribute("action-description", "Ошибка отправки");
+            }
+
         } catch (ServiceException ex) {
             throw new CommandException("Can't execute command SendMail", ex);
         }

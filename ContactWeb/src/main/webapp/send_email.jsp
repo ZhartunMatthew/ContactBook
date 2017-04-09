@@ -3,7 +3,6 @@
 <html>
 <head>
     <title> Отправка сообщений </title>
-    <link rel="stylesheet" type="text/css" href="style/common-style.css">
     <link rel="stylesheet" type="text/css" href="style/form-style.css">
     <link rel="stylesheet" type="text/css" href="style/send-mail-page.css">
     <link rel="stylesheet" type="text/css" href="style/popup-style.css">

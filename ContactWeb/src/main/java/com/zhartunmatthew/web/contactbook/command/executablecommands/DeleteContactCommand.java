@@ -28,6 +28,10 @@ public class DeleteContactCommand implements AbstractCommand {
                 }
                 ContactService contactService = new ContactService();
                 contactService.deleteContacts(checkedItems);
+
+                request.getSession().setAttribute("action-name", "Удаление контактов");
+                request.getSession().setAttribute("action-description",
+                        String.format("Количество удаленных контаков: %d", checkedItems.size()));
             } else {
                 LOG.info("NO CHECKED ITEMS");
             }
