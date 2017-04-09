@@ -13,7 +13,8 @@ public class EntityFactory {
 
     private static Logger log = Logger.getLogger(EntityFactory.class);
 
-    public static Entity createEntityFromResultSet(ResultSet resultSet, Class type) {
+    public static Entity createEntityFromResultSet(ResultSet resultSet, Class
+            type) {
         Entity entity = null;
         try {
             if (type == Contact.class) {
@@ -31,7 +32,8 @@ public class EntityFactory {
         return entity;
     }
 
-    private static Contact createContact(ResultSet resultSet) throws SQLException {
+    private static Contact createContact(ResultSet resultSet) throws
+            SQLException {
         Contact contact = new Contact();
         contact.setId(resultSet.getLong("id"));
         contact.setFirstName(resultSet.getString("first_name"));
@@ -66,7 +68,8 @@ public class EntityFactory {
         return phone;
     }
 
-    private static Attachment createAttachment(ResultSet resultSet) throws SQLException {
+    private static Attachment createAttachment(ResultSet resultSet) throws
+            SQLException {
         Attachment attachment = new Attachment();
         attachment.setId(resultSet.getLong("id"));
         attachment.setContactID(resultSet.getLong("contact_id"));
