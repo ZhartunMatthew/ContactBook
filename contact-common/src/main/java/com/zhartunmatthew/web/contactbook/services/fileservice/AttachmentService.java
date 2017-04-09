@@ -19,7 +19,9 @@ public class AttachmentService {
     private final static String PROPERTIES_PATH = "directories";
     private static ResourceBundle resBundle = ResourceBundle.getBundle(PROPERTIES_PATH);
 
-    public static void writeAttachments(ArrayList<Attachment> attachments, ArrayList<FileItem> fileItems) throws ServiceException {
+    public static void writeAttachments(ArrayList<Attachment> attachments,
+                                        ArrayList<FileItem> fileItems)
+                                        throws ServiceException {
         Iterator<Attachment> oneAttachment = attachments.iterator();
         Iterator<FileItem> oneFleItem = fileItems.iterator();
         while (oneAttachment.hasNext() && oneFleItem.hasNext()) {
@@ -27,8 +29,10 @@ public class AttachmentService {
         }
     }
 
-    private static void writeFile(Attachment attachment, FileItem fileItem) throws ServiceException {
-        String filePath = resBundle.getString("files-directory") + "contact_" + attachment.getContactID() + File.separator;
+    private static void writeFile(Attachment attachment, FileItem fileItem)
+                                        throws ServiceException {
+        String filePath = resBundle.getString("files-directory") + "contact_" +
+                attachment.getContactID() + File.separator;
         File directory = new File(filePath);
         if (!directory.exists()) {
             if (!directory.mkdir()) {
@@ -44,7 +48,8 @@ public class AttachmentService {
     }
 
     public static void removeAttachmentFromDisk(Long contactId, Long fileId) {
-        String directoryPath = resBundle.getString("files-directory") + "contact_" + contactId + File.separator;
+        String directoryPath = resBundle.getString("files-directory") + "contact_" +
+                contactId + File.separator;
         File file = new File(directoryPath + "file_" + fileId);
         if (file.exists()) {
             file.delete();
@@ -52,7 +57,8 @@ public class AttachmentService {
     }
 
     public static void removeAllContactAttachments(Long contactId) {
-        String directoryPath = resBundle.getString("files-directory") + "contact_" + contactId;
+        String directoryPath = resBundle.getString("files-directory") + "contact_" +
+                contactId;
         File directory = new File(directoryPath);
         if (directory.isDirectory()) {
             File[] files = directory.listFiles();
