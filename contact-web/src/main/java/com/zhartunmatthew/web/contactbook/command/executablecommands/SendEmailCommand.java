@@ -47,11 +47,13 @@ public class SendEmailCommand implements AbstractCommand {
                 request.getSession().setAttribute("action-description", "Ошибка отправки");
             }
 
-        } catch (ServiceException | MessagingException ex) {
+        } catch (MessagingException ex) {
             request.getSession().setAttribute("action-name", "Письмо не было отправлено");
             request.getSession().setAttribute("action-description",
-                    "Ошибка подключеня к почтовому серверу. Повторите позже");
+                    "Ошибка подключения к почтовому серверу. Повторите позже");
             LOG.error("Can't send mail. Could not connect to SMTP host");
+        } catch (ServiceException ex) {
+            throw new CommandException("Can't send mail", ex);
         }
         return REDIRECT_URL;
     }
@@ -86,7 +88,7 @@ public class SendEmailCommand implements AbstractCommand {
             if(emailTemplate == 0) {
                 emailManager.sendMail(tempRecipient.getEmail(), subject, message);
             } else {
-                String templateMessage = templateManager.createEmailFromTemplate(emailTemplate, tempRecipient);
+                String templateMessage = templateManager.createMessageFromTemplate(emailTemplate, tempRecipient);
                 emailManager.sendMail(tempRecipient.getEmail(), subject, templateMessage);
             }
         }

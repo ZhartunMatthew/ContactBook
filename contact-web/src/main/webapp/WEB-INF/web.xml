@@ -47,7 +47,7 @@
 
     <error-page>
         <error-code>404</error-code>
-        <location>/error.jsp</location>
+        <location>/not_found.jsp</location>
     </error-page>
 
 

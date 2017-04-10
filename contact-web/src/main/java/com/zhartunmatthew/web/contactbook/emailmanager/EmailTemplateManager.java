@@ -16,7 +16,7 @@ public class EmailTemplateManager {
     private int TEMPLATE_COUNT = 3;
     private STGroup stGroup;
     private String TEMPLATE_NAME = "template_";
-    private String PARAMETER_NAME = "username";
+    private String PARAMETER_NAME = "contact";
 
     public EmailTemplateManager() {
         String fullPath =
@@ -26,11 +26,12 @@ public class EmailTemplateManager {
 
     public ArrayList<String> getAllTemplates() {
         ArrayList<String> templates = new ArrayList<>();
+        Contact contact = new Contact();
+        contact.setFirstName("%имя%");
+        contact.setLastName("%фамилия%");
         try {
             for(int i = 1; i <= TEMPLATE_COUNT; i++) {
-                ST st = stGroup.getInstanceOf(TEMPLATE_NAME + i);
-                st.add(PARAMETER_NAME, "%имя пользователя%");
-                templates.add(st.render());
+                templates.add(createMessageFromTemplate(i, contact));
             }
         } catch (Exception ex) {
             LOG.error("Error in template manager", ex);
@@ -38,9 +39,9 @@ public class EmailTemplateManager {
         return templates;
     }
 
-    public String createEmailFromTemplate(int templateId, Contact contact) {
+    public String createMessageFromTemplate(int templateId, Contact contact) {
         ST st = stGroup.getInstanceOf(TEMPLATE_NAME + templateId);
-        st.add(PARAMETER_NAME, contact.getFirstName());
+        st.add(PARAMETER_NAME, contact);
         return st.render();
     }
 }

@@ -12,6 +12,6 @@ public class DAOException extends Exception {
 
     @Override
     public String toString() {
-        return "DAOException{} " + super.getMessage() + super.getCause();
+        return "DAOException{} " + super.getMessage() + "\n" + super.getCause();
     }
 }

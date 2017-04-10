@@ -7,6 +7,7 @@ import com.zhartunmatthew.web.contactbook.dao.ContactDAO;
 import com.zhartunmatthew.web.contactbook.dao.PhoneDAO;
 import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionUtils;
+import com.zhartunmatthew.web.contactbook.dbmanager.exception.ConnectionManagerException;
 import com.zhartunmatthew.web.contactbook.dto.search.SearchCriteria;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.entity.Contact;
@@ -70,7 +71,7 @@ public class ContactService {
             } finally {
                 connection.setAutoCommit(true);
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ConnectionManagerException ex) {
             throw new ServiceException("Can't get connection", ex);
         }
     }
@@ -97,7 +98,7 @@ public class ContactService {
                     connection.setAutoCommit(true);
                 }
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ConnectionManagerException ex) {
             throw new ServiceException("Can't get connection", ex);
         }
     }
@@ -107,7 +108,7 @@ public class ContactService {
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
             contact = contactDAO.read(id);
-        } catch (SQLException | DAOException ex) {
+        } catch (SQLException | DAOException | ConnectionManagerException ex) {
             throw new ServiceException(String.format("Can't get contact by id = %d", id), ex);
         }
         return contact;
@@ -118,7 +119,7 @@ public class ContactService {
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
             count = contactDAO.getContactCount();
-        } catch (SQLException | DAOException ex) {
+        } catch (SQLException | DAOException | ConnectionManagerException ex) {
             throw new ServiceException("Can't get contact count", ex);
         }
         return count;
@@ -130,7 +131,7 @@ public class ContactService {
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
             contacts = contactDAO.readCertainCount(from, limit);
-        } catch (SQLException | DAOException ex) {
+        } catch (SQLException | DAOException | ConnectionManagerException ex) {
             throw new ServiceException("Can't get certain count of attachments", ex);
         }
         return contacts;
@@ -142,7 +143,7 @@ public class ContactService {
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
             contacts = contactDAO.searchUserByParameters(criteria);
-        } catch (SQLException | DAOException ex) {
+        } catch (SQLException | DAOException | ConnectionManagerException ex) {
             throw new ServiceException("Can't find contacts by criteria", ex);
         }
         return contacts;
@@ -171,7 +172,7 @@ public class ContactService {
             } finally {
                 connection.setAutoCommit(true);
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ConnectionManagerException ex) {
             throw new ServiceException("Can't get connection", ex);
         }
     }
@@ -220,7 +221,7 @@ public class ContactService {
         try (Connection connection = ConnectionUtils.getConnection()) {
             ContactDAO contactDAO = new ContactDAO(connection);
             contacts = contactDAO.readByBirthDate();
-        } catch (DAOException | SQLException ex) {
+        } catch (DAOException | SQLException | ConnectionManagerException ex) {
             throw new ServiceException("Can't get contact by birth date", ex);
         }
         return contacts;

@@ -1,7 +1,8 @@
 package com.zhartunmatthew.web.contactbook.command.getcommand;
 
 import com.zhartunmatthew.web.contactbook.command.abstractcommand.AbstractCommand;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,7 +12,7 @@ import java.nio.file.Files;
 
 public class GetImageCommand implements AbstractCommand {
 
-    private static Logger log = Logger.getLogger(GetImageCommand.class);
+    private final static Logger LOG = LoggerFactory.getLogger(GetImageCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -25,7 +26,7 @@ public class GetImageCommand implements AbstractCommand {
             content = Files.readAllBytes(image.toPath());
             response.getOutputStream().write(content);
         } catch (IOException ex) {
-            log.error("Error in command GetImage", ex);
+            LOG.error("Error in command GetImage", ex);
         }
         return null;
     }

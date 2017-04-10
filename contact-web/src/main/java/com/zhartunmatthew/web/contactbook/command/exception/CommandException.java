@@ -11,6 +11,6 @@ public class CommandException extends Exception{
 
     @Override
     public String toString() {
-        return "CommandException{} " + super.getMessage() + super.getCause();
+        return "CommandException{} " + super.getMessage() + "\n" + super.getCause();
     }
 }

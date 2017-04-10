@@ -11,6 +11,6 @@ public class WrongInputException extends Exception {
 
     @Override
     public String toString() {
-        return "WrongInputException{} " + super.getMessage() + super.getCause();
+        return "WrongInputException{} " + super.getMessage() + "\n" + super.getCause();
     }
 }

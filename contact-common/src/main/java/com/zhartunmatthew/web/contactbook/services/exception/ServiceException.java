@@ -11,6 +11,6 @@ public class ServiceException extends Exception {
 
     @Override
     public String toString() {
-        return "ServiceException{} " + super.getMessage() + super.getCause();
+        return "ServiceException{} " + super.getMessage() + "\n" + super.getCause();
     }
 }

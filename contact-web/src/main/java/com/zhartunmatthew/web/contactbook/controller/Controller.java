@@ -15,6 +15,8 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
 
     private final static Logger LOG = LoggerFactory.getLogger(Controller.class);
+    private final static String ERROR_PAGE_URL = "/error.jsp";
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
@@ -33,13 +35,12 @@ public class Controller extends HttpServlet {
             LOG.debug("Command URL: " + commandURL);
             if (command.isRedirectedCommand()) {
                 response.sendRedirect(commandURL);
-            } else {
-                if (commandURL != null) {
-                    request.getRequestDispatcher(commandURL).forward(request, response);
-                }
+            } else if (commandURL != null) {
+                request.getRequestDispatcher(commandURL).forward(request, response);
             }
         } catch (CommandException ex) {
-            LOG.error("Command error", ex);
+            LOG.error("Can't process request", ex);
+            request.getRequestDispatcher(ERROR_PAGE_URL).forward(request, response);
         }
 
     }

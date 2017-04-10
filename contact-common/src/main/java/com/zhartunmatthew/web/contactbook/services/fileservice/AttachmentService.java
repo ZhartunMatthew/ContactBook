@@ -3,6 +3,7 @@ package com.zhartunmatthew.web.contactbook.services.fileservice;
 import com.zhartunmatthew.web.contactbook.dao.AttachmentDAO;
 import com.zhartunmatthew.web.contactbook.dao.exception.DAOException;
 import com.zhartunmatthew.web.contactbook.dbmanager.ConnectionUtils;
+import com.zhartunmatthew.web.contactbook.dbmanager.exception.ConnectionManagerException;
 import com.zhartunmatthew.web.contactbook.entity.Attachment;
 import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
 import org.apache.commons.fileupload.FileItem;
@@ -78,7 +79,7 @@ public class AttachmentService {
             } catch (DAOException ex) {
                 throw new ServiceException("Can't get attachment by id");
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ConnectionManagerException ex) {
             throw new ServiceException("Can't get connection");
         }
         return attachment;
