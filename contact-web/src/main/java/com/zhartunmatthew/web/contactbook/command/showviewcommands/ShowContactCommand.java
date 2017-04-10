@@ -63,10 +63,9 @@ public class ShowContactCommand implements AbstractCommand {
             request.setAttribute("nationalities", nationalities);
             request.setAttribute("countries", countries);
             request.setAttribute("martialStatuses", maritalStatuses);
-        } catch (ServiceException ex) {
+        } catch (ServiceException | NumberFormatException ex) {
             throw new CommandException("Can't execute command ShowContact", ex);
         }
-
         return COMMAND_URL;
     }
 

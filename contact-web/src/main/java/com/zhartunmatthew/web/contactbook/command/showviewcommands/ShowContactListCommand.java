@@ -41,7 +41,7 @@ public class ShowContactListCommand implements AbstractCommand {
             request.setAttribute("actionName", actionName);
             request.setAttribute("actionDescription", actionDescription);
 
-        } catch (ServiceException ex) {
+        } catch (ServiceException | NumberFormatException ex) {
             throw new CommandException("Can't execute command ShowContactList", ex);
         }
 
