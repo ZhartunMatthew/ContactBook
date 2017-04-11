@@ -41,6 +41,9 @@ public class Controller extends HttpServlet {
         } catch (CommandException ex) {
             LOG.error("Can't process request", ex);
             request.getRequestDispatcher(ERROR_PAGE_URL).forward(request, response);
+        } catch (Exception ex) {
+            LOG.error("Exception in controller", ex);
+            request.getRequestDispatcher(ERROR_PAGE_URL).forward(request, response);
         }
 
     }
