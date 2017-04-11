@@ -9,6 +9,8 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.stringtemplate.v4.STGroup;
+import org.stringtemplate.v4.STGroupFile;
 
 import javax.mail.MessagingException;
 import java.util.ArrayList;
@@ -18,17 +20,20 @@ public class SendEmailJob implements Job {
 
     private final static Logger LOG = LoggerFactory.getLogger(SendEmailJob.class);
     private static ResourceBundle bundle = ResourceBundle.getBundle("emailconfig");
+    private STGroup stg;
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         try {
             ContactService contactService = new ContactService();
             ArrayList<Contact> birthdayContacts = contactService.getContactsByBirthDate();
+            stg = new STGroupFile(bundle.getObject("template_file_path").toString());
+
             String recipient = bundle.getObject("admin_email").toString();
             String subject = "Birthdays";
             String message;
             if (birthdayContacts == null || birthdayContacts.size() == 0) {
-                message = bundle.getObject("no_birthday_email").toString();
+                message = stg.getInstanceOf("no_birthday_notification").render();
             } else {
                 message = prepareMessage(birthdayContacts);
             }
@@ -40,7 +45,7 @@ public class SendEmailJob implements Job {
     }
 
     private String prepareMessage(ArrayList<Contact> birthdayContacts) {
-        String message = bundle.getObject("birthday_email").toString() + "\n";
+        String message = stg.getInstanceOf("birthday_notification").render();
         for(Contact contact : birthdayContacts) {
             message += contact.getFirstName() + " ";
             message += contact.getLastName() + " ";
