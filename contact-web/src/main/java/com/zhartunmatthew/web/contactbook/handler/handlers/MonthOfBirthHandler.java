@@ -8,7 +8,7 @@ import org.joda.time.DateTime;
 
 import java.sql.Date;
 
-public class MonthOfBirthHandler extends AbstractHandler {
+public class MonthOfBirthHandler implements AbstractHandler {
     @Override
     public void handleField(Contact contact, String data) throws WrongInputException {
         if (!StringUtils.isEmpty(data)) {

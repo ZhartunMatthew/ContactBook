@@ -4,7 +4,7 @@ import com.zhartunmatthew.web.contactbook.entity.Contact;
 
 import java.util.Objects;
 
-public class SexHandler  extends AbstractHandler  {
+public class SexHandler implements AbstractHandler  {
     @Override
     public void handleField(Contact contact, String data) {
         if(!Objects.equals(data, "X")) {

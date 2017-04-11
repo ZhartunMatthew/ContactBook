@@ -57,9 +57,4 @@ public class DownloadAttachmentCommand implements AbstractCommand {
         }
         return null;
     }
-
-    @Override
-    public boolean isRedirectedCommand() {
-        return false;
-    }
 }

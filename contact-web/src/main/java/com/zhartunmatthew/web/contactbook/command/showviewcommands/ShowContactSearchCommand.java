@@ -32,9 +32,4 @@ public class ShowContactSearchCommand implements AbstractCommand {
         }
         return COMMAND_URL;
     }
-
-    @Override
-    public boolean isRedirectedCommand() {
-        return false;
-    }
 }

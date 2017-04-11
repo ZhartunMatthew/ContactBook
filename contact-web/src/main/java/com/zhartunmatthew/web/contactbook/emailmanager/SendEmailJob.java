@@ -37,6 +37,8 @@ public class SendEmailJob implements Job {
             } else {
                 message = prepareMessage(birthdayContacts);
             }
+            LOG.info("Auto-sending email. to: {} about: {} text: {}", recipient, subject, message);
+
             EmailManager emailManager = new EmailManager();
             emailManager.sendMail(recipient, subject, message);
         } catch (ServiceException | MessagingException ex) {

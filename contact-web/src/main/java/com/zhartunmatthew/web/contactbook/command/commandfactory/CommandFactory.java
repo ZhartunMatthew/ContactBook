@@ -12,7 +12,8 @@ import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactCo
 import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactListCommand;
 import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowContactSearchCommand;
 import com.zhartunmatthew.web.contactbook.command.showviewcommands.ShowEmailPageCommand;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -21,8 +22,8 @@ import java.util.Map;
 public class CommandFactory {
 
     private static final String PARAM_NAME = "command";
-    private static Logger log = Logger.getLogger(CommandFactory.class);
-    private static Map<String, AbstractCommand> commandMap = new HashMap<>();
+    private final static Logger LOG = LoggerFactory.getLogger(CommandFactory.class);
+    private final static Map<String, AbstractCommand> commandMap = new HashMap<>();
 
     static {
         commandMap.put("show_contact_list", new ShowContactListCommand());
@@ -43,7 +44,9 @@ public class CommandFactory {
         AbstractCommand abstractCommand = commandMap.get(command);
         if(abstractCommand == null) {
             abstractCommand = new ShowContactListCommand();
-            log.debug("Returned default command 'ShowContactList'");
+            LOG.debug("Returned default command 'ShowContactList'");
+        } else {
+            LOG.debug(String.format("Returned command '%s'", command));
         }
 
         return abstractCommand;

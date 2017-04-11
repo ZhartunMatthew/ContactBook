@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class SendEmailCommand implements AbstractCommand {
 
     private final static Logger LOG = LoggerFactory.getLogger(SendEmailCommand.class);
-    private String REDIRECT_URL = "controller";
+    private final static String REDIRECT_URL = "controller";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
@@ -29,7 +29,6 @@ public class SendEmailCommand implements AbstractCommand {
                 emailText = emailText.trim();
             }
             String emailSubject = request.getParameter("email-subject").trim();
-            LOG.debug("Email text: {} Email subject: {}", emailText, emailSubject);
             ArrayList<Contact> recipients = getAllRecipients(request);
             int emailTemplate = Integer.parseInt(request.getParameter("selected-template-index"));
             sendEmails(recipients, emailTemplate, emailSubject, emailText);
@@ -46,7 +45,6 @@ public class SendEmailCommand implements AbstractCommand {
                 request.getSession().setAttribute("action-name", "Письмо не было отправлено");
                 request.getSession().setAttribute("action-description", "Ошибка отправки");
             }
-
         } catch (MessagingException ex) {
             request.getSession().setAttribute("action-name", "Письмо не было отправлено");
             request.getSession().setAttribute("action-description",

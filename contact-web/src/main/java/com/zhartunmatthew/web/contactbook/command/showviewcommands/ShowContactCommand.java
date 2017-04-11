@@ -10,6 +10,8 @@ import com.zhartunmatthew.web.contactbook.services.ContactService;
 import com.zhartunmatthew.web.contactbook.services.UtilService;
 import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
 import com.zhartunmatthew.web.contactbook.validation.ValidationUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +23,7 @@ import java.util.ResourceBundle;
 
 public class ShowContactCommand implements AbstractCommand {
 
+    private final static Logger LOG = LoggerFactory.getLogger(ShowContactCommand.class);
     private final static String COMMAND_URL = "contact.jsp";
     private final static String REDIRECTED_URL = "controller";
     private boolean isRedirected;
@@ -31,6 +34,7 @@ public class ShowContactCommand implements AbstractCommand {
             isRedirected = false;
             String id = request.getParameter("contact_id");
             if (!Objects.isNull(id)) {
+                LOG.info("Show contact with id {}", id);
                 if (!ValidationUtils.isNumber(id)) {
                     isRedirected = true;
                     return REDIRECTED_URL;
@@ -54,6 +58,8 @@ public class ShowContactCommand implements AbstractCommand {
                 if (contact.getPhotoPath() != null && !contact.getPhotoPath().isEmpty()) {
                     request.setAttribute("contactPhoto", path + contact.getPhotoPath());
                 }
+            } else {
+                LOG.info("Show contact page");
             }
             UtilService utilService = new UtilService();
             ArrayList<MaritalStatus> maritalStatuses = utilService.getMaritalStatuses();

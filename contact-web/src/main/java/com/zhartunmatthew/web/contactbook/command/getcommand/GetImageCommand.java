@@ -30,9 +30,4 @@ public class GetImageCommand implements AbstractCommand {
         }
         return null;
     }
-
-    @Override
-    public boolean isRedirectedCommand() {
-        return false;
-    }
 }

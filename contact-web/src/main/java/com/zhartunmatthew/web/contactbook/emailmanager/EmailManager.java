@@ -33,6 +33,7 @@ public class EmailManager {
     }
 
     public void sendMail(String email, String subject, String text) throws MessagingException {
+        LOG.info("Sending mail. to: {} subject: {} text: {}", email, subject, text);
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress(senderEmail));
         message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));

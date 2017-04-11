@@ -190,7 +190,6 @@ public class ContactService {
                     entitiesForInsert.add(entity);
                 } else {
                     if (!entitiesFromDB.contains(entity)) {
-                        LOG.debug("UPDATE: {}", entity);
                         entityDAO.update(entity.getId(), entity);
                     }
                     Iterator<? extends Entity> entityIterator = entitiesFromDB.iterator();

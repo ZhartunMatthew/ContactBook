@@ -32,7 +32,6 @@ public class Controller extends HttpServlet {
         try {
             AbstractCommand command = CommandFactory.createCommand(request);
             String commandURL = command.execute(request, response);
-            LOG.debug("Command URL: " + commandURL);
             if (command.isRedirectedCommand()) {
                 response.sendRedirect(commandURL);
             } else if (commandURL != null) {

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class DeleteContactCommand implements AbstractCommand {
 
     private final static Logger LOG = LoggerFactory.getLogger(DeleteContactCommand.class);
-    private static String REDIRECT_URL = "controller";
+    private final static String REDIRECT_URL = "controller";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
@@ -24,7 +24,7 @@ public class DeleteContactCommand implements AbstractCommand {
             if (items != null) {
                 for (String val : items) {
                     checkedItems.add(Long.parseLong(val));
-                    LOG.info("Checked: {}", Integer.parseInt(val));
+                    LOG.info("Contact for delete: {}", Integer.parseInt(val));
                 }
                 ContactService contactService = new ContactService();
                 contactService.deleteContacts(checkedItems);

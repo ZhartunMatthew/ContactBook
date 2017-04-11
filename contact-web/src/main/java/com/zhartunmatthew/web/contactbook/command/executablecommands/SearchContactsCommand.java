@@ -8,6 +8,8 @@ import com.zhartunmatthew.web.contactbook.services.ContactService;
 import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 public class SearchContactsCommand implements AbstractCommand {
 
     private final static String COMMAND_URL = "contact_list.jsp";
+    private final static Logger LOG = LoggerFactory.getLogger(SearchContactsCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
@@ -54,6 +57,8 @@ public class SearchContactsCommand implements AbstractCommand {
             String toMonth = request.getParameter("to-birth-date-month");
             String toYear = request.getParameter("to-birth-date-year");
             criteria.setToDate(string2Date(toDay, toMonth, toYear));
+
+            LOG.info("Searching contacts with criteria {}", criteria.toArray());
 
             ContactService contactService = new ContactService();
             ArrayList<Contact> contacts = contactService.findAllByParameters(criteria);
@@ -94,10 +99,5 @@ public class SearchContactsCommand implements AbstractCommand {
         } else {
             return null;
         }
-    }
-
-    @Override
-    public boolean isRedirectedCommand() {
-        return false;
     }
 }

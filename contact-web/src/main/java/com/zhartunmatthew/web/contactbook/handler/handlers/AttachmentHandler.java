@@ -6,7 +6,7 @@ import com.zhartunmatthew.web.contactbook.jsonbuilder.JSONBuilder;
 
 import java.util.ArrayList;
 
-public class AttachmentHandler extends AbstractHandler  {
+public class AttachmentHandler implements AbstractHandler  {
     @Override
     public void handleField(Contact contact, String data) {
         ArrayList<Attachment> attachments = JSONBuilder.buildAttachmentListFromJSON(data);

@@ -11,6 +11,11 @@ public class ValidationUtils {
         return StringUtils.containsOnly(inputValue, DIGITS);
     }
 
+    public static boolean hasOnlyCharsAndDigits(String inputValue, String chars) {
+        return StringUtils.containsOnly(inputValue.toLowerCase(),
+                ALPHABET_EN + ALPHABET_RU + DIGITS + chars);
+    }
+
     public static boolean hasOnlyChars(String inputValue, String chars) {
         return StringUtils.containsOnly(inputValue.toLowerCase(),
                 ALPHABET_EN + ALPHABET_RU + chars);

@@ -9,5 +9,7 @@ public interface AbstractCommand {
     String execute(HttpServletRequest request, HttpServletResponse response)
             throws CommandException;
 
-    boolean isRedirectedCommand();
+    default boolean isRedirectedCommand() {
+        return false;
+    }
 }

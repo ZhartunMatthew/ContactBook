@@ -47,9 +47,4 @@ public class ShowContactListCommand implements AbstractCommand {
 
         return COMMAND_URL;
     }
-
-    @Override
-    public boolean isRedirectedCommand() {
-        return false;
-    }
 }

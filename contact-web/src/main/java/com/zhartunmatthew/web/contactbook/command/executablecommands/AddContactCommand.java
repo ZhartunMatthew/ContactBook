@@ -7,6 +7,8 @@ import com.zhartunmatthew.web.contactbook.handler.MainHandler;
 import com.zhartunmatthew.web.contactbook.services.ContactService;
 import com.zhartunmatthew.web.contactbook.services.exception.ServiceException;
 import org.apache.commons.fileupload.FileItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +16,8 @@ import java.util.ArrayList;
 
 public class AddContactCommand implements AbstractCommand {
 
-    private static String REDIRECT_URL = "controller";
+    private final static String REDIRECT_URL = "controller";
+    private final static Logger LOG = LoggerFactory.getLogger(AddContactCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
@@ -23,9 +26,10 @@ public class AddContactCommand implements AbstractCommand {
             mainHandler.handleInputs(request);
 
             Contact contact = (Contact) request.getAttribute("contact");
+            LOG.info("Creating new contact {}", contact);
+
             FileItem photoItem = (FileItem) request.getAttribute("photo-item");
-            ArrayList<FileItem> fileItems =
-                    (ArrayList<FileItem>) request.getAttribute("files");
+            ArrayList<FileItem> fileItems = (ArrayList<FileItem>) request.getAttribute("files");
 
             ContactService contactService = new ContactService();
             contactService.insertContact(contact, photoItem, fileItems);

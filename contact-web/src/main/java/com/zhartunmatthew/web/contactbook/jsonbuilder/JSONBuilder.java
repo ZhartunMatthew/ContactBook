@@ -26,7 +26,7 @@ public class JSONBuilder {
         JSONParser parser = new JSONParser();
         try {
             JSONArray jsonArray = (JSONArray) parser.parse(jsonPhones);
-            jsonArray.forEach(item -> {
+            for(Object item : jsonArray) {
                 JSONObject object = (JSONObject) item;
                 Phone phone = new Phone();
 
@@ -39,7 +39,7 @@ public class JSONBuilder {
                 commentSetter(phone, object.get("comment"));
 
                 phones.add(phone);
-            });
+            }
         } catch (ParseException | ClassCastException ex) {
             LOG.error("JSON phones error", ex);
         }
@@ -52,7 +52,7 @@ public class JSONBuilder {
         JSONParser parser = new JSONParser();
         try {
             JSONArray jsonArray = (JSONArray) parser.parse(jsonAttachments);
-            jsonArray.forEach(item -> {
+            for(Object item : jsonArray) {
                 JSONObject object = (JSONObject) item;
                 Attachment attachment = new Attachment();
 
@@ -62,8 +62,7 @@ public class JSONBuilder {
                 commentSetter(attachment, object.get("comment"));
 
                 attachments.add(attachment);
-            });
-
+            }
         } catch (ParseException | ClassCastException ex) {
             LOG.error("JSON attachments error", ex);
         }

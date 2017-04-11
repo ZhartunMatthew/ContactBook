@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class ShowEmailPageCommand implements AbstractCommand {
 
     private final static Logger LOG = LoggerFactory.getLogger(ShowEmailPageCommand.class);
-    private String COMMAND_URL = "send_email.jsp";
+    private final static String COMMAND_URL = "send_email.jsp";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
@@ -49,8 +49,4 @@ public class ShowEmailPageCommand implements AbstractCommand {
         return COMMAND_URL;
     }
 
-    @Override
-    public boolean isRedirectedCommand() {
-        return false;
-    }
 }
