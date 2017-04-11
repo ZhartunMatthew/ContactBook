@@ -1,8 +1,6 @@
 package com.zhartunmatthew.web.contactbook.dto.search;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -12,7 +10,6 @@ import java.sql.SQLException;
 public class SearchCriteriaBuilder {
 
     private SearchCriteria criteria = null;
-    private static Logger LOG = LoggerFactory.getLogger(SearchCriteriaBuilder.class);
     private final static String START_QUERY =
         "SELECT contacts.id AS id, first_name, last_name, patronymic, " +
         "birth_date, sex, marital_status.id_marital_status AS marital_status, " +
@@ -48,7 +45,6 @@ public class SearchCriteriaBuilder {
         position = setString(statement, position, criteria.getFlat());
         position = setDate(statement, position, criteria.getFromDate());
         position = setDate(statement, position, criteria.getToDate());
-        LOG.info("Search query {}", statement);
 
         return statement;
     }
