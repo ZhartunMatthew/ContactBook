@@ -10,7 +10,7 @@ public class EmailHandler implements AbstractHandler  {
     public void handleField(Contact contact, String data) throws WrongInputException {
         if(!StringUtils.isEmpty(data)) {
             data = data.trim();
-            if(ValidationUtils.checkLength(data, 35) &&
+            if(ValidationUtils.checkLength(data, 38) &&
                     ValidationUtils.hasOnlyCharsAndDigits(data, "_-.@")) {
                 contact.setEmail(data);
             } else {

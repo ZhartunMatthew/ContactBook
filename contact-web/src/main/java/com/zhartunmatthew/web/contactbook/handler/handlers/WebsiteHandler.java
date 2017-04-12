@@ -10,7 +10,7 @@ public class WebsiteHandler implements AbstractHandler  {
     public void handleField(Contact contact, String data) throws WrongInputException {
         if(!StringUtils.isEmpty(data)) {
             data = data.trim();
-            if(ValidationUtils.checkLength(data, 35)) {
+            if(ValidationUtils.checkLength(data, 38)) {
                 contact.setWebsite(data);
             } else {
                 throw new WrongInputException("Website is invalid");

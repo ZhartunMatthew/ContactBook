@@ -1193,7 +1193,7 @@ function checkJob(inputElement) {
     if (inputElement.value.length > 45) {
         return false;
     }
-    if (isOnlyLettersAndChars(inputElement.value, '(),.:;')) {
+    if (isOnlyLettersAndChars(inputElement.value, '()-,.:;"\'')) {
         return true;
     } else {
         return false;
@@ -1212,10 +1212,10 @@ function checkEmail(inputElement) {
     if(inputElement.value.length === 0) {
         return true;
     }
-    if(inputElement.value.length > 30) {
+    if(inputElement.value.length > 35) {
         return false;
     }
-    var regex = /^[\w]{1}[\w\.-]*@[\w]+\.[a-z]{2,4}$/i;
+    var regex = /^[\w]{1}[\w\.\-\_]*@[\w]+\.[a-z]{2,5}$/i;
     return regex.test(inputElement.value);
 }
 
@@ -1228,14 +1228,21 @@ function checkWebsiteInput(inputElement) {
 }
 
 function checkWebsite(inputElement) {
-    if(inputElement.value.length === 0) {
+    var site = inputElement.value;
+    if(site.length === 0) {
         return true;
     }
-    if(inputElement.value.length > 30) {
+    if(site.length > 35) {
         return false;
     }
-    var regex = /^[\w-]*\.[a-z]{2,4}$/i;
-    return regex.test(inputElement.value);
+    if(!isOnlyLettersAndChars(site, ":/.?=&")) {
+        return false;
+    }
+    var dotPosition = site.lastIndexOf('.');
+    if((dotPosition == -1) || (dotPosition < 2) || (dotPosition >= (site.length - 1))) {
+        return false;
+    }
+    return true;
 }
 
 function highlightInput(inputElement, isCorrect) {
