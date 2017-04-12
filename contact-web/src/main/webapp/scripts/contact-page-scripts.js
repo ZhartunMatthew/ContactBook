@@ -32,6 +32,7 @@ submitContactButton.onclick = function () {
         return;
     }
 
+    prepareJobForSubmit();
     preparePhonesForSubmit();
     prepareAttachmentForSubmit();
     preparePhotoForSubmit();
@@ -1197,6 +1198,13 @@ function checkJob(inputElement) {
         return true;
     } else {
         return false;
+    }
+}
+
+function prepareJobForSubmit() {
+    var re = new RegExp('"', 'g');
+    if(job.value.length > 0) {
+        job.value = job.value.replace(re, "'");
     }
 }
 
