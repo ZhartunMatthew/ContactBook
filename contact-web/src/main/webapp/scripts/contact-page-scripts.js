@@ -12,9 +12,6 @@ function Phone() {
     return phone;
 }
 
-var oldPhones = [];
-var newPhones = [];
-
 var contactForm = document.getElementById('contact-form');
 
 var contactPhones = document.getElementById('contact-phones');
@@ -109,54 +106,36 @@ editPhoneButton.onclick = function () {
 
     var number = items[0];
     if(number !== undefined && number !== 0) {
-        var phone = document.getElementById('contact-phone-number-' + number).innerHTML.trim();
-        var countryCode = phone.match(/^\+\d+ /)[0];
-        document.getElementById('country-code').value = countryCode.substr(1, countryCode.length).trim();
-        var operatorCode = phone.match(/\(\d+\)/)[0];
-        document.getElementById('operator-code').value = operatorCode.substr(1, operatorCode.length-2);
-        var phoneNumber = phone.match(/( )\b\d+\b/)[0];
-        document.getElementById('phone-number').value = phoneNumber.trim();
-
-        var typeName = document.getElementById('contact-phone-type-' + number).innerHTML.trim();
-        document.getElementById('phone-type').value = typeToVal(typeName);
-
-
-        document.getElementById('phone-comment').value =
-            document.getElementById('contact-phone-comment-' + number).innerHTML.trim();
-
+        fillPhonePopup(number, '');
         isNewPhoneEdit = false;
-        editedPhoneId = number;
-        number = 0;
-
         openModal(popupWindowPhones);
     }
 
     var newNumber = newItems[0];
     if(newNumber !== undefined && newNumber !== 0) {
-        var newPhone = document.getElementById('new-contact-phone-number-' + newNumber).innerHTML.trim();
-        var newCountryCode = newPhone.match(/^\+\d+ /)[0];
-        document.getElementById('country-code').value = newCountryCode.substr(1, newCountryCode.length).trim();
-        var newOperatorCode = newPhone.match(/\(\d+\)/)[0];
-        document.getElementById('operator-code').value = newOperatorCode.substr(1, newOperatorCode.length-2);
-        var newPhoneNumber = newPhone.match(/( )\b\d+\b/)[0];
-        document.getElementById('phone-number').value = newPhoneNumber.trim();
-
-        var newTypeName = document.getElementById('new-contact-phone-type-' + newNumber).innerHTML.trim();
-        document.getElementById('phone-type').value = typeToVal(newTypeName);
-
-
-        document.getElementById('phone-comment').value =
-            document.getElementById('new-contact-phone-comment-' + newNumber).innerHTML.trim();
-
+        fillPhonePopup(newNumber, "new-");
         isNewPhoneEdit = true;
-        editedPhoneId = newNumber;
-        newNumber = 0;
-
         openModal(popupWindowPhones);
     }
-
-
 };
+
+function fillPhonePopup(id, prefix) {
+    var phone = document.getElementById(prefix + 'contact-phone-number-' + id).innerHTML.trim();
+    var countryCode = phone.match(/^\+\d+ /)[0];
+    document.getElementById('country-code').value = countryCode.substr(1, countryCode.length).trim();
+    var operatorCode = phone.match(/\(\d+\)/)[0];
+    document.getElementById('operator-code').value = operatorCode.substr(1, operatorCode.length-2);
+    var phoneNumber = phone.match(/( )\b\d+\b/)[0];
+    document.getElementById('phone-number').value = phoneNumber.trim();
+
+    var typeName = document.getElementById(prefix + 'contact-phone-type-' + id).innerHTML.trim();
+    document.getElementById('phone-type').value = typeToVal(typeName);
+
+    document.getElementById('phone-comment').value =
+        document.getElementById(prefix + 'contact-phone-comment-' + id).innerHTML.trim();
+
+    editedPhoneId = id;
+}
 
 deletePhoneButton.onclick = function () {
     clearErrorWindow();
@@ -258,69 +237,54 @@ function editPhone(phoneID, isNewPhoneEdit) {
     phone.comment = document.getElementById('phone-comment').value.trim();
 
     if(isNewPhoneEdit == true) {
-        document.getElementById('new-contact-phone-number-' + phoneID).innerHTML =
-            '+' + phone.countryCode + ' (' + phone.operatorCode + ') ' + phone.number;
-
-        document.getElementById('new-contact-phone-type-' + phoneID).innerHTML = valToType(phone.type);
-        document.getElementById('new-contact-phone-comment-' + phoneID).innerHTML = '';
-        document.getElementById('contact-phone-comment-' + phoneID).appendChild(document.createTextNode(phone.comment));
+        applyPhoneChanges(phone, 'new-');
     } else {
-        document.getElementById('contact-phone-number-' + phoneID).innerHTML =
-            '+' + phone.countryCode + ' (' + phone.operatorCode + ') ' + phone.number;
-
-        document.getElementById('contact-phone-type-' + phoneID).innerHTML = valToType(phone.type);
-        document.getElementById('contact-phone-comment-' + phoneID).innerHTML = '';
-        document.getElementById('contact-phone-comment-' + phoneID).appendChild(document.createTextNode(phone.comment));
+        applyPhoneChanges(phone, '');
     }
 }
 
+function applyPhoneChanges(phone, prefix) {
+    document.getElementById(prefix + 'contact-phone-number-' + phone.id).innerHTML =
+        '+' + phone.countryCode + ' (' + phone.operatorCode + ') ' + phone.number;
+
+    document.getElementById(prefix + 'contact-phone-type-' + phone.id).innerHTML = valToType(phone.type);
+    document.getElementById(prefix + 'contact-phone-comment-' + phone.id).innerHTML = '';
+    document.getElementById(prefix + 'contact-phone-comment-' + phone.id).appendChild(document.createTextNode(phone.comment));
+}
+
 function preparePhonesForSubmit() {
-    var oldPhoneElements = document.getElementsByClassName('contact-phone');
-    for(var oldI = 0; oldI < oldPhoneElements.length; oldI++) {
-        var oldId = oldPhoneElements[oldI].id;
-        oldId = oldId.split('-')[2];
+    contactForm.appendChild(addElementsInHiddenInput('old-phones', JSON.stringify(getPhoneList(''))));
+    contactForm.appendChild(addElementsInHiddenInput('new-phones', JSON.stringify(getPhoneList('new-'))));
+}
+
+function getPhoneList(prefix) {
+    var phones = [];
+    var oldPhoneElements = document.getElementsByClassName(prefix + 'contact-phone');
+    for(var i = 0; i < oldPhoneElements.length; i++) {
+        var id = oldPhoneElements[i].id;
+        id = id.split('-');
+        id = id[id.length - 1];
 
         var tempPhone = new Phone();
-        tempPhone.id = oldId;
+        if(prefix.length < 1) {
+            tempPhone.id = id;
+        }
 
-        var oldFullPhone = document.getElementById('contact-phone-number-' + oldId).innerHTML.trim();
-        var oldCountryCode = oldFullPhone.match(/^\+\d+ /)[0];
-        tempPhone.countryCode = oldCountryCode.substr(1, oldCountryCode.length).trim();
-        var oldOperatorCode = oldFullPhone.match(/\(\d+\)/)[0];
-        tempPhone.operatorCode = oldOperatorCode.substr(1, oldOperatorCode.length-2);
-        var oldPhoneNumber = oldFullPhone.match(/( )\b\d+\b/)[0];
-        tempPhone.number = oldPhoneNumber.trim();
+        var fullPhone = document.getElementById(prefix + 'contact-phone-number-' + id).innerHTML.trim();
+        var countryCode = fullPhone.match(/^\+\d+ /)[0];
+        tempPhone.countryCode = countryCode.substr(1, countryCode.length).trim();
+        var operatorCode = fullPhone.match(/\(\d+\)/)[0];
+        tempPhone.operatorCode = operatorCode.substr(1, operatorCode.length-2);
+        var phoneNumber = fullPhone.match(/( )\b\d+\b/)[0];
+        tempPhone.number = phoneNumber.trim();
 
-        var tempType = document.getElementById('contact-phone-type-' + oldId).innerHTML.trim();
+        var tempType = document.getElementById(prefix + 'contact-phone-type-' + id).innerHTML.trim();
         tempPhone.type = typeToVal(tempType);
-        tempPhone.comment = document.getElementById('contact-phone-comment-' + oldId).innerHTML.trim();
+        tempPhone.comment = document.getElementById(prefix + 'contact-phone-comment-' + id).innerHTML.trim();
 
-        oldPhones.push(tempPhone);
+        phones.push(tempPhone);
     }
-
-    var newPhoneElements = document.getElementsByClassName('new-contact-phone');
-    for(var newI = 0; newI < newPhoneElements.length; newI++) {
-        var newId = newPhoneElements[newI].id;
-        newId = newId.split('-')[3];
-
-        var newTempPhone = new Phone();
-        var newFullPhone = document.getElementById('new-contact-phone-number-' + newId).innerHTML.trim();
-        var newCountryCode = newFullPhone.match(/^\+\d+ /)[0];
-        newTempPhone.countryCode = newCountryCode.substr(1, newCountryCode.length).trim();
-        var newOperatorCode = newFullPhone.match(/\(\d+\)/)[0];
-        newTempPhone.operatorCode = newOperatorCode.substr(1, newOperatorCode.length-2);
-        var newPhoneNumber = newFullPhone.match(/( )\b\d+\b/)[0];
-        newTempPhone.number = newPhoneNumber.trim();
-
-        var newTempType = document.getElementById('new-contact-phone-type-' + newId).innerHTML.trim();
-        newTempPhone.type = typeToVal(newTempType);
-        newTempPhone.comment = document.getElementById('new-contact-phone-comment-' + newId).innerHTML.trim();
-
-        newPhones.push(newTempPhone);
-    }
-
-    contactForm.appendChild(addElementsInHiddenInput('old-phones', JSON.stringify(oldPhones)));
-    contactForm.appendChild(addElementsInHiddenInput('new-phones', JSON.stringify(newPhones)));
+    return phones;
 }
 
 function addElementsInHiddenInput(name, items) {
@@ -387,7 +351,7 @@ theNumber.onkeyup = function () {
 
 var phoneComment = document.getElementById('phone-comment');
 phoneComment.onkeyup = function () {
-    checkInputOnLength(this, 150, false);  
+    checkInputOnLength(this, 150, false);
 };
 
 function clearHighlightPhones() {
@@ -459,40 +423,32 @@ editAttachmentButton.onclick = function () {
 
     var number = items[0];
     if(number !== undefined && number !== 0) {
-        document.getElementById('attachment-comment').value =
-            document.getElementById('contact-attachment-comment-' + number).innerHTML.trim();
-
-        document.getElementById('attachment-name').value =
-            document.getElementById('contact-attachment-file-name-' + number).innerHTML.trim().split('\.')[0];
-
-        fileExtension =
-            document.getElementById('contact-attachment-file-name-' + number).innerHTML.trim().split('\.')[1];
-
+        fillAttachmentPopup(number, '');
         isNewAttachmentEdit = false;
-        editedAttachmentId = number;
-        document.getElementById('path-to-file').style.display = 'none';
-
         openModal(popupWindowAttachments);
     }
 
     var newNumber = newItems[0];
     if(newNumber != undefined && newNumber != 0) {
-        document.getElementById('attachment-comment').value =
-            document.getElementById('new-contact-attachment-comment-' + newNumber).innerHTML.trim();
-
-        document.getElementById('attachment-name').value =
-            document.getElementById('new-contact-attachment-file-name-' + newNumber).innerHTML.trim().split('\.')[0];
-
-        fileExtension =
-            document.getElementById('new-contact-attachment-file-name-' + newNumber).innerHTML.trim().split('\.')[1];
-
+        fillAttachmentPopup(newNumber, 'new-');
         isNewAttachmentEdit = true;
-        editedAttachmentId = newNumber;
-        document.getElementById('path-to-file').style.display = 'none';
-
         openModal(popupWindowAttachments);
     }
 };
+
+function fillAttachmentPopup(id, prefix) {
+    document.getElementById('attachment-comment').value =
+        document.getElementById(prefix + 'contact-attachment-comment-' + id).innerHTML.trim();
+
+    document.getElementById('attachment-name').value =
+        document.getElementById(prefix + 'contact-attachment-file-name-' + id).innerHTML.trim().split('\.')[0];
+
+    fileExtension =
+        document.getElementById(prefix + 'contact-attachment-file-name-' + id).innerHTML.trim().split('\.')[1];
+
+    editedAttachmentId = id;
+    document.getElementById('path-to-file').style.display = 'none';
+}
 
 deleteAttachmentButton.onclick = function () {
     clearErrorWindow();
@@ -636,51 +592,52 @@ function editAttachment(attachmentID, isNewAttachmentEdit) {
     attachment.comment = document.getElementById('attachment-comment').value.trim();
 
     if(isNewAttachmentEdit) {
-        document.getElementById('new-contact-attachment-file-name-' + attachmentID).innerHTML = attachment.fileName;
-        document.getElementById('new-contact-attachment-comment-' + attachmentID).innerHTML = '';
-        document.getElementById('new-contact-attachment-comment-' + attachmentID).appendChild(document.createTextNode(attachment.comment));
+        applyAttachmentChanges(attachment, 'new-');
     } else {
-        document.getElementById('contact-attachment-file-name-' + attachmentID).innerHTML = attachment.fileName;
-        document.getElementById('contact-attachment-comment-' + attachmentID).innerHTML = '';
-        document.getElementById('contact-attachment-comment-' + attachmentID).appendChild(document.createTextNode(attachment.comment));
+        applyAttachmentChanges(attachment, '');
     }
 }
 
-function prepareAttachmentForSubmit() {
-    var oldAttachments = [];
-    var newAttachments = [];
+function applyAttachmentChanges(attachment, prefix) {
+    document.getElementById(prefix + 'contact-attachment-file-name-' + attachment.id).innerHTML = attachment.fileName;
+    document.getElementById(prefix + 'contact-attachment-comment-' + attachment.id).innerHTML = '';
+    document.getElementById(prefix + 'contact-attachment-comment-' + attachment.id).appendChild(document.createTextNode(attachment.comment));
+}
 
-    var oldAttachmentElements = document.getElementsByClassName('contact-attachment');
-    for(var oldI = 0; oldI < oldAttachmentElements.length; oldI++) {
-        var oldId = oldAttachmentElements[oldI].id;
-        oldId = oldId.split('-')[2];
+function prepareAttachmentForSubmit() {
+    contactForm.appendChild(addElementsInHiddenInput('old-attachments', JSON.stringify(getAttachmentList(''))));
+    contactForm.appendChild(addElementsInHiddenInput('new-attachments', JSON.stringify(getAttachmentList('new-'))));
+}
+
+function getAttachmentList(prefix) {
+    var attachments = [];
+    var attachmentElements = document.getElementsByClassName(prefix + 'contact-attachment');
+    for(var i = 0; i < attachmentElements.length; i++) {
+        var id = attachmentElements[i].id;
+        id = id.split('-');
+        id = id[id.length - 1];
 
         var tempAttachment = new Attachment();
-        tempAttachment.id = oldId;
+        if(prefix.length < 1) {
+            tempAttachment.id = id;
+        }
 
-        tempAttachment.fileName = document.getElementById('contact-attachment-file-name-' + oldId).innerHTML.trim();
-        tempAttachment.dateUpload = document.getElementById('contact-attachment-upload-date-' + oldId).innerHTML.trim();
-        tempAttachment.comment = document.getElementById('contact-attachment-comment-' + oldId).innerHTML.trim();
-
-        oldAttachments.push(tempAttachment);
+        tempAttachment.fileName = document.getElementById(prefix + 'contact-attachment-file-name-' + id).innerHTML.trim();
+        if(prefix.length > 1) {
+            tempAttachment.dateUpload = null;
+        } else {
+            tempAttachment.dateUpload =
+                changeDateFormat(document.getElementById(prefix + 'contact-attachment-upload-date-' + id).innerHTML.trim());
+        }
+        tempAttachment.comment = document.getElementById(prefix + 'contact-attachment-comment-' + id).innerHTML.trim();
+        attachments.push(tempAttachment);
     }
+    return attachments;
+}
 
-    var newAttachmentElements = document.getElementsByClassName('new-contact-attachment');
-    for(var newI = 0; newI < newAttachmentElements.length; newI++) {
-        var newId = newAttachmentElements[newI].id;
-        newId = newId.split('-')[3];
-
-        var newTempAttachment = new Attachment();
-
-        newTempAttachment.fileName = document.getElementById('new-contact-attachment-file-name-' + newId).innerHTML.trim();
-        newTempAttachment.dateUpload = document.getElementById('new-contact-attachment-upload-date-' + newId).innerHTML.trim();
-        newTempAttachment.comment = document.getElementById('new-contact-attachment-comment-' + newId).innerHTML.trim();
-
-        newAttachments.push(newTempAttachment);
-    }
-
-    contactForm.appendChild(addElementsInHiddenInput('old-attachments', JSON.stringify(oldAttachments)));
-    contactForm.appendChild(addElementsInHiddenInput('new-attachments', JSON.stringify(newAttachments)));
+function changeDateFormat(dateStr) {
+    dateStr = dateStr.split('.');
+    return dateStr[2] + '-' + dateStr[1] + '-' + dateStr[0];
 }
 
 var prevPath = '';
@@ -1116,7 +1073,7 @@ function isOnlyLetters(value) {
 }
 
 function isOnlyLettersAndChars(value, chars) {
-    var letters = letters_ru + letters_en + '-' + ' ' + chars;
+    var letters = letters_ru + letters_en + digits + '-' + ' ' + chars;
     for (var i = 0; i < value.length; i++) {
         if (letters.indexOf(value.toLowerCase().charAt(i)) === -1) {
             return false;

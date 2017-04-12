@@ -57,7 +57,9 @@ public class JSONBuilder {
                 Attachment attachment = new Attachment();
 
                 idSetter(attachment, object.get("id"));
-                attachment.setUploadDate(new Date(DateTime.now().getMillis()));
+                Object date = object.get("dateUpload");
+                attachment.setUploadDate(date == null ?
+                        new Date(DateTime.now().getMillis()) : Date.valueOf(date.toString()));
                 attachment.setFileName((String) object.get("fileName"));
                 commentSetter(attachment, object.get("comment"));
 
