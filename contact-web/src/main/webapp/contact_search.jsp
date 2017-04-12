@@ -53,7 +53,7 @@
                     <option selected value="0"> Не выбрано </option>
                     <c:forEach var="nationality" items="${nationalities}">
                         <option ${contact.nationality == nationality.id ? 'selected' : ''} value="${nationality.id}">
-                                ${nationality.name}
+                                <c:out value="${nationality.name}"/>
                         </option>
                     </c:forEach>
                 </select>
@@ -63,7 +63,7 @@
                     <option selected value="0"> Не выбрано </option>
                     <c:forEach var="maritalStatus" items="${martialStatuses}">
                         <option ${contact.maritalStatus == maritalStatus.id ? 'selected' : ''} value="${maritalStatus.id}">
-                                ${maritalStatus.name}
+                                <c:out value="${maritalStatus.name}"/>
                         </option>
                     </c:forEach>
                 </select>
@@ -78,7 +78,7 @@
                     <option selected value="0"> Не выбрано </option>
                     <c:forEach var="country" items="${countries}">
                         <option ${contact.country == country.id ? 'selected' : ''} value="${country.id}">
-                                ${country.name}
+                                <c:out value="${country.name}"/>
                         </option>
                     </c:forEach>
                 </select>

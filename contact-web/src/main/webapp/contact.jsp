@@ -71,7 +71,7 @@
                         <option ${empty contact.nationality ? 'selected' : ''} value="0"> Не выбрано </option>
                         <c:forEach var="nationality" items="${nationalities}">
                             <option ${contact.nationality == nationality.id ? 'selected' : ''} value="${nationality.id}">
-                                    ${nationality.name}
+                                    <c:out value="${nationality.name}"/>
                             </option>
                         </c:forEach>
                     </select>
@@ -81,7 +81,7 @@
                         <option ${empty contact.maritalStatus ? 'selected' : ''} value="0"> Не выбрано </option>
                         <c:forEach var="maritalStatus" items="${martialStatuses}">
                             <option ${contact.maritalStatus == maritalStatus.id ? 'selected' : ''} value="${maritalStatus.id}">
-                                    ${maritalStatus.name}
+                                    <c:out value="${maritalStatus.name}"/>
                             </option>
                         </c:forEach>
                     </select>
@@ -105,7 +105,7 @@
                         <option ${empty contact.country ? 'selected' : ''} value="0"> Не выбрано </option>
                         <c:forEach var="country" items="${countries}">
                             <option ${contact.country == country.id ? 'selected' : ''} value="${country.id}">
-                                    ${country.name}
+                                    <c:out value="${country.name}"/>
                             </option>
                         </c:forEach>
                     </select>
@@ -147,11 +147,13 @@
                                 <c:out value="+${phone.countryCode} (${phone.operatorCode}) ${phone.number}"/>
                             </div>
                             <div class="column column-4" id="contact-phone-type-${phone.id}">
-                                ${phone.type == 1 ? 'Домашний' : 'Мобильный'}
+                                <c:out value="${phone.type == 1 ? 'Домашний' : 'Мобильный'}"/>
                             </div>
-                            <div class="column column-5" id="contact-phone-comment-${phone.id}">
-                                ${phone.comment}
+
+                            <div class="column column-5">
+                                <pre id="contact-phone-comment-${phone.id}">${phone.comment}</pre>
                             </div>
+
                         </label>
                     </div>
                 </c:forEach>
@@ -182,8 +184,8 @@
                             <div class="column column-4" id="contact-attachment-upload-date-${attachment.id}">
                                 <c:out value="${attachment.getDateString()}"/>
                             </div>
-                            <div class="column column-5" id="contact-attachment-comment-${attachment.id}">
-                                <c:out value="${attachment.comment}"/>
+                            <div class="column column-5">
+                                <pre id="contact-attachment-comment-${attachment.id}">${attachment.comment}</pre>
                             </div>
                             <a href="${pageContext.request.contextPath}/controller?command=download_attachment&id=${attachment.id}">
                                 <div class="nav-button download"></div>

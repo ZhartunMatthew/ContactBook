@@ -232,15 +232,15 @@ function createNewPhone() {
 
     var columnWithPhoneComment = document.createElement('div');
     columnWithPhoneComment.className = 'column column-5';
-    columnWithPhoneComment.id = 'new-contact-phone-comment-' + phone.id;
-    columnWithPhoneComment.appendChild(document.createTextNode(phone.comment));
     var commentPre = document.createElement('pre');
-    commentPre.appendChild(columnWithPhoneComment);
+    commentPre.id = 'new-contact-phone-comment-' + phone.id;
+    commentPre.appendChild(document.createTextNode(phone.comment));
+    columnWithPhoneComment.appendChild(commentPre);
 
     label.appendChild(columnWithCheckBox);
     label.appendChild(columnWithPhoneNumber);
     label.appendChild(columnWithPhoneType);
-    label.appendChild(commentPre);
+    label.appendChild(columnWithPhoneComment);
 
     oneRow.appendChild(label);
 
@@ -590,15 +590,15 @@ function createNewAttachment() {
 
     var columnWithAttachmentComment = document.createElement('div');
     columnWithAttachmentComment.className = 'column column-5';
-    columnWithAttachmentComment.id = 'new-contact-attachment-comment-' + attachment.id;
-    columnWithAttachmentComment.appendChild(document.createTextNode(attachment.comment));
     var commentPre = document.createElement('pre');
-    commentPre.appendChild(columnWithAttachmentComment);
+    commentPre.id = 'new-contact-attachment-comment-' + attachment.id;
+    commentPre.appendChild(document.createTextNode(attachment.comment));
+    columnWithAttachmentComment.appendChild(commentPre);
 
     label.appendChild(columnWithCheckBox);
     label.appendChild(columnWithFileName);
     label.appendChild(columnWithDateUpload);
-    label.appendChild(commentPre);
+    label.appendChild(columnWithAttachmentComment);
 
     oneRow.appendChild(label);
 

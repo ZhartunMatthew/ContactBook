@@ -81,3 +81,7 @@ form.contact div.main-info label input.date-day,
 form.contact div.main-info label input.date-month {
     width: 50px;
 }
+
+pre {
+    margin: 0;
+}
