@@ -11,7 +11,7 @@ public class JobHandler implements AbstractHandler  {
         if(!StringUtils.isEmpty(data)) {
             data = data.trim();
             if(ValidationUtils.checkLength(data, 47)) {
-                contact.setJob(data);
+                contact.setJob(data.replaceAll("\"", "\'"));
             } else {
                 throw new WrongInputException("Job is invalid");
             }
