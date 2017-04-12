@@ -90,7 +90,7 @@ addPhoneButton.onclick = function () {
 };
 
 editPhoneButton.onclick = function () {
-
+    clearErrorWindow();
     isNewPhone = false;
     var items = getCheckedItems('phone-check');
     var newItems = getCheckedItems('new-phone-check');
@@ -159,6 +159,7 @@ editPhoneButton.onclick = function () {
 };
 
 deletePhoneButton.onclick = function () {
+    clearErrorWindow();
     var allPhonesForDelete = getCheckedItems('phone-check');
     var allNewPhonesForDelete = getCheckedItems('new-phone-check');
 
@@ -233,11 +234,13 @@ function createNewPhone() {
     columnWithPhoneComment.className = 'column column-5';
     columnWithPhoneComment.id = 'new-contact-phone-comment-' + phone.id;
     columnWithPhoneComment.appendChild(document.createTextNode(phone.comment));
+    var commentPre = document.createElement('pre');
+    commentPre.appendChild(columnWithPhoneComment);
 
     label.appendChild(columnWithCheckBox);
     label.appendChild(columnWithPhoneNumber);
     label.appendChild(columnWithPhoneType);
-    label.appendChild(columnWithPhoneComment);
+    label.appendChild(commentPre);
 
     oneRow.appendChild(label);
 
@@ -337,7 +340,7 @@ function valToType(value) {
 
 function checkPhoneInputBeforeSave() {
     var isCorrectInput = true;
-    popupErrorMessage.innerHTML = null;
+    clearErrorWindow();
 
     removeAllRedundantSpacesPhone();
 
@@ -434,6 +437,7 @@ addAttachmentButton.onclick = function () {
 };
 
 editAttachmentButton.onclick = function () {
+    clearErrorWindow();
     isNewAttachment = false;
 
     var items = getCheckedItems('attachment-check');
@@ -489,6 +493,7 @@ editAttachmentButton.onclick = function () {
 };
 
 deleteAttachmentButton.onclick = function () {
+    clearErrorWindow();
     var allAttachmentsForDelete = getCheckedItems('attachment-check');
     var allNewAttachmentsForDelete = getCheckedItems('new-attachment-check');
 
@@ -587,11 +592,13 @@ function createNewAttachment() {
     columnWithAttachmentComment.className = 'column column-5';
     columnWithAttachmentComment.id = 'new-contact-attachment-comment-' + attachment.id;
     columnWithAttachmentComment.appendChild(document.createTextNode(attachment.comment));
+    var commentPre = document.createElement('pre');
+    commentPre.appendChild(columnWithAttachmentComment);
 
     label.appendChild(columnWithCheckBox);
     label.appendChild(columnWithFileName);
     label.appendChild(columnWithDateUpload);
-    label.appendChild(columnWithAttachmentComment);
+    label.appendChild(commentPre);
 
     oneRow.appendChild(label);
 
@@ -675,7 +682,7 @@ function prepareAttachmentForSubmit() {
 var prevPath = '';
 function checkAttachmentInputBeforeSave(isRequired) {
     var isInputCorrect = true;
-    popupErrorMessage.innerHTML = null;
+    clearErrorWindow();
 
     removeAllRedundantSpacesAttachment();
 
@@ -865,6 +872,10 @@ function addErrorMessage(message) {
     popupErrorMessage.appendChild(newError);
 }
 
+function clearErrorWindow() {
+    popupErrorMessage.innerHTML = null;
+}
+
 function checkInputFieldsBeforeSubmit() {
     popupErrorMessage.innerHTML = null;
     var isInputCorrect = true;
@@ -894,7 +905,7 @@ function checkInputFieldsBeforeSubmit() {
         isInputCorrect = false;
         addErrorMessage('Email введен некорректно');
     }
-    if(!checkTextOnLength(job, 45, false)) {
+    if(!checkJob(job)) {
         isInputCorrect = false;
         addErrorMessage('Работа введена некорректно');
     }
@@ -959,13 +970,13 @@ var month = document.getElementById('month');
 var year = document.getElementById('year');
 
 day.onkeyup = function () {
-    checkDateInput();
+    checkDateInput(false);
 };
 month.onkeyup = function () {
-    checkDateInput();
+    checkDateInput(false);
 };
 year.onkeyup = function () {
-    checkDateInput();
+    checkDateInput(false);
 };
 
 var website = document.getElementById('website');
@@ -980,7 +991,7 @@ email.onkeyup = function () {
 
 var job = document.getElementById('job');
 job.onkeyup = function () {
-    checkInputOnLength(this, 45, false);
+    checkJobInput(this);
 };
 
 var postcode = document.getElementById('postcode');
@@ -1100,6 +1111,16 @@ function isOnlyLetters(value) {
     return true;
 }
 
+function isOnlyLettersAndChars(value, chars) {
+    var letters = letters_ru + letters_en + '-' + ' ' + chars;
+    for (var i = 0; i < value.length; i++) {
+        if (letters.indexOf(value.toLowerCase().charAt(i)) === -1) {
+            return false;
+        }
+    }
+    return true;
+}
+
 function isOnlyLettersDigitsSpaces(value) {
     var letters = letters_ru + letters_en + '-' + digits + ' ';
     for (var i = 0; i < value.length; i++) {
@@ -1159,7 +1180,12 @@ function isOnlyDigits(value) {
     return true;
 }
 
-function checkDateInput() {
+function checkDateInput(isFinalCheck) {
+    if(arguments.length > 0) {
+        if(!isFinalCheck) {
+            clearErrorWindow();
+        }
+    }
     var dayCorrect, monthCorrect, yearCorrect;
     if(day.value.length > 0 || month.value.length > 0 || year.value.length > 0) {
         var currentDate = new Date();
@@ -1192,6 +1218,28 @@ function checkDateInput() {
         highlightInput(month, true);
         highlightInput(year, true);
         return true;
+    }
+}
+
+function checkJobInput(inputElement) {
+    if(checkJob(inputElement)) {
+        highlightInput(inputElement, true);
+    } else {
+        highlightInput(inputElement, false);
+    }
+}
+
+function checkJob(inputElement) {
+    if (inputElement.value.length === 0) {
+        return true;
+    }
+    if (inputElement.value.length > 45) {
+        return false;
+    }
+    if (isOnlyLettersAndChars(inputElement.value, '(),.:;')) {
+        return true;
+    } else {
+        return false;
     }
 }
 
