@@ -262,13 +262,15 @@ function editPhone(phoneID, isNewPhoneEdit) {
             '+' + phone.countryCode + ' (' + phone.operatorCode + ') ' + phone.number;
 
         document.getElementById('new-contact-phone-type-' + phoneID).innerHTML = valToType(phone.type);
-        document.getElementById('new-contact-phone-comment-' + phoneID).innerHTML = phone.comment;
+        document.getElementById('new-contact-phone-comment-' + phoneID).innerHTML = '';
+        document.getElementById('contact-phone-comment-' + phoneID).appendChild(document.createTextNode(phone.comment));
     } else {
         document.getElementById('contact-phone-number-' + phoneID).innerHTML =
             '+' + phone.countryCode + ' (' + phone.operatorCode + ') ' + phone.number;
 
         document.getElementById('contact-phone-type-' + phoneID).innerHTML = valToType(phone.type);
-        document.getElementById('contact-phone-comment-' + phoneID).innerHTML = phone.comment;
+        document.getElementById('contact-phone-comment-' + phoneID).innerHTML = '';
+        document.getElementById('contact-phone-comment-' + phoneID).appendChild(document.createTextNode(phone.comment));
     }
 }
 
@@ -634,11 +636,13 @@ function editAttachment(attachmentID, isNewAttachmentEdit) {
     attachment.comment = document.getElementById('attachment-comment').value.trim();
 
     if(isNewAttachmentEdit) {
-        document.getElementById('new-contact-attachment-comment-' + attachmentID).innerHTML = attachment.comment;
         document.getElementById('new-contact-attachment-file-name-' + attachmentID).innerHTML = attachment.fileName;
+        document.getElementById('new-contact-attachment-comment-' + attachmentID).innerHTML = '';
+        document.getElementById('new-contact-attachment-comment-' + attachmentID).appendChild(document.createTextNode(attachment.comment));
     } else {
-        document.getElementById('contact-attachment-comment-' + attachmentID).innerHTML = attachment.comment;
         document.getElementById('contact-attachment-file-name-' + attachmentID).innerHTML = attachment.fileName;
+        document.getElementById('contact-attachment-comment-' + attachmentID).innerHTML = '';
+        document.getElementById('contact-attachment-comment-' + attachmentID).appendChild(document.createTextNode(attachment.comment));
     }
 }
 
