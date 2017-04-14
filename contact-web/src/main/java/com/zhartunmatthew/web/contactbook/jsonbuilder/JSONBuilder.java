@@ -5,7 +5,6 @@ import com.zhartunmatthew.web.contactbook.entity.Phone;
 import com.zhartunmatthew.web.contactbook.entity.abstractions.ContactEntity;
 import com.zhartunmatthew.web.contactbook.validation.ValidationUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -57,9 +56,7 @@ public class JSONBuilder {
                 Attachment attachment = new Attachment();
 
                 idSetter(attachment, object.get("id"));
-                Object date = object.get("dateUpload");
-                attachment.setUploadDate(date == null ?
-                        new Date(DateTime.now().getMillis()) : Date.valueOf(date.toString()));
+                attachment.setUploadDate(Date.valueOf((String) object.get("dateUpload")));
                 attachment.setFileName((String) object.get("fileName"));
                 commentSetter(attachment, object.get("comment"));
 

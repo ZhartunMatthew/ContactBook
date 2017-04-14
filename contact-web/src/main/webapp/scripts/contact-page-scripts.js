@@ -623,12 +623,8 @@ function getAttachmentList(prefix) {
         }
 
         tempAttachment.fileName = document.getElementById(prefix + 'contact-attachment-file-name-' + id).innerHTML.trim();
-        if(prefix.length > 1) {
-            tempAttachment.dateUpload = null;
-        } else {
-            tempAttachment.dateUpload =
-                changeDateFormat(document.getElementById(prefix + 'contact-attachment-upload-date-' + id).innerHTML.trim());
-        }
+        tempAttachment.dateUpload =
+            changeDateFormat(document.getElementById(prefix + 'contact-attachment-upload-date-' + id).innerHTML.trim());
         tempAttachment.comment = document.getElementById(prefix + 'contact-attachment-comment-' + id).innerHTML.trim();
         attachments.push(tempAttachment);
     }
