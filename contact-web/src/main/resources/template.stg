@@ -1,6 +1,6 @@
 appeal(contact) ::= <<<contact.firstName> <contact.lastName> >>
 template_1(contact) ::= <<Добрый день, <appeal(contact)>! С Днем рождения и всего наилучшего!>>
-template_2(contact) ::= <<Всего хорошего в новом году, <appeal(contact)>! >>
+template_2(contact) ::= <<Всего хорошего в Новом году, <appeal(contact)>! >>
 template_3(contact) ::= <<Счастливого Рождества, <appeal(contact)>! >>
 
 birthday_notification() ::= <<У следующих контактов сегодня день рождения:<\n> >>
